@@ -1,51 +1,40 @@
 ---
-import Base from "../layouts/Header.astro";
+import Base from "../layouts/Base.astro";
 ---
 <Base title="Services — Shepparton Home Organising">
   <section class="container">
     <h1>Services</h1>
 
-    <article class="service">
-      <h2>Home Decluttering</h2>
-      <p>Clear the excess and keep what serves you. We work zone by zone with a simple process: sort, decide, contain, label. I'll guide choices and organise donation or recycling where possible.</p>
-      <p class="muted">Great for: pantries, wardrobes, kids' rooms, garages, linen cupboards.</p>
-      <p><a class="link" href="/contact">Start decluttering</a></p>
-    </article>
+    <div class="feature-grid">
+      <article class="card">
+        <div class="icon">⇄</div>
+        <h2>NDIS Customized Support </h2>
+        <p>Clear the excess and keep what serves you. We work zone by zone with a simple process: sort, decide, contain, label. I'll guide choices and organise donation or recycling where possible.</p>
+        <p class="muted">Great for: pantries, wardrobes, kids' rooms, garages, linen cupboards.</p>
+        <p><a class="link" href="contact/">Start decluttering</a></p>
+      </article>
 
-    <article class="service">
-      <h2>Home Organising</h2>
-      <p>Set up easy systems for everyday life. Think baskets, labels, and storage that actually fits your routines. I'll create a layout that's simple to maintain, whether you're a family of five or living solo.</p>
-      <p><a class="link" href="/contact">Let's organise it</a></p>
-    </article>
+      <article class="card">
+        <div class="icon">▦</div>
+        <h2>Personal Space Design</h2>
+        <p>Set up easy systems for everyday life. Think baskets, labels, and storage that actually fits your routines. I'll create a layout that's simple to maintain, whether you're a family of five or living solo.</p>
+        <p><a class="link" href="contact/">Let's organise it</a></p>
+      </article>
 
-    <article class="service">
-      <h2>Downsizing Support</h2>
-      <p>Moving to a smaller place? I'll help you decide what to keep, what to gift, and how to make the new home work beautifully. Compassionate help, steady progress, and clear next steps.</p>
-      <p><a class="link" href="/contact">Plan your downsize</a></p>
-    </article>
+    </div>
 
-    <article class="service">
-      <h2>Moving Preparation</h2>
-      <p>Make packing and unpacking painless. We'll declutter before you move, label smartly, and set up key rooms first — kitchen, bedrooms, bathroom — so you're settled sooner.</p>
-      <p><a class="link" href="/contact">Get move-ready</a></p>
-    </article>
+    <div class="steps">
+      <h2>How it works</h2>
+      <ol class="step-list">
+        <li><strong>Free phone chat (15 min):</strong> Your goals, your space, your timeline.</li>
+        <li><strong>In-home or virtual assessment:</strong> Simple plan + estimate.</li>
+        <li><strong>Session day:</strong> We work together with a calm, clear process.</li>
+        <li><strong>Waste & donations:</strong> Where possible, managed for you.</li>
+        <li><strong>Simple upkeep guide:</strong> A few habits so it stays tidy.</li>
+      </ol>
+    </div>
 
-    <article class="service">
-      <h2>Home Styling (Simple Refresh)</h2>
-      <p>Light styling to lift your space: rearranging furniture, editing décor, and adding small touches you already own or can source locally. A fresh, welcoming feel without going overboard.</p>
-      <p><a class="link" href="/contact">Style my home</a></p>
-    </article>
-
-    <hr />
-    <h2>How it works</h2>
-    <ol>
-      <li><strong>Free phone chat (15 min):</strong> Your goals, your space, your timeline.</li>
-      <li><strong>In-home or virtual assessment:</strong> Simple plan + estimate.</li>
-      <li><strong>Session day:</strong> We work together with a calm, clear process.</li>
-      <li><strong>Waste & donations:</strong> Where possible, managed for you.</li>
-      <li><strong>Simple upkeep guide:</strong> A few habits so it stays tidy.</li>
-    </ol>
-
-    <p><a class="btn" href="/contact">Get your tailored quote</a></p>
+    <p><a class="btn" href="contact/">Get your tailored quote</a></p>
   </section>
 </Base>
+

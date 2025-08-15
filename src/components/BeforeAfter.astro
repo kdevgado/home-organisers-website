@@ -1,0 +1,39 @@
+---
+export interface Props {
+  before: string;
+  after: string;
+  alt?: string;
+  labelBefore?: string;
+  labelAfter?: string;
+}
+const { before, after, alt = 'Before and after', labelBefore = 'Before', labelAfter = 'After' } = Astro.props as Props;
+---
+<style>
+  .ba { position: relative; border-radius: 14px; overflow: hidden; border: 1px solid #e5e7eb; box-shadow: 0 10px 30px rgba(2,8,23,.08);
+        background: #fff; }
+  .ba img { display: block; width: 100%; height: auto; }
+  .ba .after { position: absolute; inset: 0; clip-path: inset(0 0 0 50%); transition: clip-path .1s linear; }
+  .ba .labels { position: absolute; top: 10px; left: 10px; right: 10px; display: flex; justify-content: space-between; gap: 10px; font-weight: 700; font-size: .9rem; }
+  .ba .labels span { background: rgba(255,255,255,.85); padding: .25rem .5rem; border-radius: 999px; border: 1px solid #e5e7eb; }
+  .ba input[type=range] { appearance: none; -webkit-appearance: none; width: 100%; position: absolute; bottom: 0; left: 0; height: 36px; background: linear-gradient(90deg, rgba(14,165,233,.25), rgba(14,165,233,.25)) no-repeat; background-size: var(--pos,50%) 100%; outline: none; }
+  .ba input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 26px; height: 26px; background: #fff; border: 2px solid #0ea5e9; border-radius: 50%; box-shadow: 0 6px 16px rgba(14,165,233,.35); }
+</style>
+
+<div class="ba">
+  <img src={before} alt={alt} loading="lazy" />
+  <img class="after" src={after} alt={alt} loading="lazy" />
+  <div class="labels"><span>{labelBefore}</span><span>{labelAfter}</span></div>
+  <input type="range" min="0" max="100" value="50" aria-label="Reveal after image" />
+</div>
+
+<script>
+  const root = document.currentScript?.previousElementSibling as HTMLElement;
+  const after = root?.querySelector('.after') as HTMLElement;
+  const slider = root?.querySelector('input[type=range]') as HTMLInputElement;
+  const update = () => {
+    const v = slider.valueAsNumber;
+    after.style.clipPath = `inset(0 0 0 ${100 - v}%)`;
+    slider.style.setProperty('--pos', `${v}%`);
+  };
+  slider?.addEventListener('input', update);
+</script>

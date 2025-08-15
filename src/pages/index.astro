@@ -1,27 +1,110 @@
 ---
-import Base from "../layouts/Header.astro";
+import Base from "../layouts/Base.astro";
 const page = {
-	title: 'Professional Home Organising & Decluttering — Shepparton & Goulburn Valley',
-	description: 'Warm, non‑judgemental organising for busy families, downsizers and retirees across Shepparton and regional Victoria. Simple systems that stick.'
+  title: 'Professional Home Organising & Decluttering — Shepparton & Goulburn Valley',
+  description: 'Warm, non-judgemental organising for busy families, downsizers and retirees across Shepparton and regional Victoria. Simple systems that stick.'
 };
 ---
 <Base {...page}>
-	<section class="hero container">
-		<h1>Professional Home Organising & Decluttering — Shepparton & the Goulburn Valley</h1>
-		<p class="lead">Breathe out. You're in the right place. I help busy families, downsizers, retirees and anyone feeling overwhelmed create calm, practical spaces that work for real life.</p>
-		<p><a class="btn" href="/contact">Book a free 15-minute phone chat</a></p>
-		<ul class="pill-list">
-			<li>Home decluttering</li>
-			<li>Practical organising</li>
-			<li>Downsizing support</li>
-			<li>Moving preparation</li>
-			<li>Simple home styling</li>
-		</ul>
-	</section>
+  <section class="hero container">
+    <div class="hero-inner">
+      <div>
+        <h1>Professional Home Organising & Decluttering</h1>
+        <p class="lead">Welcome, you're in the right place. We help busy families, downsizers, retirees and anyone feeling overwhelmed create calm, practical spaces that work for you and your loved ones.</p>
+        <div class="cta-row">
+          <a class="btn" href="contact/">Book a free 15-minute phone chat</a>
+          <a class="btn-alt" href="services/">See services</a>
+        </div>
+        <ul class="pill-list">
+          <li>Home decluttering</li>
+          <li>Practical organising</li>
+          <li>Downsizing support</li>
+          <li>Moving preparation</li>
+          <li>Simple home styling</li>
+        </ul>
+        <div class="badges">
+          <span class="badge">Local • Shepparton & GV</span>
+          <span class="badge">Judgement-free</span>
+          <span class="badge">Sustainable approach</span>
+        </div>
+      </div>
+      <div class="hero-card card">
+        <h3 class="mt-0">Spaces that stay tidy</h3>
+        <p class="muted">Simple, label-led systems that match your routines. No Pinterest pressure — just practical calm.</p>
+        <ul class="checklist">
+          <li>Pantries that make sense</li>
+          <li>Wardrobes you can maintain</li>
+          <li>Kids' spaces that work</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
-	<section class="panel container">
-		<h2>Warm, local and judgement-free</h2>
-		<p>From the first chat to the final label, I'm discreet and here to make it easy. No pressure. Just respectful guidance and simple systems you can keep up.</p>
-		<p><a class="link" href="/services">See services</a> • <a class="link" href="/service-areas">Check I travel to you</a></p>
-	</section>
+  <section class="container features">
+    <h2>Why locals choose this service</h2>
+    <div class="feature-grid">
+      <article class="card">
+        <div class="icon">✓</div>
+        <h3>Warm & discreet</h3>
+        <p>No judgement. We keep what matters and let go of what doesn't — at your pace.</p>
+      </article>
+      <article class="card">
+        <div class="icon">⌂</div>
+        <h3>Built for regional life</h3>
+        <p>Systems for sport runs, harvest time and rooms that do double duty.</p>
+      </article>
+      <article class="card">
+        <div class="icon">♻︎</div>
+        <h3>Sustainable</h3>
+        <p>Reuse, donate and recycle wherever possible to reduce waste.</p>
+      </article>
+      <article class="card">
+        <div class="icon">★</div>
+        <h3>Simple to keep up</h3>
+        <p>Label-first organising that saves time every day.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="container steps">
+    <h2>How it works</h2>
+    <ol class="step-list">
+      <li><strong>Free chat (15 min):</strong> Your goals, your space, your timeline.</li>
+      <li><strong>Plan:</strong> In-home or virtual assessment and clear estimate.</li>
+      <li><strong>Session day:</strong> We sort, decide, contain and label — together.</li>
+      <li><strong>Donations:</strong> Where possible, handled for you.</li>
+      <li><strong>Keep it tidy:</strong> Simple habit guide that fits your life.</li>
+    </ol>
+    <p><a class="btn" href="contact/">Get your tailored quote</a></p>
+  </section>
+
+  <section class="panel container">
+    <h2>Warm, local and judgement-free</h2>
+    <p>From the first chat to the final label, I'm discreet and here to make it easy. No pressure. Just respectful guidance and simple systems you can keep up.</p>
+    <p><a class="link" href="services/">See services</a> • <a class="link" href="service-areas/">Check I travel to you</a></p>
+  </section>
+
+  <section class="container faq">
+    <h2>FAQs</h2>
+    <details>
+      <summary>Do I have to throw everything out?</summary>
+      <p>No. We keep what matters and create space for what you use. The goal is practical calm, not minimalism for the sake of it.</p>
+    </details>
+    <details>
+      <summary>Can you work while I'm at home?</summary>
+      <p>Yes. We can work side-by-side or I can action the plan while you manage other tasks.</p>
+    </details>
+    <details>
+      <summary>Do you take items for donation?</summary>
+      <p>Where possible, I arrange donation or recycling locally.</p>
+    </details>
+  </section>
+
+  <section class="container cta-final">
+    <div class="card">
+      <h2 class="mt-0">Ready to feel lighter at home?</h2>
+      <p class="muted">Start with a friendly chat — no pressure, no judgement.</p>
+      <p><a class="btn" href="contact/">Book your free 15-minute call</a></p>
+    </div>
+  </section>
 </Base>
