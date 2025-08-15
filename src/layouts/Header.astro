@@ -1,0 +1,44 @@
+---
+const {
+    title = 'Professional Home Organising — Shepparton & Goulburn Valley',
+    description = 'Warm, non-judgemental decluttering and home organising for Shepparton and the Goulburn Valley. Simple systems, local care, and lasting calm.',
+    canonical
+} = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="en-AU">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content={description} />
+        <link rel="stylesheet" href="/styles/global.css" />
+        {canonical && <link rel="canonical" href={canonical} />}
+        <title>{title}</title>
+    </head>
+    <body>
+        <header class="site-header">
+            <div class="container header-inner">
+                <a class="logo" href="/">Shepparton Home Organising</a>
+                <nav class="nav">
+                    <a href="/services">Services</a>
+                    <a href="/service-areas">Service Areas</a>
+                    <a href="/before-after">Before & After</a>
+                    <a href="/about">About</a>
+                    <a class="btn" href="/contact">Book a free chat</a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="site-main">
+            <slot />
+        </main>
+
+        <footer class="site-footer">
+            <div class="container">
+                <p><strong>Based in Shepparton, VIC</strong> — proudly serving the Goulburn Valley and the shires of Mitchell, Murrindindi, Moira and Strathbogie.</p>
+                <p>Respect • Simplicity • Discretion • Sustainability</p>
+                <p class="small">© {new Date().getFullYear()} Shepparton Home Organising</p>
+            </div>
+        </footer>
+    </body>
+</html>

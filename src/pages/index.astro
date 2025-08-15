@@ -1,11 +1,27 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Base from "../layouts/Header.astro";
+const page = {
+	title: 'Professional Home Organising & Decluttering — Shepparton & Goulburn Valley',
+	description: 'Warm, non‑judgemental organising for busy families, downsizers and retirees across Shepparton and regional Victoria. Simple systems that stick.'
+};
 ---
+<Base {...page}>
+	<section class="hero container">
+		<h1>Professional Home Organising & Decluttering — Shepparton & the Goulburn Valley</h1>
+		<p class="lead">Breathe out. You're in the right place. I help busy families, downsizers, retirees and anyone feeling overwhelmed create calm, practical spaces that work for real life.</p>
+		<p><a class="btn" href="/contact">Book a free 15-minute phone chat</a></p>
+		<ul class="pill-list">
+			<li>Home decluttering</li>
+			<li>Practical organising</li>
+			<li>Downsizing support</li>
+			<li>Moving preparation</li>
+			<li>Simple home styling</li>
+		</ul>
+	</section>
 
-<Layout>
-	<Welcome />
-</Layout>
+	<section class="panel container">
+		<h2>Warm, local and judgement-free</h2>
+		<p>From the first chat to the final label, I'm discreet and here to make it easy. No pressure. Just respectful guidance and simple systems you can keep up.</p>
+		<p><a class="link" href="/services">See services</a> • <a class="link" href="/service-areas">Check I travel to you</a></p>
+	</section>
+</Base>

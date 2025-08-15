@@ -1,0 +1,69 @@
+---
+import Base from "../layouts/Header.astro";
+---
+<Base title="Contact — Shepparton Home Organising">
+  <section class="container narrow">
+    <h1>Contact</h1>
+    <p><strong>Let's make home feel easy again.</strong> I'd love to hear about your space and what a win looks like for you.</p>
+    <form class="contact-form" name="enquiry" method="POST" data-netlify="true">
+      <input type="hidden" name="form-name" value="enquiry" />
+
+      <label>
+        Name
+        <input type="text" name="name" required />
+      </label>
+
+      <label>
+        Suburb/Town
+        <input type="text" name="suburb" />
+      </label>
+
+      <div class="grid-2">
+        <label>
+          Phone
+          <input type="tel" name="phone" />
+        </label>
+        <label>
+          Email
+          <input type="email" name="email" required />
+        </label>
+      </div>
+
+      <label>
+        Which service are you after?
+        <select name="service">
+          <option value="Decluttering">Home Decluttering</option>
+          <option value="Organising">Home Organising</option>
+          <option value="Downsizing">Downsizing Support</option>
+          <option value="Moving">Moving Preparation</option>
+          <option value="Styling">Home Styling</option>
+          <option value="Other">Other / Not sure</option>
+        </select>
+      </label>
+
+      <label>
+        Tell me about your space (what's working, what's not)
+        <textarea name="message" rows="6"></textarea>
+      </label>
+
+      <div class="grid-2">
+        <label>
+          Preferred days/times
+          <input type="text" name="times" />
+        </label>
+        <label>
+          Timeline
+          <select name="timeline">
+            <option>Just browsing</option>
+            <option>Soon</option>
+            <option>Urgent</option>
+          </select>
+        </label>
+      </div>
+
+      <button class="btn" type="submit">Send enquiry</button>
+      <p class="muted small">Prefer to chat? Call or text and I'll get back to you as soon as I'm between sessions.</p>
+      <p class="muted small">This is a judgement - free service. Your privacy is always respected.</p>
+    </form>
+  </section>
+</Base>
