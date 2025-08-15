@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../layouts/Header.astro'; // adjust if your layout path differs
+---
+
+<BaseLayout title="Page Not Found">
+  <section style="text-align:center; padding:3rem 1rem;">
+    <h1>Oops — page not found</h1>
+    <p>Looks like the page you’re after has been decluttered out of existence.</p>
+    <p><a href={import.meta.env.BASE_URL}>Go back home</a></p>
+  </section>
+</BaseLayout>
