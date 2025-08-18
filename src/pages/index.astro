@@ -1,20 +1,42 @@
 ---
 import Base from "../layouts/Base.astro";
 const page = {
-  title: 'Professional Home Organising & Decluttering — Shepparton & Goulburn Valley',
+  title: 'Professional Home Organising & Decluttering',
   description: 'Warm, non-judgemental organising for busy families, downsizers and retirees across Shepparton and regional Victoria. Simple systems that stick.'
 };
 ---
 <Base {...page}>
+    <!-- New Carousel Section -->
+  <section class="carousel">
+    <div class="carousel-inner">
+      <div class="slide active" style="background-image:url('images/slides/slide1.jpg')"></div>
+      <div class="slide" style="background-image:url('images/slides/slide2.png')"></div>
+    </div>
+    <div class="carousel-caption">
+      <h2>Shepparton & the Goulburn Valley</h2>
+      <h1>Professional home organising, decluttering, design and storage solutions</h1>
+      <p><a class="btn" href="contact/">Book your free consultation</a></p>
+    </div>
+  </section>
+
   <section class="hero container">
     <div class="hero-inner">
       <div>
-        <h1>Professional Home Organising & Decluttering</h1>
-        <p class="lead">Welcome, you're in the right place. We help busy families, downsizers, retirees and anyone feeling overwhelmed create calm, practical spaces that work for you and your loved ones.</p>
+        <h1>Welcome to an organised, calm and ordered lifestyle</h1>
+        <p class="lead"></p>
         <div class="cta-row">
           <a class="btn" href="contact/">Book a free 15-minute phone chat</a>
           <a class="btn-alt" href="services/">See services</a>
         </div>
+      </div>
+      <div class="hero-card card">
+        <h3 class="mt-0">More than clean</h3>
+        <p class="muted">Declutter. Pack. Style. Maintain.</p>
+        <ul class="checklist">
+          <li>Pantries that make sense</li>
+          <li>Wardrobes you can maintain</li>
+          <li>Kids' spaces that work</li>
+        </ul>
         <ul class="pill-list">
           <li>Home decluttering</li>
           <li>Practical organising</li>
@@ -22,22 +44,18 @@ const page = {
           <li>Moving preparation</li>
           <li>Simple home styling</li>
         </ul>
-        <div class="badges">
-          <span class="badge">Local • Shepparton & GV</span>
-          <span class="badge">Judgement-free</span>
-          <span class="badge">Sustainable approach</span>
-        </div>
-      </div>
-      <div class="hero-card card">
-        <h3 class="mt-0">Spaces that stay tidy</h3>
-        <p class="muted">Simple, label-led systems that match your routines. No Pinterest pressure — just practical calm.</p>
-        <ul class="checklist">
-          <li>Pantries that make sense</li>
-          <li>Wardrobes you can maintain</li>
-          <li>Kids' spaces that work</li>
-        </ul>
       </div>
     </div>
+  </section>
+
+    <!-- New Services Teaser Section -->
+  <section class="container services-home">
+    <h2>Why you need professional home organisers</h2>
+    <div class="feature-grid">
+      <article class="card"><h3><a href="services/#home-decluttering">NDIS Customized Support</a></h3><p>Clear excess and reclaim calm spaces.</p></article>
+      <article class="card"><h3><a href="services/#home-organising">Personal Space Design</a></h3><p>Set up easy systems for everyday life.</p></article>
+    </div>
+    <p><a class="btn" href="services/">Explore all services</a></p>
   </section>
 
   <section class="container features">
@@ -86,18 +104,9 @@ const page = {
 
   <section class="container faq">
     <h2>FAQs</h2>
-    <details>
-      <summary>Do I have to throw everything out?</summary>
-      <p>No. We keep what matters and create space for what you use. The goal is practical calm, not minimalism for the sake of it.</p>
-    </details>
-    <details>
-      <summary>Can you work while I'm at home?</summary>
-      <p>Yes. We can work side-by-side or I can action the plan while you manage other tasks.</p>
-    </details>
-    <details>
-      <summary>Do you take items for donation?</summary>
-      <p>Where possible, I arrange donation or recycling locally.</p>
-    </details>
+    <details><summary>Do I have to throw everything out?</summary><p>No. We keep what matters and create space for what you use.</p></details>
+    <details><summary>Can you work while I'm at home?</summary><p>Yes. We can work side-by-side or I can action the plan while you manage other tasks.</p></details>
+    <details><summary>Do you take items for donation?</summary><p>Where possible, I arrange donation or recycling locally.</p></details>
   </section>
 
   <section class="container cta-final">
@@ -107,4 +116,15 @@ const page = {
       <p><a class="btn" href="contact/">Book your free 15-minute call</a></p>
     </div>
   </section>
+
+  <script is:inline>
+    // Simple auto-rotating carousel
+    let idx = 0;
+    const slides = document.querySelectorAll('.carousel .slide');
+    setInterval(() => {
+      slides[idx].classList.remove('active');
+      idx = (idx + 1) % slides.length;
+      slides[idx].classList.add('active');
+    }, 5000);
+  </script>
 </Base>
