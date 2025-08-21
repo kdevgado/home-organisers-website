@@ -17,6 +17,11 @@ const {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet" />
 
+    <!-- Logo on browser -->
+    <link rel="icon" href={`${import.meta.env.BASE_URL}images/logo.jpg`} type="image/jpeg" sizes="32x32" />
+    <link rel="apple-touch-icon" href={`${import.meta.env.BASE_URL}images/logo_transparent.png`} />
+    <meta name="theme-color" content="#ffffff" />
+
     <!-- Global CSS (BASE_URL-safe for GitHub Pages) -->
     <link rel="stylesheet" href={`${import.meta.env.BASE_URL}styles/global.css`} />
 
@@ -34,8 +39,16 @@ const {
           />
         </a>
         <nav class="nav">
-          <a href="/services">Services</a>
-          <a href="/service-areas">Services Offered</a>
+          <div class="dropdown">
+            <a href="/services" class="nav-parent">Services</a>
+            <div class="dropdown-menu">
+              <a href="/services#space-efficiency">Space Efficiency</a>
+              <a href="/services#specialised-needs-support">Specialised Needs Support</a>
+              <a href="/services#technical-approach">Technical Approach</a>
+              <a href="/services#fit-for-purpose-and-style">Fit for purpose & style</a>
+            </div>
+          </div>
+          <a href="/service-areas">Service Offered</a>
           <a href="/before-after">Design Ideas</a>
           <a href="/about">About</a>
           <a class="btn" href="/contact">Book a free chat</a>

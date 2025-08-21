@@ -2,8 +2,8 @@ backend:
   name: git-gateway
   branch: main
 
-media_folder: "public/uploads"      # where files go in repo
-public_folder: "/uploads"           # how the site references them
+media_folder: "public/images/uploads"      # where files go in repo
+public_folder: "/images/uploads"           # how the site references them
 
 site_url: "https://homeorg.com.au"
 

@@ -1,19 +1,24 @@
 ---
 import Base from "../layouts/Base.astro";
+import { Package, Home, ClipboardList } from "lucide-astro"; // example icons
 const page = {
-  title: 'Professional Home Organising & Decluttering',
-  description: 'Warm, non-judgemental organising for busy families, downsizers and retirees across Shepparton and regional Victoria. Simple systems that stick.'
+  title: 'Home Organisers Australia',
+  description: 'Home Organisers Au | Shepparton & Goulburn Valley',
 };
 ---
 <Base {...page}>
     <!-- New Carousel Section -->
   <section class="carousel">
     <div class="carousel-inner">
-      <div class="slide active" style="background-image:url('images/slides/slide1.jpg')"></div>
-      <div class="slide" style="background-image:url('images/slides/slide2.png')"></div>
+      <div class="slide active" style="background-image:url('images/slides/1.png')"></div>
+      <div class="slide" style="background-image:url('images/slides/2.png')"></div>
+      <div class="slide" style="background-image:url('images/slides/3.png')"></div>
+      <div class="slide" style="background-image:url('images/slides/4.png')"></div>
+      <div class="slide" style="background-image:url('images/slides/5.png')"></div>
+      <div class="slide" style="background-image:url('images/slides/6.png')"></div>
     </div>
     <div class="carousel-caption">
-      <h2>Shepparton & the Goulburn Valley</h2>
+      <h2>Shepparton, Goulburn Valley and surrounds</h2>
       <h1>Professional home organising, decluttering, design and storage solutions</h1>
       <p><a class="btn" href="/contact">Book your free consultation</a></p>
     </div>
@@ -43,19 +48,70 @@ const page = {
     </div>
   </section>
 
-    <!-- New Services Teaser Section -->
-  <section class="container services-home">
+    <!-- Services Section -->
+  <section class="container">
     <h2>Why you need professional home organisers</h2>
     <div class="feature-grid">
-      <article class="card"><h3><a href="/services/#home-decluttering">Space Efficiency</a></h3><p>Declutter and create functional spaces</p></article>
-      <article class="card"><h3><a href="/services/#home-organising">Specialised Needs Support</a></h3><p>Specialised duty of care for those with disabilities</p></article>
-      <article class="card"><h3><a href="/services/#home-organising">Technical Approach</a></h3><p>Expert in space planning and design</p></article>
-      <article class="card"><h3><a href="/services/#home-organising">Fit for purpose and style</a></h3><p>Organising and styling to make a pleasing and relaxing environment</p></article>
-    </div>
-    <p><a class="btn" href="services/">Explore all services</a></p>
-  </section>
+      <!-- Space Efficiency -->
+      <article id="space-efficiency" class="card service-card">
+        <div class="icon-wrap" aria-hidden="true">
+          <!-- Shelves/space icon -->
+          <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 6h18M3 12h18M3 18h18" />
+            <path d="M6 6v12M18 6v12" />
+          </svg>
+        </div>
+        <h2>Space Efficiency</h2>
+        <p>Declutter and configure every inch to work harder for you—zoning, vertical storage, and right-size containers that fit your routine.</p>
+        <p><a class="link" href="/contact">Optimise my space</a></p>
+      </article>
 
-  <section class="container features">
+      <!-- Specialised Needs Support -->
+      <article id="specialised-needs-support" class="card service-card">
+        <div class="icon-wrap" aria-hidden="true">
+          <!-- Hands/heart support icon -->
+          <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 21s-6-3.3-6-8a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 4.7-6 8-6 8z" />
+          </svg>
+        </div>
+        <h2>Specialised Needs Support</h2>
+        <p>Specialised duty of care for those with disabilities</p>
+        <p class="muted">Includes NDIS-friendly planning and documentation where needed.</p>
+        <p><a class="link" href="/contact">Set up supportive systems</a></p>
+      </article>
+
+      <!-- Technical Approach -->
+      <article id="technical-approach" class="card service-card">
+        <div class="icon-wrap" aria-hidden="true">
+          <!-- Ruler/plan icon -->
+          <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="12" rx="2" ry="2"></rect>
+            <path d="M7 8h0M11 8h0M15 8h0M19 8h0" />
+            <path d="M7 12h10" />
+          </svg>
+        </div>
+        <h2>Technical Approach</h2>
+        <p>Space planning, workflows, and measurement-first design. We map traffic paths and reach zones so your home “just works.”</p>
+        <p><a class="link" href="/contact">Plan it like a pro</a></p>
+      </article>
+
+      <!-- Fit for purpose and style -->
+      <article id="fit-for-purpose-and-style" class="card service-card">
+        <div class="icon-wrap" aria-hidden="true">
+          <!-- Sparkle/style icon -->
+          <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3l2.5 5.5L20 11l-5.5 2.5L12 19l-2.5-5.5L4 11l5.5-2.5L12 3z" />
+            <path d="M5 20h.01M19 20h.01" />
+          </svg>
+        </div>
+        <h2>Fit for purpose and style</h2>
+        <p>Functional systems that also feel beautiful. Materials, colours, and containers that match your taste and budget.</p>
+        <p><a class="link" href="/contact">Make it functional + pretty</a></p>
+      </article>
+      <p><a class="btn" href="services/">Explore all services</a></p>
+    </div>
+
+    <section class="container features">
     <h2>Why locals choose this service</h2>
     <div class="feature-grid">
       <article class="card">
@@ -81,23 +137,46 @@ const page = {
     </div>
   </section>
 
-  <section class="container steps">
-    <h2>How it works</h2>
-    <ol class="step-list">
-      <li><strong>Free chat (15 min):</strong> Your goals, your space, your timeline.</li>
-      <li><strong>Plan:</strong> In-home or virtual assessment and clear estimate.</li>
-      <li><strong>Session day:</strong> We sort, decide, contain and label — together.</li>
-      <li><strong>Donations:</strong> Where possible, handled for you.</li>
-      <li><strong>Keep it tidy:</strong> Simple habit guide that fits your life.</li>
-    </ol>
+    <div class="steps">
+      <h2>How it works</h2>
+      <ol class="step-list">
+        <li><strong>Free phone chat (15 min):</strong> Your goals, your space, your timeline.</li>
+        <li><strong>In-home or virtual assessment:</strong> Simple plan + estimate.</li>
+        <li><strong>Session day:</strong> We work together with a calm, clear process.</li>
+        <li><strong>Waste & donations:</strong> Where possible, managed for you.</li>
+        <li><strong>Simple upkeep guide:</strong> A few habits so it stays tidy.</li>
+      </ol>
+    </div>
+
     <p><a class="btn" href="/contact">Get your tailored quote</a></p>
   </section>
 
   <section class="panel container">
-    <h2>Meet The Home Organisers</h2>
-    <p>John and Rowee are working towards membership with the Institute of Professional Organisers (IOPO) and hold current Working with Children Checks.</p>
-    <p><a class="link" href="/about">See more about us</a> • <a class="link" href="/service-areas">Check I travel to you</a></p>
-  </section>
+  <h2>Meet The Home Organisers</h2>
+
+  <div class="organisers">
+    <div class="organisers-media">
+      <a href="/about" class="tooltip-wrap" aria-label="Read more about John & Rowee">
+        <img
+          src="/images/your-home-organisers.jpg"
+          alt="John and Rowee Delgado - Shepparton Home Organisers"
+          class="organisers-photo"
+        />
+        <span class="tooltip">Click to read more about us</span>
+      </a>
+    </div>
+
+    <div class="organisers-content">
+      <p>John and Rowee Delgado share a common passion: helping others and making a positive impact in their community. Their mission is to improve the quality of life, health, and well-being of the people they serve.</p>
+      <p>
+        <a class="link" href="/about">See more about us</a> •
+        <a class="link" href="/service-areas">Check I travel to you</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+
 
   <section class="container faq">
     <h2>FAQs</h2>
