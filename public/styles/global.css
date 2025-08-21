@@ -39,7 +39,7 @@ body {
 /* Main Page */
 .carousel {
   position: relative;
-  height: 500px;
+  height:700px;
   margin-top: 0.3rem;
   overflow: hidden;
   border-radius: var(--radius);
@@ -49,7 +49,8 @@ body {
   position: absolute;
   inset: 0;
   background-size: cover;
-  background-position: center;
+  /* Anchor imagery to the bottom so subjects near the bottom aren't cropped */
+  background-position: bottom center;
   opacity: 0;
   transition: opacity 1s ease-in-out;
 }
