@@ -1,0 +1,54 @@
+---
+import Base from "../../layouts/Base.astro";
+const page = {
+  title: "Technical Approach — Shepparton Home Organising",
+  description: "Measurement-first design: traffic maps, reach zones and container math so your home just works."
+};
+---
+<Base {...page} canonical="https://homeorg.com.au/services/technical-approach">
+  <section class="container">
+    <h1>Technical Approach</h1>
+    <p class="lead">We map the invisible: how people move, where hands reach, which items pair in real life. Then we design for that reality.</p>
+
+    <!-- Interactive: “Container fit calculator” (simple, informative) -->
+    <div class="card" style="max-width:640px">
+      <h3 class="mt-0">Container Fit Helper</h3>
+      <p class="muted small">Enter shelf width and container width to estimate how many fit across.</p>
+      <div class="grid-2">
+        <label>Shelf width (cm) <input id="shelf" type="number" min="10" max="400" value="60" /></label>
+        <label>Container width (cm) <input id="box" type="number" min="5" max="100" value="15" /></label>
+      </div>
+      <p><strong>Fits across:</strong> <span id="fit">4</span> containers</p>
+    </div>
+
+    <h2>What we measure</h2>
+    <ul class="checklist">
+      <li>Traffic paths and pinch points</li>
+      <li>Reach zones by user height and mobility</li>
+      <li>Container math (fit, stacking, label visibility)</li>
+      <li>Workflow order (prep → action → store)</li>
+    </ul>
+
+    <div class="panel">
+      <h3>Deliverables</h3>
+      <ul class="pill-list">
+        <li>Zone plan</li><li>Product list</li><li>Label schema</li><li>Photo refs</li>
+      </ul>
+      <p><a class="btn" href="/contact">Start a technical planning session</a></p>
+    </div>
+  </section>
+
+  <script is:inline>
+    const shelf = document.getElementById('shelf');
+    const box = document.getElementById('box');
+    const fit = document.getElementById('fit');
+    const calc = () => {
+      const s = Math.max(0, +shelf.value || 0);
+      const b = Math.max(1, +box.value || 1);
+      fit.textContent = Math.max(0, Math.floor(s / b));
+    };
+    shelf.addEventListener('input', calc);
+    box.addEventListener('input', calc);
+    calc();
+  </script>
+</Base>

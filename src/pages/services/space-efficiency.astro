@@ -1,0 +1,75 @@
+---
+import Base from "../../layouts/Base.astro";
+const page = {
+  title: "Space Efficiency — Shepparton Home Organising",
+  description: "Declutter + optimise every inch with zones, vertical storage and containers that fit your routines."
+};
+---
+<Base {...page} canonical="https://homeorg.com.au/services/space-efficiency">
+  <section class="container">
+    <h1>Space Efficiency</h1>
+    <p class="lead">Turn cramped corners into hard-working zones. We design shelves, containers and labels that reduce decision fatigue and save minutes every day.</p>
+
+    <!-- Interactive: Room selector toggles tips -->
+    <div class="tabs">
+      <button class="tab is-active" data-target="kitchen">Kitchen</button>
+      <button class="tab" data-target="wardrobe">Wardrobe</button>
+      <button class="tab" data-target="garage">Garage</button>
+      <button class="tab" data-target="linen">Linen</button>
+    </div>
+
+    <div class="tab-panels">
+      <div id="kitchen" class="tab-panel is-active">
+        <h2>Kitchen: from piles to flow</h2>
+        <ul class="checklist">
+          <li>Zone by task: prep, cook, bake, serve, lunch-pack.</li>
+          <li>Use vertical dividers for trays and boards.</li>
+          <li>Label bins for “snacks”, “breakfast”, “baking”.</li>
+        </ul>
+      </div>
+      <div id="wardrobe" class="tab-panel">
+        <h2>Wardrobe: 60-second mornings</h2>
+        <ul class="checklist">
+          <li>Capsule rails by category; drawers for intimates and tees.</li>
+          <li>Top shelf: out-of-season boxes with clear labels.</li>
+          <li>Hooks for “wear again” outfits.</li>
+        </ul>
+      </div>
+      <div id="garage" class="tab-panel">
+        <h2>Garage: safety + access</h2>
+        <ul class="checklist">
+          <li>Heavy items low; seasonal items high.</li>
+          <li>Tote wall with bold labels; donate/repair/stow zones.</li>
+          <li>Pathways kept clear to vehicle doors.</li>
+        </ul>
+      </div>
+      <div id="linen" class="tab-panel">
+        <h2>Linen: quick swap days</h2>
+        <ul class="checklist">
+          <li>Set bundles (sheet set + pillowcases) in one cube.</li>
+          <li>Label by bed size; towels by family member.</li>
+          <li>Over-door bags for guest extras.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>What you get</h3>
+      <ul class="pill-list">
+        <li>Measure-first plan</li><li>Product shortlist</li><li>Donation pathway</li><li>Maintenance cheatsheet</li>
+      </ul>
+      <p><a class="btn" href="/contact">Book a space efficiency session</a></p>
+    </div>
+  </section>
+
+  <script is:inline>
+    const tabs = document.querySelectorAll('.tab');
+    const panels = document.querySelectorAll('.tab-panel');
+    tabs.forEach(btn => btn.addEventListener('click', () => {
+      tabs.forEach(b => b.classList.remove('is-active'));
+      panels.forEach(p => p.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      document.getElementById(btn.dataset.target).classList.add('is-active');
+    }));
+  </script>
+</Base>

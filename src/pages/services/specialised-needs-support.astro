@@ -1,0 +1,49 @@
+---
+import Base from "../../layouts/Base.astro";
+const page = {
+  title: "Specialised Needs Support — Shepparton Home Organising",
+  description: "Gentle, practical organising for accessibility and independence. NDIS-aware setups with safety pathways and simplified systems."
+};
+---
+<Base {...page} canonical="https://homeorg.com.au/services/specialised-needs-support">
+  <section class="container">
+    <h1>Specialised Needs Support</h1>
+    <p class="lead">We design with accessibility in mind: clear lines of travel, labelled zones, and layouts that reduce reach, bend and risk.</p>
+
+    <!-- Interactive: Safety checklist accordion -->
+    <details open class="acc">
+      <summary>Safety fundamentals</summary>
+      <ul class="checklist">
+        <li>Clear pathways (90cm+ where possible), no floor storage.</li>
+        <li>Frequently used items within shoulder-to-knee height.</li>
+        <li>Slip-resistant bins; cables secured; step-stools with handle.</li>
+      </ul>
+    </details>
+
+    <details class="acc">
+      <summary>Memory & cognitive support</summary>
+      <ul class="checklist">
+        <li>Photo labels or colour-coded dots on containers.</li>
+        <li>Simple category names (e.g., “Breakfast”, “Cleaning”).</li>
+        <li>Visible daily-use caddy; weekly habit list on door.</li>
+      </ul>
+    </details>
+
+    <details class="acc">
+      <summary>NDIS-friendly documentation</summary>
+      <p>On request, we can provide a simple plan outlining goals, hazards addressed, and maintenance steps to support care coordination.</p>
+    </details>
+
+    <div class="panel">
+      <h3>Session format</h3>
+      <ol class="step-list">
+        <li>Short goals chat with participant/carer.</li>
+        <li>Measure + risk scan, then plan zones.</li>
+        <li>Action, label, and test pathways.</li>
+        <li>Handover: habit sheet + photos.</li>
+        <li>Optional: follow-up check-in.</li>
+      </ol>
+      <p><a class="btn" href="/contact">Enquire about specialised support</a></p>
+    </div>
+  </section>
+</Base>
