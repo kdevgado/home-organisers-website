@@ -1,39 +1,163 @@
 ---
-export interface Props {
-  before: string;
-  after: string;
-  alt?: string;
-  labelBefore?: string;
-  labelAfter?: string;
-}
-const { before, after, alt = 'Before and after', labelBefore = 'Before', labelAfter = 'After' } = Astro.props as Props;
+/**
+ * BeforeAfter.astro
+ * Props:
+ *  - before: string (public path to "before" image, e.g. /images/before.jpg)
+ *  - after:  string (public path to "after"  image, e.g. /images/after.jpg)
+ *  - alt:    string (alt text describing the subject)
+ *  - labelBefore?: string (defaults to "Before")
+ *  - labelAfter?:  string (defaults to "After")
+ *  - start?: number (0–100, initial split position; defaults to 50)
+ */
+const {
+  before,
+  after,
+  alt = 'Before and after comparison',
+  labelBefore = 'Before',
+  labelAfter = 'After',
+  start = 50
+} = Astro.props;
 ---
-<style>
-  .ba { position: relative; border-radius: 14px; overflow: hidden; border: 1px solid #e5e7eb; box-shadow: 0 10px 30px rgba(2,8,23,.08);
-        background: #fff; }
-  .ba img { display: block; width: 100%; height: auto; }
-  .ba .after { position: absolute; inset: 0; clip-path: inset(0 0 0 50%); transition: clip-path .1s linear; }
-  .ba .labels { position: absolute; top: 10px; left: 10px; right: 10px; display: flex; justify-content: space-between; gap: 10px; font-weight: 700; font-size: .9rem; }
-  .ba .labels span { background: rgba(255,255,255,.85); padding: .25rem .5rem; border-radius: 999px; border: 1px solid #e5e7eb; }
-  .ba input[type=range] { appearance: none; -webkit-appearance: none; width: 100%; position: absolute; bottom: 0; left: 0; height: 36px; background: linear-gradient(90deg, rgba(14,165,233,.25), rgba(14,165,233,.25)) no-repeat; background-size: var(--pos,50%) 100%; outline: none; }
-  .ba input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 26px; height: 26px; background: #fff; border: 2px solid #0ea5e9; border-radius: 50%; box-shadow: 0 6px 16px rgba(14,165,233,.35); }
-</style>
+<div class="ba" style={`--pos:${start}%`}>
+  <!-- Base: AFTER -->
+  <img class="ba-img ba-after" src={after} alt={alt} loading="eager" />
 
-<div class="ba">
-  <img src={before} alt={alt} loading="lazy" />
-  <img class="after" src={after} alt={alt} loading="lazy" />
-  <div class="labels"><span>{labelBefore}</span><span>{labelAfter}</span></div>
-  <input type="range" min="0" max="100" value="50" aria-label="Reveal after image" />
+  <!-- Overlay: BEFORE (masked by --pos) -->
+  <img class="ba-img ba-before" src={before} alt="" aria-hidden="true" loading="eager" />
+
+  <!-- Handle + range -->
+  <div class="ba-handle" aria-hidden="true"></div>
+  <input
+    class="ba-range"
+    type="range"
+    min="0"
+    max="100"
+    value={start}
+    aria-label="Slide to compare before and after"
+  />
+
+  <!-- Labels -->
+  <div class="ba-label ba-label--before">{labelBefore}</div>
+  <div class="ba-label ba-label--after">{labelAfter}</div>
 </div>
 
-<script>
-  const root = document.currentScript?.previousElementSibling as HTMLElement;
-  const after = root?.querySelector('.after') as HTMLElement;
-  const slider = root?.querySelector('input[type=range]') as HTMLInputElement;
+<style>
+  .ba {
+    --pos: 50%;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius, 14px);
+    overflow: hidden;
+    box-shadow: var(--shadow, 0 10px 30px rgba(2,8,23,.08));
+    background: #f7f4f1;
+  }
+  .ba-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Anchor to bottom so the important area isn't cropped mid-frame */
+    object-position: bottom center;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+  .ba-before {
+    /* Reveal width controlled by --pos */
+    clip-path: inset(0 calc(100% - var(--pos)) 0 0);
+  }
+
+  /* Handle line + knob */
+  .ba-handle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--pos);
+    transform: translateX(-50%);
+    width: 2px;
+    background: rgba(15, 23, 42, .35);
+    pointer-events: none;
+  }
+  .ba-handle::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid rgba(15,23,42,.4);
+    box-shadow: 0 4px 12px rgba(0,0,0,.15);
+  }
+
+  /* Range overlay (invisible track; we style the native range minimally) */
+  .ba-range {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;            /* keep it keyboard/touch accessible */
+    cursor: ew-resize;
+  }
+
+  /* Labels */
+  .ba-label {
+    position: absolute;
+    top: 10px;
+    padding: .25rem .5rem;
+    font-weight: 700;
+    font-size: .9rem;
+    border-radius: .5rem;
+    background: rgba(0,0,0,.5);
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,.25);
+    user-select: none;
+    pointer-events: none;
+  }
+  .ba-label--before { left: 10px; }
+  .ba-label--after  { right: 10px; }
+
+  @media (max-width: 700px) {
+    .ba { aspect-ratio: 4/3; }
+    .ba-label { font-size: .8rem; }
+  }
+</style>
+
+<script is:inline>
+  const root = document.currentScript.closest('.ba');
+  const range = root.querySelector('.ba-range');
   const update = () => {
-    const v = slider.valueAsNumber;
-    after.style.clipPath = `inset(0 0 0 ${100 - v}%)`;
-    slider.style.setProperty('--pos', `${v}%`);
+    const v = Math.max(0, Math.min(100, Number(range.value) || 0));
+    root.style.setProperty('--pos', v + '%');
   };
-  slider?.addEventListener('input', update);
+  range.addEventListener('input', update, { passive: true });
+  range.addEventListener('change', update, { passive: true });
+  update();
+
+  // Drag support on the container for nicer UX (mouse/touch anywhere)
+  const setFromEvent = (ev) => {
+    const rect = root.getBoundingClientRect();
+    const x = (ev.touches ? ev.touches[0].clientX : ev.clientX) - rect.left;
+    const pct = Math.round((x / rect.width) * 100);
+    range.value = pct;
+    update();
+  };
+  const onPointer = (ev) => {
+    setFromEvent(ev);
+    const move = (e) => setFromEvent(e);
+    const up = () => {
+      window.removeEventListener('mousemove', move);
+      window.removeEventListener('touchmove', move);
+      window.removeEventListener('mouseup', up);
+      window.removeEventListener('touchend', up);
+    };
+    window.addEventListener('mousemove', move, { passive: true });
+    window.addEventListener('touchmove', move, { passive: true });
+    window.addEventListener('mouseup', up, { passive: true });
+    window.addEventListener('touchend', up, { passive: true });
+  };
+  root.addEventListener('mousedown', onPointer);
+  root.addEventListener('touchstart', onPointer, { passive: true });
 </script>

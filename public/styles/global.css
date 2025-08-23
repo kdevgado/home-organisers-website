@@ -479,3 +479,14 @@ h2 { font-size: clamp(1.35rem, 2.4vw, 1.7rem); margin-top: 2rem; }
 .service-card .body { padding: 1rem; }
 .service-card .body h2 { margin: 0 0 .5rem; font-size: 1.15rem; }
 .service-card .body p { margin: .4rem 0; }
+
+/* Before/After gallery grid */
+.ba-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 900px) {
+  .ba-grid { grid-template-columns: 1fr 1fr; }
+}
+
