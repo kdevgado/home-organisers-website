@@ -1,12 +1,30 @@
 ---
 import Base from "../layouts/Base.astro";
 ---
+
 <Base title="Contact - Shepparton Home Organising">
   <section class="container narrow">
     <h1>Contact</h1>
-    <p><strong>Let's make home feel easy again.</strong> I'd love to hear about your space and what a win looks like for you.</p>
-    <form class="contact-form" name="enquiry" method="POST" data-netlify="true">
+    <p>
+      <strong>Let's make home feel easy again.</strong> I'd love to hear about your
+      space and what a win looks like for you.
+    </p>
+
+    <form
+      id="contact-form"
+      class="contact-form"
+      name="enquiry"
+      method="POST"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+      novalidate
+    >
       <input type="hidden" name="form-name" value="enquiry" />
+
+      <!-- Honeypot -->
+      <p class="hidden" aria-hidden="true">
+        <label>Don’t fill this out: <input name="bot-field" /></label>
+      </p>
 
       <label>
         Name
@@ -32,21 +50,60 @@ import Base from "../layouts/Base.astro";
       <label>
         Which service are you after?
         <select name="service">
-          <option value="NDIS Customized Support">NDIS Customized Support</option>
-          <option value="Personal Space Design">Personal Space Design</option>
+          <option value="Space Efficiency">Space Efficiency</option>
+          <option value="Specialised Needs Support"
+            >Specialised Needs Support</option
+          >
+          <option value="Technical Approach">Technical Approach</option>
+          <option value="Fit for purpose and style"
+            >Fit for purpose and style</option
+          >
+          <option value="Share house & co-living"
+            >Share house & co-living</option
+          >
           <option value="Other">Other / Not sure</option>
         </select>
       </label>
 
       <label>
         Tell me about your space (what's working, what's not)
-        <textarea name="message" rows="6"></textarea>
+        <textarea name="message" rows="6" required></textarea>
       </label>
 
       <div class="grid-2">
         <label>
-          Preferred days/times
-          <input type="text" name="times" />
+          Preferred day(s)
+          <input
+            type="text"
+            id="preferred-days"
+            name="preferred_days"
+            placeholder="Pick dates"
+            autocomplete="off"
+            inputmode="none"
+          />
+        </label>
+        <label
+          >Preferred time window
+          <div class="grid-2">
+            <input
+              type="text"
+              id="time-from"
+              name="preferred_time_from"
+              placeholder="From"
+              autocomplete="off"
+              inputmode="none"
+            />
+            <div>
+              <input
+                type="text"
+                id="time-to"
+                name="preferred_time_to"
+                placeholder="To"
+                autocomplete="off"
+                inputmode="none"
+              />
+            </div>
+          </div>
         </label>
         <label>
           Timeline
@@ -57,10 +114,84 @@ import Base from "../layouts/Base.astro";
           </select>
         </label>
       </div>
-
       <button class="btn" type="submit">Send enquiry</button>
-      <p class="muted small">Prefer to chat? Call or text and I'll get back to you as soon as I'm between sessions.</p>
-      <p class="muted small">This is a judgement - free service. Your privacy is always respected.</p>
+    <p class="muted small">
+      Prefer to chat? Call or text and I'll get back to you as soon as I'm
+      between sessions.
+    </p>
+    <p class="muted small">
+      This is a judgement-free service. Your privacy is always respected.
+    </p>
     </form>
+    
   </section>
 </Base>
+
+<!-- Toast notifications -->
+<div id="toast" role="status" aria-live="polite"></div>
+
+<style>
+  .hidden {
+    display: none;
+  }
+  #toast {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    max-width: 320px;
+    padding: 0.9rem 1rem;
+    border-radius: 0.7rem;
+    box-shadow: 0 10px 30px rgba(2, 8, 23, 0.12);
+    background: #0f172a;
+    color: #fff;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(8px);
+    transition:
+      opacity 0.2s,
+      transform 0.2s;
+    z-index: 1000;
+  }
+  #toast.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  #toast.error {
+    background: #991b1b;
+  }
+</style>
+
+<!-- Form behaviour -->
+<script src="/js/contact.js" type="module" defer></script>
+
+<!-- Calendar (Flatpickr) -->
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr" defer></script>
+<script type="module">
+  window.addEventListener("load", () => {
+    if (window.flatpickr) {
+      // Dates: multiple select, cannot choose days in the past
+      flatpickr("#preferred-days", {
+        mode: "multiple",
+        dateFormat: "Y-m-d", // value submitted to Netlify (ISO-like)
+        altInput: true,
+        altFormat: "D, d M Y", // pretty display
+        weekNumbers: true,
+        minDate: "today", // <-- no past dates
+      });
+
+      // Times: 24-hr, time-only pickers
+      const timeOpts = {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+        time_24hr: true,
+      };
+      flatpickr("#time-from", timeOpts);
+      flatpickr("#time-to", timeOpts);
+    }
+  });
+</script>

@@ -497,3 +497,22 @@ h2 { font-size: clamp(1.35rem, 2.4vw, 1.7rem); margin-top: 2rem; }
   pointer-events: auto;
   touch-action: none;
 }
+
+/* Contact page */
+button[aria-busy="true"] {
+  position: relative;
+  pointer-events: none;
+  opacity: .85;
+}
+button[aria-busy="true"]::after {
+  content: "";
+  position: absolute;
+  right: 12px; top: 50%;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  transform: translateY(-50%);
+  animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: translateY(-50%) rotate(360deg); } }
