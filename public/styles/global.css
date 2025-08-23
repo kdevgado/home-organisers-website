@@ -483,10 +483,17 @@ h2 { font-size: clamp(1.35rem, 2.4vw, 1.7rem); margin-top: 2rem; }
 /* Before/After gallery grid */
 .ba-grid {
   display: grid;
-  gap: 1rem;
-  grid-template-columns: 1fr;
-}
-@media (min-width: 900px) {
-  .ba-grid { grid-template-columns: 1fr 1fr; }
+  gap: 1.2rem;
+  grid-template-columns: 1fr;     /* always single column = largest possible */
+  max-width: 1200px;               /* optional: comfortable max width */
+  margin-inline: auto;
 }
 
+/* Ensure the invisible range captures input */
+.ba-range {
+  opacity: 0;
+  cursor: ew-resize;
+  z-index: 10;
+  pointer-events: auto;
+  touch-action: none;
+}
