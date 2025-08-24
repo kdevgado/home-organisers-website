@@ -1,13 +1,12 @@
 ---
 /**
- * BeforeAfter.astro
  * Props:
- *  - before: string (e.g. /images/before.jpg)
- *  - after:  string (e.g. /images/after.jpg)
- *  - alt:    string
- *  - labelBefore?: string (default "Before")
- *  - labelAfter?:  string (default "After")
- *  - start?: number 0–100 (default 50)
+ *  - before (string)
+ *  - after  (string)
+ *  - alt    (string)
+ *  - labelBefore? (string)
+ *  - labelAfter?  (string)
+ *  - start? (0–100)
  */
 const {
   before,
@@ -18,14 +17,10 @@ const {
   start = 50
 } = Astro.props;
 ---
-<div class="ba" style={`--pos:${start}%`}>
-  <!-- Base: AFTER -->
+<div class="ba" style={`--pos:${start}%`} data-start={start}>
   <img class="ba-img ba-after" src={after} alt={alt} loading="eager" />
-
-  <!-- Overlay: BEFORE (masked by --pos) -->
   <img class="ba-img ba-before" src={before} alt="" aria-hidden="true" loading="eager" />
 
-  <!-- Handle + range -->
   <div class="ba-handle" aria-hidden="true"></div>
   <input
     class="ba-range"
@@ -36,7 +31,6 @@ const {
     aria-label="Slide to compare before and after"
   />
 
-  <!-- Labels -->
   <div class="ba-label ba-label--before">{labelBefore}</div>
   <div class="ba-label ba-label--after">{labelAfter}</div>
 </div>
@@ -46,131 +40,51 @@ const {
     --pos: 50%;
     position: relative;
     width: 100%;
-    /* Bigger images: taller aspect ratios */
-    aspect-ratio: 4 / 3;          /* desktop default (taller than 16:9) */
+    aspect-ratio: 4 / 3;
     border-radius: var(--radius, 14px);
     overflow: hidden;
     box-shadow: var(--shadow, 0 10px 30px rgba(2,8,23,.08));
     background: #f7f4f1;
-    touch-action: none;           /* prevent page scroll from stealing drags */
+    touch-action: none;
   }
-  @media (min-width: 1200px) {
-    .ba { aspect-ratio: 3 / 2; }  /* even bigger on wide screens */
-  }
-  @media (max-width: 700px) {
-    .ba { aspect-ratio: 4 / 3; }  /* still generous on mobile */
-  }
+  @media (min-width: 1200px) { .ba { aspect-ratio: 3 / 2; } }
+  @media (max-width: 700px)  { .ba { aspect-ratio: 4 / 3; } }
 
   .ba-img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: bottom center; /* anchor subjects near bottom */
-    user-select: none;
-    -webkit-user-drag: none;
-    pointer-events: none;
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: bottom center;
+    user-select: none; -webkit-user-drag: none; pointer-events: none;
   }
-  .ba-before {
-    /* Reveal width controlled by --pos */
-    clip-path: inset(0 calc(100% - var(--pos)) 0 0);
-  }
+  .ba-before { clip-path: inset(0 calc(100% - var(--pos)) 0 0); }
 
-  /* Handle line + knob */
   .ba-handle {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: var(--pos);
-    transform: translateX(-50%);
-    width: 2px;
-    background: rgba(15, 23, 42, .35);
-    pointer-events: none;
+    position: absolute; top: 0; bottom: 0; left: var(--pos);
+    transform: translateX(-50%); width: 2px;
+    background: rgba(15, 23, 42, .35); pointer-events: none;
   }
   .ba-handle::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
+    content: ""; position: absolute; top: 50%; left: 50%;
     transform: translate(-50%,-50%);
-    width: 18px; height: 18px;
-    border-radius: 50%;
-    background: #fff;
-    border: 2px solid rgba(15,23,42,.4);
+    width: 18px; height: 18px; border-radius: 50%;
+    background: #fff; border: 2px solid rgba(15,23,42,.4);
     box-shadow: 0 4px 12px rgba(0,0,0,.15);
   }
 
-  /* Range overlay (invisible track) */
   .ba-range {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;            /* keep it keyboard/touch accessible */
-    cursor: ew-resize;
-    z-index: 2;            /* ensure it’s above labels in all browsers */
-    touch-action: none;
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    opacity: 0; cursor: ew-resize; z-index: 2; touch-action: none;
   }
 
-  /* Labels */
   .ba-label {
-    position: absolute;
-    top: 10px;
-    padding: .25rem .5rem;
-    font-weight: 700;
-    font-size: .9rem;
-    border-radius: .5rem;
-    background: rgba(0,0,0,.5);
-    color: #fff;
-    text-shadow: 0 1px 2px rgba(0,0,0,.25);
-    user-select: none;
-    pointer-events: none;
-    z-index: 1;
+    position: absolute; top: 10px; padding: .25rem .5rem;
+    font-weight: 700; font-size: .9rem; border-radius: .5rem;
+    background: rgba(0,0,0,.5); color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.25);
+    user-select: none; pointer-events: none; z-index: 1;
   }
   .ba-label--before { left: 10px; }
   .ba-label--after  { right: 10px; }
 </style>
 
-<script is:inline>
-  const root = document.currentScript.closest('.ba');
-  const range = root.querySelector('.ba-range');
-
-  const clamp = (v) => Math.max(0, Math.min(100, v));
-  const update = () => {
-    const v = clamp(Number(range.value) || 0);
-    root.style.setProperty('--pos', v + '%');
-  };
-
-  // Drag support anywhere on the slider
-  const setFromEvent = (ev) => {
-    const rect = root.getBoundingClientRect();
-    const clientX = ev.touches ? ev.touches[0].clientX : ev.clientX;
-    const pct = clamp(Math.round(((clientX - rect.left) / rect.width) * 100));
-    range.value = String(pct);
-    update();
-  };
-
-  const startDrag = (ev) => {
-    setFromEvent(ev);
-    const move = (e) => setFromEvent(e);
-    const end  = () => {
-      window.removeEventListener('mousemove', move);
-      window.removeEventListener('touchmove', move);
-      window.removeEventListener('mouseup', end);
-      window.removeEventListener('touchend', end);
-    };
-    window.addEventListener('mousemove', move, { passive: true });
-    window.addEventListener('touchmove', move, { passive: true });
-    window.addEventListener('mouseup', end, { passive: true });
-    window.addEventListener('touchend', end, { passive: true });
-  };
-
-  range.addEventListener('input', update, { passive: true });
-  range.addEventListener('change', update, { passive: true });
-  root.addEventListener('mousedown', startDrag);
-  root.addEventListener('touchstart', startDrag, { passive: true });
-  update();
-</script>
-
+<!-- External logic only -->
 <script src="/js/ba.js" type="module" defer></script>
