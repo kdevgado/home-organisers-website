@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "astro": "^5.13.0",
-    "lucide-astro": "^0.540.0"
+    "lucide-astro": "^0.540.0",
+    "nodemailer": "^7.0.5"
   }
 }

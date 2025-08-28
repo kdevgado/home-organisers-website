@@ -1,11 +1,10 @@
 ---
-import BaseLayout from '../layouts/Base.astro'; // adjust if your layout path differs
+import Base from '../layouts/Base.astro';
 ---
-
-<BaseLayout title="Page Not Found">
+<Base title="Page Not Found">
   <section style="text-align:center; padding:3rem 1rem;">
     <h1>Oops — page not found</h1>
     <p>Looks like the page you’re after has been decluttered out of existence.</p>
     <p><a href={import.meta.env.BASE_URL}>Go back home</a></p>
   </section>
-</BaseLayout>
+</Base>

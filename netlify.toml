@@ -1,8 +1,12 @@
-[build]
-  command = "npm run build"
-  publish = "dist"
-
+# Canonicalise to www
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+from = "https://homeorg.com.au/*"
+to = "https://www.homeorg.com.au/:splat"
+status = 301
+force = true
+
+# HSTS — cautious, covers the apex; don't use includeSubDomains yet
+[[headers]]
+for = "/*"
+  [headers.values]
+  Strict-Transport-Security = "max-age=15552000"
