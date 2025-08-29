@@ -110,6 +110,35 @@ const {
           © {new Date().getFullYear()} Shepparton Home Organising
         </p>
       </div>
+
+      <section class="fb-section">
+  <h2 class="fb-heading">Follow us on Facebook</h2>
+
+  <!-- The plugin container -->
+  <div id="fb-plugin-anchor">
+    <div
+      class="fb-page"
+      data-href="https://www.facebook.com/HomeOrgAustralia"
+      data-tabs="timeline"
+      data-width="380"
+      data-height="420"
+      data-small-header="false"
+      data-adapt-container-width="true"
+      data-hide-cover="false"
+      data-show-facepile="true"
+    >
+      <blockquote
+        cite="https://www.facebook.com/HomeOrgAustralia"
+        class="fb-xfbml-parse-ignore"
+      >
+        <a href="https://www.facebook.com/HomeOrgAustralia" target="_blank" rel="noopener noreferrer">
+          Home Organisers Australia on Facebook
+        </a>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
     </footer>
 
     <!-- ⬇️ IMPORTANT: overlay + drawer live directly under <body>, not inside <header> -->
@@ -164,6 +193,19 @@ const {
         <li class="mobile-item cta">
           <a class="btn" href="/contact">Book a free chat</a>
         </li>
+        <!-- Facebook icon button beside Home -->
+<a
+  href="https://www.facebook.com/HomeOrgAustralia"
+  class="social-btn fb"
+  aria-label="Visit us on Facebook"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  <!-- inline SVG for crisp icon -->
+  <svg class="icon-fb" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.9h2.54V9.41c0-2.5 1.5-3.89 3.8-3.89 1.1 0 2.25.2 2.25.2v2.47h-1.27c-1.25 0-1.64.78-1.64 1.58v1.9h2.79l-.45 2.9h-2.34V22c4.78-.79 8.44-4.94 8.44-9.94Z"/>
+  </svg>
+</a>
       </ul>
     </nav>
 
@@ -244,6 +286,59 @@ const {
         // Reduce-motion preference
         const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
         if (mq.matches) root.classList.add("reduce-motion");
+      })();
+    </script>
+
+    <script is:inline>
+      (function () {
+        let sdkLoaded = false;
+
+        function loadFacebookSDK() {
+          if (sdkLoaded) return;
+          sdkLoaded = true;
+
+          // Facebook root element
+          const fbRoot = document.createElement("div");
+          fbRoot.id = "fb-root";
+          document.body.prepend(fbRoot);
+
+          // Load the SDK script
+          const js = document.createElement("script");
+          js.async = true;
+          js.defer = true;
+          js.crossOrigin = "anonymous";
+          js.src =
+            "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v21.0";
+          document.body.appendChild(js);
+        }
+
+        // 1) Lazy-load on viewport proximity
+        const anchor = document.getElementById("fb-plugin-anchor");
+        if ("IntersectionObserver" in window && anchor) {
+          const io = new IntersectionObserver(
+            (entries) => {
+              if (entries.some((e) => e.isIntersecting)) {
+                loadFacebookSDK();
+                io.disconnect();
+              }
+            },
+            { rootMargin: "200px" }
+          );
+          io.observe(anchor);
+        }
+
+        // 2) Also load if user clicks a Facebook link anywhere
+        document.addEventListener(
+          "click",
+          (e) => {
+            const a = e.target.closest("a");
+            if (!a) return;
+            if (/facebook\.com\/HomeOrgAustralia/i.test(a.href)) {
+              loadFacebookSDK();
+            }
+          },
+          { passive: true }
+        );
       })();
     </script>
   </body>

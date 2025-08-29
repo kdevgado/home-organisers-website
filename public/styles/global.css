@@ -577,3 +577,80 @@ button[aria-busy="true"]::after{
   will-change: auto !important;
 }
 
+/* ========== Facebook Icon Buttons (header + drawer) ========== */
+.icon-fb {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+/* Header icon button */
+.social-btn.fb {
+  --fb: #1877f2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  margin-left: 6px;          /* sits right after Home button */
+  border: 2px solid var(--fb);
+  border-radius: 10px;
+  color: var(--fb);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition: transform .18s ease, box-shadow .18s ease, color .18s ease, background-color .18s ease, border-color .18s ease;
+}
+
+.social-btn.fb::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120px 120px at var(--x,50%) var(--y,50%), rgba(24,119,242,.15), transparent 60%);
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+
+.social-btn.fb:hover,
+.social-btn.fb:focus-visible {
+  background-color: var(--fb);
+  color: #fff;
+  border-color: var(--fb);
+  box-shadow: 0 6px 16px rgba(24,119,242,.25);
+  transform: translateY(-1px);
+}
+.social-btn.fb:hover::before,
+.social-btn.fb:focus-visible::before { opacity: 1; }
+
+/* Fancy hover hotspot — optional (mouse position glow) */
+.social-btn.fb {
+  /* update custom properties via JS for hotspot, but looks fine without */
+}
+
+/* Drawer link with icon */
+.mobile-social.fb {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: inherit;
+}
+.mobile-social.fb:hover,
+.mobile-social.fb:focus-visible { background: #f3f3f3; }
+
+/* ========== Footer FB section ========== */
+.fb-section {
+  margin-top: 36px;
+}
+.fb-heading {
+  font-weight: 700;
+  margin: 0 0 10px;
+  font-size: 1.1rem;
+}
+
+/* Make plugin responsive */
+#fb-plugin-anchor .fb-page {
+  max-width: 100%;
+}
