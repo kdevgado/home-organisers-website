@@ -37,6 +37,84 @@ body{
 .nav a{margin-left:1rem;text-decoration:none;color:var(--ink)}
 .nav .btn{margin-left:1rem}
 
+/* Home button next to the logo */
+.home-btn {
+  --home-accent: #14b8a6;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 8px;               /* sits right beside the logo */
+  padding: 6px 14px;
+  font-weight: 500;
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--home-accent);
+  position: relative;
+  overflow: hidden;                /* for background slide animation */
+  transition: transform .18s ease, box-shadow .18s ease, color .18s ease, border-color .18s ease;
+}
+
+/* Sliding glow + arrow appear + gentle lift */
+.home-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(11,108,255,.12), transparent);
+  transform: translateX(-120%);
+  transition: transform .35s ease;
+}
+
+.home-btn::after {
+  content: "";
+  width: 6px; height: 6px;         /* chevron size */
+  border: solid currentColor;
+  border-width: 0 2px 2px 0;
+  transform: rotate(-45deg) translateX(-6px);
+  opacity: 0;
+  transition: transform .25s ease, opacity .15s ease;
+}
+
+/* Hover / focus animation */
+.home-btn:hover,
+.home-btn:focus-visible {
+  color: #fff;
+  border-color: var(--home-accent);
+  box-shadow: 0 6px 18px rgba(2, 46, 33, 0.25);
+  transform: translateY(-1px);
+}
+
+.home-btn:hover::before,
+.home-btn:focus-visible::before {
+  transform: translateX(120%);     /* shimmering sweep */
+}
+
+.home-btn:hover::after,
+.home-btn:focus-visible::after {
+  opacity: 1;
+  transform: rotate(-45deg) translateX(0);  /* chevron slides in */
+}
+
+/* Fill background on hover with a smooth slide */
+.home-btn {
+  background:
+    linear-gradient(#0f766e, #0f766e) left/0% 100% no-repeat; /* starts collapsed */
+  transition: background-size .28s ease, transform .18s ease, box-shadow .18s ease, color .18s ease;
+}
+.home-btn:hover,
+.home-btn:focus-visible {
+  background-size: 100% 100%;      /* fills button */
+}
+
+/* Respect reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .home-btn,
+  .home-btn::before,
+  .home-btn::after {
+    transition: none !important;
+  }
+}
+
 /* Sticky header */
 .site-header{
   position:sticky;top:0;backdrop-filter:saturate(160%) blur(6px);
