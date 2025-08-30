@@ -83,6 +83,31 @@ export async function handler(event) {
       sendUpdates: "all", // emails the attendee
     });
 
+    // fire-and-forget email (don't block the response to the browser)
+    try {
+      await fetch(
+        process.env.URL
+          ? `${process.env.URL}/.netlify/functions/send-email`
+          : "/.netlify/functions/send-email",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name,
+            email,
+            phone,
+            suburb,
+            service,
+            message,
+            eventLink: evt.htmlLink,
+            startIso: start.toISOString(),
+            endIso: end.toISOString(),
+            timezone: tz,
+          }),
+        }
+      );
+    } catch {}
+
     return {
       statusCode: 200,
       body: JSON.stringify({ calendarEventLink: evt.htmlLink }),

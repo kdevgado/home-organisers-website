@@ -1,117 +1,154 @@
-// netlify/functions/send-email.js
-import nodemailer from "nodemailer";
+// /netlify/functions/send-email.js
+import fetch from "node-fetch";
 
-export const handler = async (event) => {
-  if (event.httpMethod !== "POST") {
-    return { statusCode: 405, body: "Method Not Allowed" };
-  }
+const RESEND_API_KEY = process.env.RESEND_API_KEY;
+const FROM = process.env.FROM_EMAIL;
+const ADMIN = process.env.ADMIN_EMAIL;
 
+export async function handler(event) {
   try {
-    // Expect application/json from the client
-    const payload = JSON.parse(event.body || "{}");
-
-    // Pull env vars from Netlify dashboard
-    const {
-      SMTP_HOST,
-      SMTP_PORT = "587",
-      SMTP_SECURE = "false", // 'true' for 465, 'false' for 587
-      SMTP_USER,
-      SMTP_PASS,
-      MAIL_TO = "rdelgado@homeorg.com.au",
-      MAIL_CC, // optional, e.g., admin@homeorg.com.au
-      MAIL_FROM = "Shepparton Home Organising <no-reply@homeorg.com.au>",
-      MAIL_AUTOREPLY = "true", // 'false' to disable autoresponder
-    } = process.env;
-
-    // Build transporter
-    const transporter = nodemailer.createTransport({
-      host: SMTP_HOST,
-      port: Number(SMTP_PORT),
-      secure: SMTP_SECURE === "true",
-      auth: { user: SMTP_USER, pass: SMTP_PASS },
-    });
-
-    const {
-      name,
-      email,
-      phone,
-      suburb,
-      service,
-      message,
-      preferred_days,
-      preferred_time_from,
-      preferred_time_to,
-      timeline,
-    } = payload;
-
-    const subject = `New enquiry from ${name} (${email})`;
-    const replyTo = email && /@/.test(email) ? email : undefined;
-
-    const html = `
-      <div style="font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;font-size:16px;line-height:1.5;color:#0f172a">
-        <h2 style="margin:0 0 8px">New website enquiry</h2>
-        <p style="margin:0 0 16px;color:#334155">via homeorg.com.au/contact</p>
-        <table style="border-collapse:collapse;width:100%;max-width:640px">
-          <tr><td style="padding:6px 0;width:180px;color:#64748b">Name</td><td>${
-            name || "-"
-          }</td></tr>
-          <tr><td style="padding:6px 0;color:#64748b">Email</td><td>${
-            email || "-"
-          }</td></tr>
-          <tr><td style="padding:6px 0;color:#64748b">Phone</td><td>${
-            phone || "-"
-          }</td></tr>
-          <tr><td style="padding:6px 0;color:#64748b">Suburb/Town</td><td>${
-            suburb || "-"
-          }</td></tr>
-          <tr><td style="padding:6px 0;color:#64748b">Service</td><td>${
-            service || "-"
-          }</td></tr>
-          <tr><td style="padding:6px 0;color:#64748b">Timeline</td><td>${
-            timeline || "-"
-          }</td></tr>
-          <tr><td style="padding:6px 0;color:#64748b">Preferred day(s)</td><td>${
-            preferred_days || "-"
-          }</td></tr>
-          <tr><td style="padding:6px 0;color:#64748b">Preferred time</td><td>${
-            preferred_time_from || "-"
-          } — ${preferred_time_to || "-"}</td></tr>
-        </table>
-        <hr style="border:none;border-top:1px solid #e5e7eb;margin:16px 0" />
-        <p style="white-space:pre-wrap">${(message || "").trim()}</p>
-      </div>
-    `;
-
-    // Send to your org mailbox
-    await transporter.sendMail({
-      from: MAIL_FROM,
-      to: MAIL_TO,
-      cc: MAIL_CC || undefined,
-      subject,
-      html,
-      replyTo,
-    });
-
-    // Optional autoreply to the customer
-    if (MAIL_AUTOREPLY === "true" && email) {
-      await transporter.sendMail({
-        from: MAIL_FROM,
-        to: email,
-        subject: `Thanks for your enquiry — Shepparton Home Organising`,
-        html: `
-          <div style="font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;font-size:16px;line-height:1.5;color:#0f172a">
-            <p>Hi ${name || ""},</p>
-            <p>Thanks for reaching out! We've received your message and will get back to you soon.</p>
-            <p><strong>What happens next?</strong><br/>We'll check your preferred days/times and reply to book a quick 15-minute chat.</p>
-            <p>Warmly,<br/>Shepparton Home Organising</p>
-          </div>
-        `,
-      });
+    if (!RESEND_API_KEY || !FROM || !ADMIN) {
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: "Email not configured" }),
+      };
     }
 
+    const body = JSON.parse(event.body || "{}");
+    const {
+      name = "",
+      email = "",
+      phone = "",
+      suburb = "",
+      service = "",
+      message = "",
+      eventLink = "", // optional: pass evt.htmlLink from book-slot
+      startIso = "",
+      endIso = "",
+      timezone = "Australia/Melbourne",
+    } = body;
+
+    if (!name || !email) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: "Missing name/email" }),
+      };
+    }
+
+    const humanTime = (iso) => {
+      if (!iso) return "";
+      const d = new Date(iso);
+      return d.toLocaleString([], {
+        dateStyle: "full",
+        timeStyle: "short",
+        timeZone: timezone,
+      });
+    };
+
+    const startStr = humanTime(startIso);
+    const endStr = humanTime(endIso);
+
+    // 1) Send client confirmation
+    const clientHtml = `
+      <p>Hi ${name},</p>
+      <p>You're booked for a 30-minute consultation${
+        startStr ? ` on <strong>${startStr}</strong>` : ""
+      }.</p>
+      ${
+        eventLink
+          ? `<p><a href="${eventLink}">View your calendar event</a> (reschedule from there if needed).</p>`
+          : ""
+      }
+      ${service ? `<p><strong>Service:</strong> ${service}</p>` : ""}
+      ${
+        message
+          ? `<p><strong>Your note:</strong><br/>${escapeHtml(message)}</p>`
+          : ""
+      }
+      <p>We look forward to helping you make home feel easy again.</p>
+      <p>— Home Organisers Australia</p>
+    `;
+
+    // 2) Send internal notification
+    const adminHtml = `
+      <p><strong>New 30-min booking</strong></p>
+      <ul>
+        <li><strong>Name:</strong> ${escapeHtml(name)}</li>
+        <li><strong>Email:</strong> ${escapeHtml(email)}</li>
+        ${phone ? `<li><strong>Phone:</strong> ${escapeHtml(phone)}</li>` : ""}
+        ${
+          suburb
+            ? `<li><strong>Suburb:</strong> ${escapeHtml(suburb)}</li>`
+            : ""
+        }
+        ${
+          service
+            ? `<li><strong>Service:</strong> ${escapeHtml(service)}</li>`
+            : ""
+        }
+        ${
+          startStr
+            ? `<li><strong>Start:</strong> ${startStr} (${timezone})</li>`
+            : ""
+        }
+        ${
+          endStr ? `<li><strong>End:</strong> ${endStr} (${timezone})</li>` : ""
+        }
+      </ul>
+      ${
+        message
+          ? `<p><strong>Notes:</strong><br/>${escapeHtml(message)}</p>`
+          : ""
+      }
+      ${
+        eventLink ? `<p><a href="${eventLink}">Open calendar event</a></p>` : ""
+      }
+    `;
+
+    await Promise.all([
+      sendResend({
+        to: email,
+        subject: "Your booking is confirmed",
+        html: clientHtml,
+      }),
+      sendResend({
+        to: ADMIN,
+        subject: "New booking received",
+        html: adminHtml,
+      }),
+    ]);
+
     return { statusCode: 200, body: JSON.stringify({ ok: true }) };
-  } catch (err) {
-    console.error(err);
-    return { statusCode: 500, body: "Email send failed" };
+  } catch (e) {
+    console.error(e);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: "Email send failed" }),
+    };
   }
-};
+}
+
+function escapeHtml(str) {
+  return String(str).replace(
+    /[&<>"']/g,
+    (m) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[
+        m
+      ])
+  );
+}
+
+async function sendResend({ to, subject, html }) {
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ from: process.env.FROM_EMAIL, to, subject, html }),
+  });
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    throw new Error(`Resend error: ${res.status} ${text}`);
+  }
+}
