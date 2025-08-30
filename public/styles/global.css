@@ -643,11 +643,16 @@ button[aria-busy="true"]::after{
 /* ========== Footer FB section ========== */
 .fb-section {
   margin-top: 36px;
+  width: 400px;
+  margin: 0 auto;
 }
 .fb-heading {
   font-weight: 700;
   margin: 0 0 10px;
   font-size: 1.1rem;
+  width: 200px;
+  padding: 0 0 10px;
+  margin: 0 auto;
 }
 
 /* Make plugin responsive */

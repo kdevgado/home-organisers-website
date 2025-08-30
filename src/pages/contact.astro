@@ -2,48 +2,34 @@
 import Base from "../layouts/Base.astro";
 ---
 
-<Base title="Contact - Shepparton Home Organising">
+<Base title="Book a Consultation - Shepparton Home Organising">
   <section class="container narrow">
-    <h1>Contact</h1>
+    <h1>Book a 30-minute Consultation</h1>
     <p>
-      <strong>Let's make home feel easy again.</strong> I'd love to hear about your
-      space and what a win looks like for you.
+      Pick a date and an available time below. You'll receive an instant
+      calendar invite.
     </p>
 
-    <form
-      id="contact-form"
-      class="contact-form"
-      name="enquiry"
-      method="POST"
-      data-netlify="true"
-      netlify-honeypot="bot-field"
-      novalidate
-    >
-      <input type="hidden" name="form-name" value="enquiry" />
-
-      <!-- Honeypot -->
-      <p class="hidden" aria-hidden="true">
-        <label>Don’t fill this out: <input name="bot-field" /></label>
-      </p>
-
-      <label>
-        Name
-        <input type="text" name="name" required />
-      </label>
-
-      <label>
-        Suburb/Town
-        <input type="text" name="suburb" />
-      </label>
-
+    <form id="booking-form" class="booking-form" novalidate>
       <div class="grid-2">
         <label>
-          Phone
-          <input type="tel" name="phone" />
+          Name
+          <input type="text" name="name" required />
         </label>
         <label>
           Email
           <input type="email" name="email" required />
+        </label>
+      </div>
+
+      <div class="grid-2">
+        <label>
+          Phone (optional)
+          <input type="tel" name="phone" />
+        </label>
+        <label>
+          Suburb/Town (optional)
+          <input type="text" name="suburb" />
         </label>
       </div>
 
@@ -66,74 +52,53 @@ import Base from "../layouts/Base.astro";
       </label>
 
       <label>
-        Tell me about your space (what's working, what's not)
-        <textarea name="message" rows="6" required></textarea>
+        Brief notes (optional)
+        <textarea
+          name="message"
+          rows="5"
+          placeholder="What would you like help with?"></textarea>
       </label>
 
       <div class="grid-2">
         <label>
-          Preferred day(s)
+          Choose a date
           <input
             type="text"
-            id="preferred-days"
-            name="preferred_days"
-            placeholder="Pick dates"
+            id="booking-date"
+            name="booking_date"
+            required
+            placeholder="Pick a date"
             autocomplete="off"
             inputmode="none"
           />
         </label>
-        <label
-          >Preferred time window
-          <div class="grid-2">
-            <input
-              type="text"
-              id="time-from"
-              name="preferred_time_from"
-              placeholder="From"
-              autocomplete="off"
-              inputmode="none"
-            />
-            <div>
-              <input
-                type="text"
-                id="time-to"
-                name="preferred_time_to"
-                placeholder="To"
-                autocomplete="off"
-                inputmode="none"
-              />
-            </div>
+
+        <fieldset class="slot-fieldset">
+          <legend>Available times (30-min)</legend>
+          <div id="slot-grid" class="slot-grid" aria-live="polite">
+            <div class="slot-empty muted">Select a date to see times.</div>
           </div>
-        </label>
-        <label>
-          Timeline
-          <select name="timeline">
-            <option>Just browsing</option>
-            <option>Soon</option>
-            <option>Urgent</option>
-          </select>
-        </label>
+        </fieldset>
       </div>
-      <button class="btn" type="submit">Send enquiry</button>
-    <p class="muted small">
-      Prefer to chat? Call or text and I'll get back to you as soon as I'm
-      between sessions.
-    </p>
-    <p class="muted small">
-      This is a judgement-free service. Your privacy is always respected.
-    </p>
+
+      <button class="btn" id="book-btn" type="submit">Book consultation</button>
+
+      <p class="muted small">
+        You’ll get an email confirmation with a calendar invite. Times shown use
+        your local timezone.
+      </p>
+      <p class="muted small">
+        This is a judgement-free service. Your privacy is always respected.
+      </p>
     </form>
-    
   </section>
 </Base>
 
-<!-- Toast notifications -->
+<!-- Toast notifications (re-use your existing styles/behavior) -->
 <div id="toast" role="status" aria-live="polite"></div>
 
 <style>
-  .hidden {
-    display: none;
-  }
+  /* Keep your toast styles from before */
   #toast {
     position: fixed;
     right: 16px;
@@ -159,10 +124,57 @@ import Base from "../layouts/Base.astro";
   #toast.error {
     background: #991b1b;
   }
-</style>
 
-<!-- Form behaviour -->
-<script src="/js/contact.js" type="module" defer></script>
+  .grid-2 {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr 1fr;
+  }
+  @media (max-width: 720px) {
+    .grid-2 {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .slot-fieldset {
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+  .slot-grid {
+    min-height: 64px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 0.5rem;
+    align-items: start;
+  }
+  .slot-btn {
+    display: inline-block;
+    padding: 0.6rem 0.8rem;
+    border-radius: 0.6rem;
+    border: 1px solid #dbe1ef;
+    background: #fff;
+    cursor: pointer;
+    text-align: center;
+  }
+  .slot-btn[aria-pressed="true"] {
+    outline: 2px solid #0ea5e9;
+    border-color: #0ea5e9;
+  }
+  .slot-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  .slot-empty {
+    padding: 0.6rem 0;
+  }
+  .muted {
+    color: #64748b;
+  }
+  .small {
+    font-size: 0.9rem;
+  }
+</style>
 
 <!-- Calendar (Flatpickr) -->
 <link
@@ -170,28 +182,6 @@ import Base from "../layouts/Base.astro";
   href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
 />
 <script src="https://cdn.jsdelivr.net/npm/flatpickr" defer></script>
-<script type="module">
-  window.addEventListener("load", () => {
-    if (window.flatpickr) {
-      // Dates: multiple select, cannot choose days in the past
-      flatpickr("#preferred-days", {
-        mode: "multiple",
-        dateFormat: "Y-m-d", // value submitted to Netlify (ISO-like)
-        altInput: true,
-        altFormat: "D, d M Y", // pretty display
-        weekNumbers: true,
-        minDate: "today", // <-- no past dates
-      });
 
-      // Times: 24-hr, time-only pickers
-      const timeOpts = {
-        enableTime: true,
-        noCalendar: true,
-        dateFormat: "H:i",
-        time_24hr: true,
-      };
-      flatpickr("#time-from", timeOpts);
-      flatpickr("#time-to", timeOpts);
-    }
-  });
-</script>
+<!-- Booking behavior -->
+<script src="/js/contact.js" type="module" defer></script>
