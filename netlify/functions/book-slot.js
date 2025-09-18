@@ -1,122 +1,130 @@
-// /netlify/functions/book-slot.js
-import { google } from "googleapis";
+// netlify/functions/book-slot.js
+import { DateTime, Interval } from "luxon";
+import { getCalendarClient, intFromEnv } from "./google.js";
 
-export async function handler(event) {
+const {
+  GOOGLE_CALENDAR_ID = "primary",
+  BUSINESS_TIMEZONE = "Australia/Melbourne",
+} = process.env;
+
+const SLOT_MINUTES = intFromEnv("SLOT_MINUTES", 30);
+
+export const handler = async (event) => {
+  if (event.httpMethod !== "POST") {
+    return resp(405, "Method Not Allowed");
+  }
+
   try {
-    const body = JSON.parse(event.body || "{}");
+    const data = JSON.parse(event.body || "{}");
     const {
       name,
       email,
-      phone,
-      suburb,
-      service,
-      message,
+      phone = "",
+      suburb = "",
+      service = "",
+      message = "",
       slotIso,
-      durationMinutes = 30,
-      timezone,
-    } = body;
+      durationMinutes,
+    } = data;
 
     if (!name || !email || !slotIso) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ error: "Missing required fields" }),
-      };
+      return resp(400, "Missing required fields");
     }
 
-    const tz = timezone || process.env.BUSINESS_TZ || "Australia/Melbourne";
-    const start = new Date(slotIso);
-    const end = new Date(start.getTime() + durationMinutes * 60000);
+    const minutes = Number(durationMinutes) || SLOT_MINUTES;
+    const startUtc = DateTime.fromISO(slotIso, { zone: "utc" });
+    if (!startUtc.isValid) return resp(400, "Invalid slot");
 
-    // Auth
-    const jwt = new google.auth.JWT(
-      process.env.GCAL_CLIENT_EMAIL,
-      null,
-      (process.env.GCAL_PRIVATE_KEY || "").replace(/\\n/g, "\n"),
-      ["https://www.googleapis.com/auth/calendar"]
+    const endUtc = startUtc.plus({ minutes: minutes });
+
+    // Concurrency guard: check freebusy again just before insert
+    const calendar = getCalendarClient();
+    const fb = await calendar.freebusy.query({
+      requestBody: {
+        timeMin: startUtc.toISO(),
+        timeMax: endUtc.toISO(),
+        items: [{ id: GOOGLE_CALENDAR_ID }],
+      },
+    });
+
+    const busy = fb?.data?.calendars?.[GOOGLE_CALENDAR_ID]?.busy || [];
+    const overlaps = busy.some((b) =>
+      Interval.fromDateTimes(
+        DateTime.fromISO(b.start, { zone: "utc" }),
+        DateTime.fromISO(b.end, { zone: "utc" })
+      ).overlaps(Interval.fromDateTimes(startUtc, endUtc))
     );
-    await jwt.authorize();
-    const calendar = google.calendar({ version: "v3", auth: jwt });
-    const calendarId = process.env.GCAL_CALENDAR_ID;
 
-    // Double-check conflict (in case someone grabbed it meanwhile)
-    const { data: freebusy } = await calendar.freebusy.query({
-      requestBody: {
-        timeMin: start.toISOString(),
-        timeMax: end.toISOString(),
-        items: [{ id: calendarId }],
-        timeZone: tz,
-      },
-    });
-    const busy = freebusy.calendars?.[calendarId]?.busy || [];
-    if (busy.length) {
-      return {
-        statusCode: 409,
-        body: JSON.stringify({ error: "Time slot no longer available" }),
-      };
+    if (overlaps) {
+      return resp(409, "Slot no longer available");
     }
 
-    // Create event
-    const summary = `30-min Consultation — ${
-      service || "Home Organising"
-    } (${name})`;
-    const description = [
-      `Name: ${name}`,
-      `Email: ${email}`,
-      phone ? `Phone: ${phone}` : null,
-      suburb ? `Suburb: ${suburb}` : null,
-      service ? `Service: ${service}` : null,
-      message ? `Notes: ${message}` : null,
-    ]
-      .filter(Boolean)
-      .join("\n");
+    // Build event details
+    const startInBizTz = startUtc.setZone(BUSINESS_TIMEZONE);
+    const endInBizTz = endUtc.setZone(BUSINESS_TIMEZONE);
 
-    const { data: evt } = await calendar.events.insert({
-      calendarId,
-      requestBody: {
-        summary,
-        description,
-        start: { dateTime: start.toISOString(), timeZone: tz },
-        end: { dateTime: end.toISOString(), timeZone: tz },
-        attendees: [{ email, displayName: name }],
-        reminders: { useDefault: true },
+    const description =
+      [
+        `Name: ${name}`,
+        `Email: ${email}`,
+        phone && `Phone: ${phone}`,
+        suburb && `Suburb/Town: ${suburb}`,
+        service && `Service: ${service}`,
+        message && `Notes: ${message}`,
+      ]
+        .filter(Boolean)
+        .join("\n") + `\n\nBooked via website.`;
+
+    const eventBody = {
+      summary: `Consultation – ${name}`,
+      description,
+      start: {
+        dateTime: startInBizTz.toISO(),
+        timeZone: BUSINESS_TIMEZONE,
       },
-      sendUpdates: "all", // emails the attendee
+      end: {
+        dateTime: endInBizTz.toISO(),
+        timeZone: BUSINESS_TIMEZONE,
+      },
+      attendees: [{ email }], // customer
+      // add yourself explicitly; some orgs prefer this for clarity
+      // attendees: [{ email }, { email: "you@yourdomain.com" }],
+      reminders: { useDefault: true },
+      guestsCanInviteOthers: false,
+      guestsCanModify: false,
+      // Make it “busy” and send email
+      transparency: "opaque",
+      sendUpdates: "all",
+    };
+
+    const res = await calendar.events.insert({
+      calendarId: GOOGLE_CALENDAR_ID,
+      requestBody: eventBody,
+      sendUpdates: "all",
     });
 
-    // fire-and-forget email (don't block the response to the browser)
-    try {
-      await fetch(
-        process.env.URL
-          ? `${process.env.URL}/.netlify/functions/send-email`
-          : "/.netlify/functions/send-email",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name,
-            email,
-            phone,
-            suburb,
-            service,
-            message,
-            eventLink: evt.htmlLink,
-            startIso: start.toISOString(),
-            endIso: end.toISOString(),
-            timezone: tz,
-          }),
-        }
-      );
-    } catch {}
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ calendarEventLink: evt.htmlLink }),
-    };
-  } catch (e) {
-    console.error(e);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: "Booking error" }),
-    };
+    return json({
+      success: true,
+      calendarEventLink: res?.data?.htmlLink || "",
+    });
+  } catch (err) {
+    console.error(err);
+    return resp(500, "Booking failed");
   }
+};
+
+function json(body, statusCode = 200) {
+  return {
+    statusCode,
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  };
+}
+
+function resp(statusCode, text) {
+  return {
+    statusCode,
+    headers: { "Content-Type": "text/plain" },
+    body: text,
+  };
 }

@@ -1,72 +1,104 @@
-// /netlify/functions/available-slots.js
-import { google } from "googleapis";
+// netlify/functions/available-slots.js
+import { DateTime, Interval } from "luxon";
+import { getCalendarClient, intFromEnv } from "./google.js";
 
-export async function handler(event) {
+const {
+  GOOGLE_CALENDAR_ID = "primary",
+  BUSINESS_TIMEZONE = "Australia/Melbourne",
+} = process.env;
+
+const OPEN_HOUR = intFromEnv("OPEN_HOUR", 9);
+const CLOSE_HOUR = intFromEnv("CLOSE_HOUR", 17);
+const SLOT_MINUTES = intFromEnv("SLOT_MINUTES", 30);
+
+export const handler = async (event) => {
   try {
-    const date = (event.queryStringParameters?.date || "").trim(); // "YYYY-MM-DD"
-    if (!date)
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ error: "Missing date" }),
-      };
+    const params = event.queryStringParameters || {};
+    const dateStr = params.date; // expected "YYYY-MM-DD" from your Flatpickr
+    if (!dateStr) {
+      return json({ slots: [] });
+    }
 
-    const tz = process.env.BUSINESS_TZ || "Australia/Melbourne";
-    const duration = 30; // minutes, fixed
+    // Build the business-day window in BUSINESS_TIMEZONE
+    const start = DateTime.fromISO(dateStr, { zone: BUSINESS_TIMEZONE }).set({
+      hour: OPEN_HOUR,
+      minute: 0,
+      second: 0,
+      millisecond: 0,
+    });
 
-    // Working window (local): 09:00–17:00
-    const [startH, endH] = (process.env.WORK_HOURS || "09:00-17:00").split("-");
-    const dayStart = new Date(`${date}T${startH || "09:00"}:00`);
-    const dayEnd = new Date(`${date}T${endH || "17:00"}:00`);
+    const end = start.set({ hour: CLOSE_HOUR });
 
-    // Auth
-    const jwt = new google.auth.JWT(
-      process.env.GCAL_CLIENT_EMAIL,
-      null,
-      (process.env.GCAL_PRIVATE_KEY || "").replace(/\\n/g, "\n"),
-      ["https://www.googleapis.com/auth/calendar"]
-    );
-    await jwt.authorize();
-    const calendar = google.calendar({ version: "v3", auth: jwt });
-    const calendarId = process.env.GCAL_CALENDAR_ID;
+    // Skip past times if same day (business rule)
+    const nowLocal = DateTime.now().setZone(BUSINESS_TIMEZONE);
+    const dayStart = start.startOf("day");
+    const sameDay = nowLocal.hasSame(dayStart, "day");
+    const effectiveStart = sameDay && nowLocal > start ? nowLocal : start;
 
-    // Get busy windows for the day
-    const { data: freebusy } = await calendar.freebusy.query({
+    // Generate candidate slot starts
+    const slots = [];
+    let cursor = effectiveStart.startOf("minute");
+    const step = { minutes: SLOT_MINUTES };
+    while (cursor < end) {
+      // Align to slot grid (e.g., 00/30 past the hour)
+      const minute = cursor.minute;
+      const mod = minute % SLOT_MINUTES;
+      if (mod !== 0) {
+        cursor = cursor.plus({ minutes: SLOT_MINUTES - mod });
+        continue;
+      }
+      const slotEnd = cursor.plus(step);
+      if (slotEnd > end) break;
+
+      slots.push({ start: cursor, end: slotEnd });
+      cursor = cursor.plus(step);
+    }
+
+    if (!slots.length) return json({ slots: [] });
+
+    // Query Google freebusy to remove conflicts
+    const calendar = getCalendarClient();
+    const fb = await calendar.freebusy.query({
       requestBody: {
-        timeMin: dayStart.toISOString(),
-        timeMax: dayEnd.toISOString(),
-        items: [{ id: calendarId }],
-        timeZone: tz,
+        timeMin: start.toUTC().toISO(),
+        timeMax: end.toUTC().toISO(),
+        timeZone: BUSINESS_TIMEZONE,
+        items: [{ id: GOOGLE_CALENDAR_ID }],
       },
     });
 
-    const busy = (freebusy.calendars?.[calendarId]?.busy || []).map((b) => ({
-      start: new Date(b.start),
-      end: new Date(b.end),
-    }));
+    const busy = (fb?.data?.calendars?.[GOOGLE_CALENDAR_ID]?.busy || []).map(
+      (b) => ({
+        start: DateTime.fromISO(b.start, { zone: "utc" }),
+        end: DateTime.fromISO(b.end, { zone: "utc" }),
+      })
+    );
 
-    // Build 30-min grid
-    const slots = [];
-    for (
-      let t = new Date(dayStart);
-      t < dayEnd;
-      t = new Date(t.getTime() + duration * 60000)
-    ) {
-      const slotStart = new Date(t);
-      const slotEnd = new Date(t.getTime() + duration * 60000);
+    // Filter out any slot that overlaps with a busy interval
+    const freeIsos = slots
+      .filter(({ start: s, end: e }) => {
+        const sUtc = s.toUTC();
+        const eUtc = e.toUTC();
+        return !busy.some(({ start: bs, end: be }) =>
+          Interval.fromDateTimes(bs, be).overlaps(
+            Interval.fromDateTimes(sUtc, eUtc)
+          )
+        );
+      })
+      // Return slot starts as ISO strings in UTC; your client renders them in local time
+      .map(({ start: s }) => s.toUTC().toISO());
 
-      // Overlap check
-      const overlaps = busy.some(
-        (b) => Math.max(slotStart, b.start) < Math.min(slotEnd, b.end)
-      );
-      if (!overlaps) slots.push(slotStart.toISOString()); // return ISO; client will render local time
-    }
-
-    return { statusCode: 200, body: JSON.stringify({ slots }) };
-  } catch (e) {
-    console.error(e);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: "Failed to load slots" }),
-    };
+    return json({ slots: freeIsos });
+  } catch (err) {
+    console.error(err);
+    return json({ slots: [] }, 200); // don’t 500 just for UX
   }
+};
+
+function json(body, statusCode = 200) {
+  return {
+    statusCode,
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  };
 }

@@ -1,8 +1,8 @@
+[functions]
+  node_bundler = "esbuild"
+  external_node_modules = ["googleapis","luxon"]
+  included_files = []
+
 [build]
   command = "npm run build"
   publish = "dist"
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
