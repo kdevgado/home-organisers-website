@@ -822,6 +822,14 @@ button[aria-busy="true"]::after{
   .slot-btn, .btn { transition: none !important; }
 }
 
+/* Default desktop */
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+/* Mobile carousel */
 /* Mobile carousel for services */
 .service-carousel {
   position: relative;
@@ -831,16 +839,21 @@ button[aria-busy="true"]::after{
   overflow: hidden;
 }
 
-.service-grid {
-  display: flex;
-  gap: 1rem;
-  transition: transform 0.4s ease;
+@media (max-width: 700px) {
+  .service-grid {
+    display: flex;
+    gap: 1rem;
+    transition: transform 0.4s ease;
+  }
+  .service-card {
+    flex: 0 0 100%;
+  }
+  .carousel-btn {
+    display: block;
+  }
 }
 
-.service-card {
-  flex: 0 0 100%; /* show 1 card at a time on mobile */
-}
-
+/* Arrow buttons for mobile service carousel */
 .carousel-btn {
   display: none; /* hidden by default */
   position: absolute;
@@ -854,6 +867,7 @@ button[aria-busy="true"]::after{
   cursor: pointer;
   z-index: 5;
 }
+
 .carousel-btn.prev { left: 6px; }
 .carousel-btn.next { right: 6px; }
 
