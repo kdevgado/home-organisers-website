@@ -62,11 +62,15 @@ const page = {
   </section>
 
   <section class="container">
+    <h2>Why you will love this service</h2>
+    <div class="service-carousel">
+    <button class="carousel-btn prev" aria-label="Previous">&#10094;</button>
+
+    <div class="service-track">
     <div class="service-grid">
       <!-- Space Efficiency -->
       <article class="service-card">
         <div class="media">
-          <a href="/services/space-efficiency">
             <img
               loading="lazy"
               width="720"
@@ -96,18 +100,12 @@ const page = {
             Declutter and configure every inch to work harder—zoning, vertical
             storage, right-size containers.
           </p>
-          <p>
-            <a class="btn" href="/services/space-efficiency"
-              >Explore Space Efficiency</a
-            >
-          </p>
         </div>
       </article>
 
       <!-- Specialised Needs Support -->
       <article class="service-card">
         <div class="media">
-          <a href="/services/specialised-needs-support">
             <img
               loading="lazy"
               width="720"
@@ -139,18 +137,12 @@ const page = {
             Gentle, practical setups for accessibility and independence, with
             NDIS-aware documentation.
           </p>
-          <p>
-            <a class="btn" href="/services/specialised-needs-support"
-              >Explore Specialised Support</a
-            >
-          </p>
         </div>
       </article>
 
       <!-- Technical Approach -->
       <article class="service-card">
         <div class="media">
-          <a href="/services/technical-approach">
             <img
               loading="lazy"
               width="720"
@@ -181,18 +173,12 @@ const page = {
             Measurement-first design: traffic paths, reach zones and container
             math so your home just works.
           </p>
-          <p>
-            <a class="btn" href="/services/technical-approach"
-              >Explore Technical Approach</a
-            >
-          </p>
         </div>
       </article>
 
       <!-- Fit for purpose & style -->
       <article class="service-card">
         <div class="media">
-          <a href="/services/fit-for-purpose-and-style">
             <img
               loading="lazy"
               width="720"
@@ -224,18 +210,12 @@ const page = {
             Systems that look good and work hard—materials, colours, containers
             matched to your taste and budget.
           </p>
-          <p>
-            <a class="btn" href="/services/fit-for-purpose-and-style"
-              >Explore Fit & Style</a
-            >
-          </p>
         </div>
       </article>
 
       <!-- Share house & co-living -->
       <article class="service-card">
         <div class="media">
-          <a href="/services/share-house">
             <img
               loading="lazy"
               width="720"
@@ -266,11 +246,11 @@ const page = {
             Reduce friction and build fair systems—clear zones, colour-coding,
             and easy house rituals.
           </p>
-          <p>
-            <a class="btn" href="/services/share-house">Explore Co-living</a>
-          </p>
         </div>
       </article>
+    </div>
+    </div>
+    <button class="carousel-btn next" aria-label="Next">&#10095;</button>
     </div>
   </section>
 
@@ -401,5 +381,73 @@ const page = {
     idx = (idx + 1) % slides.length;
     slides[idx].classList.add("active");
   }, 5000);
+
+// Mobile service cards carousel
+const track = document.querySelector(".service-grid");
+const prevBtn = document.querySelector(".carousel-btn.prev");
+const nextBtn = document.querySelector(".carousel-btn.next");
+let currentIndex = 0;
+
+function updateCarousel() {
+  if (window.innerWidth <= 700) {
+    track.style.transform = `translateX(-${currentIndex * 100}%)`;
+  } else {
+    track.style.transform = "none"; // reset on desktop
+  }
+}
+
+nextBtn.addEventListener("click", () => {
+  if (currentIndex < track.children.length - 1) {
+    currentIndex++;
+    updateCarousel();
+  }
+});
+
+prevBtn.addEventListener("click", () => {
+  if (currentIndex > 0) {
+    currentIndex--;
+    updateCarousel();
+  }
+});
+
+// --- Swipe gestures ---
+let startX = 0;
+let isSwiping = false;
+
+track.addEventListener("touchstart", (e) => {
+  if (window.innerWidth > 700) return; // only on mobile
+  startX = e.touches[0].clientX;
+  isSwiping = true;
+});
+
+track.addEventListener("touchmove", (e) => {
+  if (!isSwiping) return;
+  const currentX = e.touches[0].clientX;
+  const diff = startX - currentX;
+
+  // Optional: add drag feel
+  track.style.transform = `translateX(calc(-${currentIndex * 100}% - ${diff}px))`;
+});
+
+track.addEventListener("touchend", (e) => {
+  if (!isSwiping) return;
+  isSwiping = false;
+
+  const endX = e.changedTouches[0].clientX;
+  const diff = startX - endX;
+
+  if (Math.abs(diff) > 50) {
+    if (diff > 0 && currentIndex < track.children.length - 1) {
+      currentIndex++; // swipe left → next
+    } else if (diff < 0 && currentIndex > 0) {
+      currentIndex--; // swipe right → prev
+    }
+  }
+  updateCarousel();
+});
+
+window.addEventListener("resize", updateCarousel);
+
+
 </script>
 </Base>

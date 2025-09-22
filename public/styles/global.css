@@ -29,7 +29,7 @@ body{
 }
 
 /* Layout */
-.container{width:min(1120px,92%);margin:0 auto}
+.container{width:min(1400px,92%);margin:0 auto}
 .header-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 0}
 .logo{font-weight:700;text-decoration:none;color:var(--ink);letter-spacing:.2px}
 .logo-img{height:80px;width:auto;display:block}
@@ -820,4 +820,43 @@ button[aria-busy="true"]::after{
 /* Reduced motion: respect user preference */
 @media (prefers-reduced-motion: reduce){
   .slot-btn, .btn { transition: none !important; }
+}
+
+/* Mobile carousel for services */
+.service-carousel {
+  position: relative;
+}
+
+.service-track {
+  overflow: hidden;
+}
+
+.service-grid {
+  display: flex;
+  gap: 1rem;
+  transition: transform 0.4s ease;
+}
+
+.service-card {
+  flex: 0 0 100%; /* show 1 card at a time on mobile */
+}
+
+.carousel-btn {
+  display: none; /* hidden by default */
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,.9);
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  z-index: 5;
+}
+.carousel-btn.prev { left: 6px; }
+.carousel-btn.next { right: 6px; }
+
+@media (max-width: 700px) {
+  .carousel-btn { display: block; }
 }
