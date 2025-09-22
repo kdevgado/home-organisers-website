@@ -10,7 +10,22 @@ import Base from "../layouts/Base.astro";
       calendar invite.
     </p>
 
-    <form id="booking-form" class="booking-form" novalidate>
+    <form
+      name="contact"
+      method="POST"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+    >
+      <!-- Honeypot field (spam protection) -->
+      <input type="hidden" name="form-name" value="contact" />
+      <p class="hidden">
+        <label
+          >Don’t fill this out if you’re human: <input
+            name="bot-field"
+          /></label
+        >
+      </p>
+
       <div class="grid-2">
         <label>
           Name
@@ -66,7 +81,6 @@ import Base from "../layouts/Base.astro";
             type="text"
             id="booking-date"
             name="booking_date"
-            required
             placeholder="Pick a date"
             autocomplete="off"
             inputmode="none"
@@ -81,10 +95,10 @@ import Base from "../layouts/Base.astro";
         </fieldset>
       </div>
 
-      <button class="btn" id="book-btn" type="submit">Book consultation</button>
+      <button class="btn" type="submit">Book consultation</button>
 
       <p class="muted small">
-        You’ll get an email confirmation with a calendar invite. Times shown use
+        You'll get an email confirmation with a calendar invite. Times shown use
         your local timezone.
       </p>
       <p class="muted small">

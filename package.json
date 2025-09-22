@@ -13,8 +13,9 @@
     "cookie": "^1.0.2",
     "googleapis": "^160.0.0",
     "lucide-astro": "^0.540.0",
-    "luxon": "^3.5.0",
-    "nodemailer": "^7.0.5",
+    "luxon": "^3.7.2",
+    "netlify": "^23.5.1",
+    "nodemailer": "^7.0.6",
     "open": "^10.2.0"
   }
 }

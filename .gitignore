@@ -24,3 +24,6 @@ pnpm-debug.log*
 .idea/
 
 client_secret.json
+
+# Local Netlify folder
+.netlify
