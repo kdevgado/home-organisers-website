@@ -1,0 +1,134 @@
+.lead {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  color: var(--ink-soft);
+}
+
+.hero-img {
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin: 1rem 0 2rem;
+  transition: transform 0.3s ease;
+}
+.hero-img:hover {
+  transform: scale(1.02);
+}
+
+/* ====== Tabs ====== */
+.tabs {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin: 2rem 0 1rem;
+}
+.tab {
+  border: 1px solid #efe7e1;
+  background: #fff;
+  padding: 0.55rem 1rem;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--ink-soft);
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+.tab:hover {
+  background: #f9f5f2;
+  color: var(--brand-dark);
+}
+.tab.is-active {
+  background: var(--panel);
+  border-color: rgba(var(--brand-rgb), 0.35);
+  color: var(--ink);
+}
+
+/* ====== Tab Panels ====== */
+.tab-panels {
+  margin: 1.2rem 0;
+}
+.tab-panel {
+  display: none;
+  animation: fadeIn 0.35s ease-in-out;
+}
+.tab-panel.is-active {
+  display: block;
+}
+.tab-panel img {
+  width: 100%;
+  border-radius: var(--radius);
+  margin: 0.5rem 0 1rem;
+  box-shadow: var(--shadow);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ====== Checklist ====== */
+.checklist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.checklist li {
+  position: relative;
+  margin: 0.6rem 0;
+  padding-left: 1.6rem;
+  color: var(--ink);
+}
+.checklist li::before {
+  content: "✔";
+  position: absolute;
+  left: 0;
+  color: var(--brand);
+  font-weight: 700;
+}
+
+/* ====== Panel (What you get) ====== */
+.panel {
+  background: var(--panel);
+  border: 1px solid #efe7e1;
+  border-radius: var(--radius);
+  padding: 1.6rem;
+  margin-top: 2.2rem;
+  box-shadow: var(--shadow);
+}
+.panel h3 {
+  margin-top: 0;
+  font-size: 1.4rem;
+  color: var(--ink);
+}
+.pill-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1rem 0 1.5rem;
+  padding: 0;
+}
+.pill-list li {
+  background: #f9f5f2;
+  border: 1px solid #efe7e1;
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+
+/* ====== Buttons ====== */
+.btn:hover {
+  background: var(--brand-dark);
+  box-shadow: 0 10px 24px rgba(var(--brand-rgb), .3);
+  transform: translateY(-2px);
+}
+
+/* ====== Responsive ====== */
+@media (max-width: 768px) {
+  h1 { font-size: 2rem; }
+  .tabs { flex-direction: column; }
+  .tab { width: 100%; text-align: center; }
+}

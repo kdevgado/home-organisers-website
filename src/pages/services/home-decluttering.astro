@@ -1,0 +1,82 @@
+---
+import Base from "../../layouts/Base.astro";
+import "../../../public/styles/services.css";
+const page = {
+  title: "Home Decluttering — Shepparton Home Organising",
+  description: "Clear clutter and create calm, functional spaces that support your lifestyle."
+};
+---
+<Base {...page} canonical="https://homeorg.com.au/services/home-decluttering" href="/styles/services.css">
+  <section class="container services-hero">
+    <h1>Home Decluttering</h1>
+    <p class="lead">We help you let go of what no longer serves you and create a home that feels lighter, calmer, and easier to maintain.</p>
+
+    <div class="tabs">
+      <button class="tab is-active" data-target="living">Living Room</button>
+      <button class="tab" data-target="bedroom">Bedroom</button>
+      <button class="tab" data-target="kids">Kids' Spaces</button>
+      <button class="tab" data-target="paper">Paperwork</button>
+    </div>
+
+    <div class="tab-panels">
+      <div id="living" class="tab-panel is-active">
+        <img src="/images/services/spaceefficiency.png" alt="Tidy living room" />
+        <h2>Living Room: breathe again</h2>
+        <ul class="checklist">
+          <li>Streamline surfaces — only essentials + décor you love.</li>
+          <li>Hidden storage for remotes, chargers, and blankets.</li>
+          <li>Donation box nearby for quick edits.</li>
+        </ul>
+      </div>
+      <div id="bedroom" class="tab-panel">
+        <img src="/images/services/spaceefficiency.png" alt="Calm bedroom" />
+        <h2>Bedroom: calm at day's end</h2>
+        <ul class="checklist">
+          <li>Clear nightstands — just lamp, book, water.</li>
+          <li>One-in, one-out rule for clothes.</li>
+          <li>Declutter under-bed storage quarterly.</li>
+        </ul>
+      </div>
+      <div id="kids" class="tab-panel">
+        <img src="/images/services/spaceefficiency.png" alt="Organised kids' room" />
+        <h2>Kids' Spaces: less overwhelm</h2>
+        <ul class="checklist">
+          <li>Toy rotation bins keep play fresh and tidy.</li>
+          <li>Low shelves encourage self-cleanup.</li>
+          <li>Clear boxes with photos for easy ID.</li>
+        </ul>
+      </div>
+      <div id="paper" class="tab-panel">
+        <img src="/images/services/spaceefficiency.png" alt="Organised paperwork" />
+        <h2>Paperwork: banish piles</h2>
+        <ul class="checklist">
+          <li>Inbox tray + weekly processing routine.</li>
+          <li>Digitise bills and statements.</li>
+          <li>File essentials in labelled folders.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>What you get</h3>
+      <ul class="pill-list">
+        <li>Hands-on decluttering support</li>
+        <li>Donation & recycling pathways</li>
+        <li>Practical storage solutions</li>
+        <li>Maintenance guide</li>
+      </ul>
+      <p><a class="btn" href="/contact">Book your decluttering session</a></p>
+    </div>
+  </section>
+
+  <script is:inline>
+    const tabs = document.querySelectorAll('.tab');
+    const panels = document.querySelectorAll('.tab-panel');
+    tabs.forEach(btn => btn.addEventListener('click', () => {
+      tabs.forEach(b => b.classList.remove('is-active'));
+      panels.forEach(p => p.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      document.getElementById(btn.dataset.target).classList.add('is-active');
+    }));
+  </script>
+</Base>

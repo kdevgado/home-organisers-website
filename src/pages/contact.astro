@@ -11,21 +11,14 @@ import Base from "../layouts/Base.astro";
     </p>
 
     <form
+      id="booking-form"
+      class="booking-form"
+      novalidate
       name="contact"
       method="POST"
       data-netlify="true"
       netlify-honeypot="bot-field"
     >
-      <!-- Honeypot field (spam protection) -->
-      <input type="hidden" name="form-name" value="contact" />
-      <p class="hidden">
-        <label
-          >Don’t fill this out if you’re human: <input
-            name="bot-field"
-          /></label
-        >
-      </p>
-
       <div class="grid-2">
         <label>
           Name
@@ -51,17 +44,15 @@ import Base from "../layouts/Base.astro";
       <label>
         Which service are you after?
         <select name="service">
-          <option value="Space Efficiency">Space Efficiency</option>
-          <option value="Specialised Needs Support"
-            >Specialised Needs Support</option
-          >
-          <option value="Technical Approach">Technical Approach</option>
-          <option value="Fit for purpose and style"
-            >Fit for purpose and style</option
+          <option value="Home Decluttering">Home Decluttering</option>
+          <option value="Practical Organising">Practical Organising</option>
+          <option value="Homeshare and Co-living"
+            >Homeshare and Co-living</option
           >
           <option value="Share house & co-living"
-            >Share house & co-living</option
+            >Moving Houses & Setting Up</option
           >
+          <option value="Staging to Sell/Lease">Staging to Sell/Lease</option>
           <option value="Other">Other / Not sure</option>
         </select>
       </label>
@@ -81,24 +72,18 @@ import Base from "../layouts/Base.astro";
             type="text"
             id="booking-date"
             name="booking_date"
+            required
             placeholder="Pick a date"
             autocomplete="off"
             inputmode="none"
           />
         </label>
-
-        <fieldset class="slot-fieldset">
-          <legend>Available times (30-min)</legend>
-          <div id="slot-grid" class="slot-grid" aria-live="polite">
-            <div class="slot-empty muted">Select a date to see times.</div>
-          </div>
-        </fieldset>
       </div>
 
-      <button class="btn" type="submit">Book consultation</button>
+      <button class="btn" id="book-btn" type="submit">Book consultation</button>
 
       <p class="muted small">
-        You'll get an email confirmation with a calendar invite. Times shown use
+        You’ll get an email confirmation with a calendar invite. Times shown use
         your local timezone.
       </p>
       <p class="muted small">

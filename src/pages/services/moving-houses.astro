@@ -1,0 +1,71 @@
+---
+import Base from "../../layouts/Base.astro";
+import "../../../public/styles/services.css";
+const page = {
+  title: "Moving Houses & Setting Up — Shepparton Home Organising",
+  description: "From packing to unpacking, we make moving house less stressful and help you set up your new home with ease."
+};
+---
+<Base {...page} canonical="https://homeorg.com.au/services/moving-houses" href="/styles/services.css">
+  <section class="container services-hero">
+    <h1>Moving Houses & Setting Up</h1>
+    <p class="lead">We support you through the move — decluttering before, packing smart, and setting up your new home beautifully.</p>
+
+    <div class="tabs">
+      <button class="tab is-active" data-target="prep">Pre-Move Prep</button>
+      <button class="tab" data-target="packing">Packing</button>
+      <button class="tab" data-target="setup">New Home Setup</button>
+    </div>
+
+    <div class="tab-panels">
+      <div id="prep" class="tab-panel is-active">
+        <img src="/images/services/prep.png" alt="Pre-move preparation" />
+        <h2>Pre-Move: declutter first</h2>
+        <ul class="checklist">
+          <li>Sort and donate before packing.</li>
+          <li>Label boxes by room.</li>
+          <li>Essentials bag packed separately.</li>
+        </ul>
+      </div>
+      <div id="packing" class="tab-panel">
+        <img src="/images/services/packing.png" alt="Packing boxes" />
+        <h2>Packing: smart & efficient</h2>
+        <ul class="checklist">
+          <li>Protect fragile items properly.</li>
+          <li>Colour-coded labels by room.</li>
+          <li>Moving-day survival kit ready.</li>
+        </ul>
+      </div>
+      <div id="setup" class="tab-panel">
+        <img src="/images/services/setup.png" alt="New home setup" />
+        <h2>Setup: settle in fast</h2>
+        <ul class="checklist">
+          <li>Unpack essentials first.</li>
+          <li>Arrange furniture with flow in mind.</li>
+          <li>Organise storage from the start.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>What you get</h3>
+      <ul class="pill-list">
+        <li>Decluttering before the move</li>
+        <li>Efficient packing systems</li>
+        <li>Quick new-home organisation</li>
+      </ul>
+      <p><a class="btn" href="/contact">Book moving support</a></p>
+    </div>
+  </section>
+
+  <script is:inline>
+    const tabs = document.querySelectorAll('.tab');
+    const panels = document.querySelectorAll('.tab-panel');
+    tabs.forEach(btn => btn.addEventListener('click', () => {
+      tabs.forEach(b => b.classList.remove('is-active'));
+      panels.forEach(p => p.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      document.getElementById(btn.dataset.target).classList.add('is-active');
+    }));
+  </script>
+</Base>

@@ -1,0 +1,71 @@
+---
+import Base from "../../layouts/Base.astro";
+import "../../../public/styles/services.css";
+const page = {
+  title: "Practical Organising — Shepparton Home Organising",
+  description: "Simplify daily life with practical organising systems that keep your home and routines running smoothly."
+};
+---
+<Base {...page} canonical="https://homeorg.com.au/services/practical-organising" href="/styles/services.css">
+  <section class="container services-hero">
+    <h1>Practical Organising</h1>
+    <p class="lead">We set up clear, easy-to-maintain systems so everything has a place and your day runs more smoothly.</p>
+
+    <div class="tabs">
+      <button class="tab is-active" data-target="kitchen">Kitchen</button>
+      <button class="tab" data-target="wardrobe">Wardrobe</button>
+      <button class="tab" data-target="office">Home Office</button>
+    </div>
+
+    <div class="tab-panels">
+      <div id="kitchen" class="tab-panel is-active">
+        <img src="/images/services/kitchen.png" alt="Organised kitchen" />
+        <h2>Kitchen: meal prep made simple</h2>
+        <ul class="checklist">
+          <li>Zone-based cupboards (baking, pantry, snacks).</li>
+          <li>Clear containers with easy labels.</li>
+          <li>Quick inventory system to avoid double-buying.</li>
+        </ul>
+      </div>
+      <div id="wardrobe" class="tab-panel">
+        <img src="/images/services/wardrobe.png" alt="Organised wardrobe" />
+        <h2>Wardrobe: dress without stress</h2>
+        <ul class="checklist">
+          <li>Capsule wardrobe categories.</li>
+          <li>Slim hangers to maximise space.</li>
+          <li>Donation bag always ready.</li>
+        </ul>
+      </div>
+      <div id="office" class="tab-panel">
+        <img src="/images/services/office.png" alt="Organised office" />
+        <h2>Home Office: focus restored</h2>
+        <ul class="checklist">
+          <li>Cable management solutions.</li>
+          <li>Simple filing and digital backups.</li>
+          <li>Decluttered desktop, calming vibe.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>What you get</h3>
+      <ul class="pill-list">
+        <li>Tailored storage systems</li>
+        <li>Decluttering guidance</li>
+        <li>Daily habit tips</li>
+      </ul>
+      <p><a class="btn" href="/contact">Book your organising session</a></p>
+    </div>
+  </section>
+
+  <script is:inline>
+    const tabs = document.querySelectorAll('.tab');
+    const panels = document.querySelectorAll('.tab-panel');
+    tabs.forEach(btn => btn.addEventListener('click', () => {
+      tabs.forEach(b => b.classList.remove('is-active'));
+      panels.forEach(p => p.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      document.getElementById(btn.dataset.target).classList.add('is-active');
+    }));
+  </script>
+</Base>

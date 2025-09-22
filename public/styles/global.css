@@ -231,6 +231,32 @@ body{
   display:grid;place-items:center;font-weight:700;box-shadow:0 6px 16px rgba(20,184,166,.35)
 }
 
+.testimonials {
+      margin: 4rem auto;
+      text-align: center;
+    }
+    .testimonial-grid {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      margin-top: 2rem;
+    }
+    .testimonial-grid .card {
+      padding: 1.5rem;
+      border-radius: 1rem;
+      background: #f9fafb;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    .quote {
+      font-style: italic;
+      color: #334155;
+    }
+    .author {
+      margin-top: 0.8rem;
+      font-weight: 600;
+      color: #0f172a;
+    }
+
 /* FAQ */
 .faq details{border:1px solid #efe7e1;border-radius:var(--radius);padding:.9rem 1rem;margin:.6rem 0;background:#fff}
 .faq summary{font-weight:700;cursor:pointer}
@@ -255,7 +281,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--ring);border-col
 
 /* Typography */
 h1,h2,h3{line-height:1.2}
-h1{font-size:clamp(1.9rem,3.6vw,2.6rem);margin:0 0 .6rem}
+h1{font-size:clamp(1.9rem,3.6vw,2.6rem);margin:0 0 .6rem;}
 h2{font-size:clamp(1.35rem,2.4vw,1.7rem);margin-top:2rem}
 
 /* Floating CTA for mobile */

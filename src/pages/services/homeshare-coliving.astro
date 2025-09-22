@@ -1,0 +1,71 @@
+---
+import Base from "../../layouts/Base.astro";
+import "../../../public/styles/services.css";
+const page = {
+  title: "Homeshare & Co-living — Shepparton Home Organising",
+  description: "Create harmony in shared homes with clear organising systems, fair use zones, and storage solutions."
+};
+---
+<Base {...page} canonical="https://homeorg.com.au/services/homeshare-coliving" href="/styles/services.css">
+  <section class="container services-hero">
+    <h1>Homeshare & Co-living</h1>
+    <p class="lead">We help set up shared homes so everyone has their space and daily life runs smoothly together.</p>
+
+    <div class="tabs">
+      <button class="tab is-active" data-target="common">Common Areas</button>
+      <button class="tab" data-target="kitchen">Shared Kitchen</button>
+      <button class="tab" data-target="storage">Personal Storage</button>
+    </div>
+
+    <div class="tab-panels">
+      <div id="common" class="tab-panel is-active">
+        <img src="/images/services/common.png" alt="Shared living space" />
+        <h2>Common Areas: reduce friction</h2>
+        <ul class="checklist">
+          <li>Neutral décor for inclusivity.</li>
+          <li>Clear schedules for cleaning duties.</li>
+          <li>Defined shared vs personal zones.</li>
+        </ul>
+      </div>
+      <div id="kitchen" class="tab-panel">
+        <img src="/images/services/shared-kitchen.png" alt="Shared kitchen" />
+        <h2>Shared Kitchen: clear boundaries</h2>
+        <ul class="checklist">
+          <li>Labelled shelves for each person.</li>
+          <li>Shared staples vs personal groceries.</li>
+          <li>Rotating fridge clean-outs.</li>
+        </ul>
+      </div>
+      <div id="storage" class="tab-panel">
+        <img src="/images/services/storage.png" alt="Personal storage" />
+        <h2>Personal Storage: privacy respected</h2>
+        <ul class="checklist">
+          <li>Lockable boxes or cupboards.</li>
+          <li>Colour-coded baskets.</li>
+          <li>Easy access for quick tidying.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>What you get</h3>
+      <ul class="pill-list">
+        <li>Conflict-free systems</li>
+        <li>Fair sharing solutions</li>
+        <li>Peaceful home balance</li>
+      </ul>
+      <p><a class="btn" href="/contact">Book a homeshare setup</a></p>
+    </div>
+  </section>
+
+  <script is:inline>
+    const tabs = document.querySelectorAll('.tab');
+    const panels = document.querySelectorAll('.tab-panel');
+    tabs.forEach(btn => btn.addEventListener('click', () => {
+      tabs.forEach(b => b.classList.remove('is-active'));
+      panels.forEach(p => p.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      document.getElementById(btn.dataset.target).classList.add('is-active');
+    }));
+  </script>
+</Base>

@@ -1,0 +1,71 @@
+---
+import Base from "../../layouts/Base.astro";
+import "../../../public/styles/services.css";
+const page = {
+  title: "Staging to Sell/Lease — Shepparton Home Organising",
+  description: "Showcase your home at its best. We style and stage rooms so buyers and renters instantly feel at home."
+};
+---
+<Base {...page} canonical="https://homeorg.com.au/services/staging-sell-lease" href="/styles/services.css">
+  <section class="container services-hero">
+    <h1>Staging to Sell/Lease</h1>
+    <p class="lead">We stage your property so it shines in photos and inspections, maximising its appeal and value.</p>
+
+    <div class="tabs">
+      <button class="tab is-active" data-target="entry">Entryway</button>
+      <button class="tab" data-target="living">Living Areas</button>
+      <button class="tab" data-target="bedroom">Bedrooms</button>
+    </div>
+
+    <div class="tab-panels">
+      <div id="entry" class="tab-panel is-active">
+        <img src="/images/services/entryway.png" alt="Welcoming entryway" />
+        <h2>Entryway: first impressions count</h2>
+        <ul class="checklist">
+          <li>Decluttered, fresh, inviting.</li>
+          <li>Statement piece for impact.</li>
+          <li>Warm lighting for welcome feel.</li>
+        </ul>
+      </div>
+      <div id="living" class="tab-panel">
+        <img src="/images/services/staging-living.png" alt="Staged living room" />
+        <h2>Living Areas: light & spacious</h2>
+        <ul class="checklist">
+          <li>Furniture arranged for flow.</li>
+          <li>Neutral palette with accents.</li>
+          <li>Decluttered surfaces and décor.</li>
+        </ul>
+      </div>
+      <div id="bedroom" class="tab-panel">
+        <img src="/images/services/staging-bedroom.png" alt="Staged bedroom" />
+        <h2>Bedrooms: calm retreats</h2>
+        <ul class="checklist">
+          <li>Crisp bedding with cushions.</li>
+          <li>Minimal personal items.</li>
+          <li>Balanced layout for rest feel.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>What you get</h3>
+      <ul class="pill-list">
+        <li>Professional staging advice</li>
+        <li>Hands-on setup</li>
+        <li>Photo-ready presentation</li>
+      </ul>
+      <p><a class="btn" href="/contact">Book staging service</a></p>
+    </div>
+  </section>
+
+  <script is:inline>
+    const tabs = document.querySelectorAll('.tab');
+    const panels = document.querySelectorAll('.tab-panel');
+    tabs.forEach(btn => btn.addEventListener('click', () => {
+      tabs.forEach(b => b.classList.remove('is-active'));
+      panels.forEach(p => p.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      document.getElementById(btn.dataset.target).classList.add('is-active');
+    }));
+  </script>
+</Base>

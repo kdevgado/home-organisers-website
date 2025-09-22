@@ -1,10 +1,10 @@
-// public/js/contact.js (email-only)
+// /public/js/contact.js
 const toast = document.getElementById("toast");
 const form = document.getElementById("booking-form");
-const btn =
-  document.getElementById("book-btn") ||
-  document.querySelector("button[type=submit]");
+const btn = document.getElementById("book-btn");
+const dateInput = document.getElementById("booking-date");
 
+// Show a toast
 function showToast(msg, { error = false } = {}) {
   if (!toast) return;
   toast.textContent = msg;
@@ -13,40 +13,44 @@ function showToast(msg, { error = false } = {}) {
   setTimeout(() => toast.classList.remove("show"), 3500);
 }
 
+// Init date picker (keep for convenience)
+window.addEventListener("load", () => {
+  if (window.flatpickr) {
+    flatpickr("#booking-date", {
+      minDate: "today",
+      dateFormat: "Y-m-d",
+      altInput: true,
+      altFormat: "D, d M Y",
+      weekNumbers: true,
+    });
+  }
+});
+
+// Submit: let Netlify handle the form
 form?.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const fd = new FormData(form);
-  const payload = Object.fromEntries(fd.entries());
-
-  if (!payload.name?.trim() || !payload.email?.trim()) {
+  const name = form.elements["name"]?.value?.trim();
+  const email = form.elements["email"]?.value?.trim();
+  if (!name || !email) {
     showToast("Please enter your name and email.", { error: true });
     return;
   }
 
-  const original = btn?.innerHTML;
-  btn?.setAttribute("disabled", "true");
-  if (btn) btn.innerHTML = "Sending…";
-
+  // Submit directly to Netlify
   try {
-    const res = await fetch("/.netlify/functions/send-email", {
+    const formData = new FormData(form);
+    const res = await fetch("/", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
+      body: formData,
     });
 
-    if (!res.ok) {
-      const t = await res.text().catch(() => "");
-      throw new Error(t || "Failed to send email");
-    }
+    if (!res.ok) throw new Error("Form submission failed");
 
-    showToast("Thanks! Your message has been sent.");
     form.reset();
+    showToast("Thanks! Your message has been sent.");
   } catch (err) {
     console.error(err);
-    showToast("Sorry—couldn’t send email. Please try again.", { error: true });
-  } finally {
-    btn?.removeAttribute("disabled");
-    if (btn && original) btn.innerHTML = original;
+    showToast("Something went wrong. Please try again.", { error: true });
   }
 });
