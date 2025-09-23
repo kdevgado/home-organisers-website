@@ -700,6 +700,7 @@ button[aria-busy="true"]::after{
 
 /* Page heading: subtle underline & accent */
 .container.narrow h1 {
+  padding:1rem 0 .2rem;
   position: relative;
   margin-bottom: .75rem;
   letter-spacing: .2px;
@@ -727,7 +728,7 @@ button[aria-busy="true"]::after{
 }
 
 /* Inputs live inside the card – keep them airy */
-.booking-form label { display: block; margin-bottom: 1rem; color: #fff}
+.booking-form label { display: block; margin-bottom: 1rem; color: var(--ink) }
 .booking-form .grid-2 { display:grid; gap:1rem; grid-template-columns:1fr 1fr; }
 @media (max-width: 720px){ .booking-form .grid-2 { grid-template-columns:1fr; } }
 
@@ -817,11 +818,13 @@ button[aria-busy="true"]::after{
     background: linear-gradient(180deg,#0b1220,#0b1220);
     border-color: rgba(255,255,255,.08);
   }
+  .booking-form label { color: #e6edf6; }   /* <-- add this line */
   .slot-btn {
     background:#0e172a; border-color: rgba(255,255,255,.1); color:#e6edf6;
   }
   .slot-btn:hover { background:#111d33; }
 }
+
 
 /* Reduced motion: respect user preference */
 @media (prefers-reduced-motion: reduce){
@@ -879,4 +882,36 @@ button[aria-busy="true"]::after{
 
 @media (max-width: 700px) {
   .carousel-btn { display: block; }
+}
+.fb-wrap {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap; /* stacks neatly on mobile */
+  margin-top: 1rem;
+}
+
+.footer-questions {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.4;
+  text-align: center;
+}
+
+.footer-questions a {
+  color: var(--brand-dark);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.footer-questions a:hover {
+  text-decoration: underline;
+}
+
+.footer-questions .email .label {
+  color: #6b7280; /* Tailwind's gray-500 equivalent */
+  font-weight: 600;
+  margin-right: 4px;
 }
