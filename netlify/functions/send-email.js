@@ -63,7 +63,55 @@ export async function handler(event) {
       `,
     };
 
+    // Send to site owner (you)
     await transporter.sendMail(mailOptions);
+
+    // Auto-reply to user
+    if (email) {
+      const autoReply = {
+        from: `"Home Organisers Australia" <${process.env.GMAIL_USER}>`,
+        to: email,
+        subject: "Thanks for reaching out!",
+        text: `
+Hi ${name},
+
+Thanks for contacting Home Organisers Australia. 
+We've received your enquiry and will get back to you shortly.
+
+Here's a copy of what you sent:
+--------------------------------
+Service: ${service}
+Booking date: ${booking_date || "N/A"}
+Message:
+${message || "N/A"}
+--------------------------------
+
+Talk soon,  
+Rowee & John  
+Home Organisers Australia
+    `,
+        html: `
+      <p>Hi <strong>${name}</strong>,</p>
+      <p>Thanks for contacting <strong>Home Organisers Australia</strong>. 
+      We've received your enquiry and will get back to you shortly.</p>
+
+      <p><em>Here's a copy of what you sent:</em></p>
+      <hr>
+      <p><strong>Service:</strong> ${service}</p>
+      <p><strong>Booking date:</strong> ${booking_date || "N/A"}</p>
+      <p><strong>Message:</strong><br>${
+        message ? message.replace(/\n/g, "<br>") : "N/A"
+      }</p>
+      <hr>
+
+      <p>Talk soon,<br>
+      Rowee & John<br>
+      <strong>Home Organisers Australia</strong></p>
+    `,
+      };
+
+      await transporter.sendMail(autoReply);
+    }
 
     return {
       statusCode: 200,
