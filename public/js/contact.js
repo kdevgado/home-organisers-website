@@ -13,7 +13,7 @@ function showToast(msg, { error = false } = {}) {
   setTimeout(() => toast.classList.remove("show"), 3500);
 }
 
-// Init date picker (keep for convenience)
+// Init date picker
 window.addEventListener("load", () => {
   if (window.flatpickr) {
     flatpickr("#booking-date", {
@@ -26,7 +26,7 @@ window.addEventListener("load", () => {
   }
 });
 
-// Submit: let Netlify handle the form
+// Submit handler
 form?.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -37,20 +37,37 @@ form?.addEventListener("submit", async (e) => {
     return;
   }
 
-  // Submit directly to Netlify
   try {
-    const formData = new FormData(form);
-    const res = await fetch("/", {
+    btn.disabled = true;
+    btn.textContent = "Sending...";
+
+    // Collect form data
+    const formData = {
+      name: form.elements["name"].value,
+      email: form.elements["email"].value,
+      phone: form.elements["phone"]?.value || "",
+      suburb: form.elements["suburb"]?.value || "",
+      service: form.elements["service"]?.value || "General enquiry",
+      message: form.elements["message"]?.value || "",
+      booking_date: form.elements["booking_date"]?.value || "",
+    };
+
+    // Send to Netlify Function
+    const res = await fetch("/.netlify/functions/send-email", {
       method: "POST",
-      body: formData,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
     });
 
     if (!res.ok) throw new Error("Form submission failed");
 
     form.reset();
-    showToast("Thanks! Your message has been sent.");
+    showToast("✅ Thanks! Your message has been sent.");
   } catch (err) {
     console.error(err);
-    showToast("Something went wrong. Please try again.", { error: true });
+    showToast("❌ Something went wrong. Please try again.", { error: true });
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Book consultation";
   }
 });

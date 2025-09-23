@@ -148,6 +148,12 @@ body{
 .badges{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem}
 .badge{background:#e6f7f4;border:1px solid #ccefe9;color:#0f766e;font-weight:700;padding:.35rem .6rem;border-radius:999px;font-size:.9rem}
 .cta-row{display:flex;gap:.75rem;align-items:center;margin:.75rem 0 0}
+/* Hide the CTA row on mobile screens */
+@media (max-width: 700px) {
+  .cta-row {
+    display: none;
+  }
+}
 
 /* Carousel */
 .carousel{position:relative;height:700px;margin-top:.3rem;overflow:hidden;border-radius:var(--radius)}
@@ -193,7 +199,7 @@ body{
 }
 .service-card .icon-wrap{display:flex;align-items:center;justify-content:center;margin-bottom:.6rem}
 .service-icon{
-  width:42px;height:42px;color:var(--brand-dark);opacity:.95;
+  width:100px;height:100px;color:var(--brand-dark);opacity:.95;
   transition:transform .25s ease,color .2s ease,filter .2s ease;will-change:transform
 }
 .service-card:hover{
