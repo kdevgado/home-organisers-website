@@ -94,8 +94,14 @@ const {
       <slot />
     </main>
 
-    <!-- Sticky CTA (example) -->
-    <a class="floating-cta" href="contact/">Book a free 15-min chat</a>
+    <!-- Sticky CTA (hidden on contact page) -->
+    {
+      Astro.url.pathname !== "/contact" && (
+        <a class="floating-cta" href="/contact">
+          Book a free 30-min chat
+        </a>
+      )
+    }
 
     <!-- Footer -->
     <footer class="site-footer">
@@ -110,44 +116,57 @@ const {
         </p>
       </div>
 
-     <section class="fb-section">
-  <h2 class="fb-heading">Follow us on Facebook</h2>
+      <!-- Footer nav -->
+      <nav class="footer-nav">
+        <a href="/">Home</a>
+        <a href="/services">Services</a>
+        <a href="/about">About</a>
+        <a href="/clutterbug-styles">Clutterbug Styles</a>
+        <a href="/before-after">Gallery</a>
+        <a href="/contact">Contact</a>
+      </nav>
 
-  <div class="fb-wrap">
-    <!-- Facebook plugin -->
-    <div id="fb-plugin-anchor">
-      <div
-        class="fb-page"
-        data-href="https://www.facebook.com/HomeOrgAustralia"
-        data-tabs="timeline"
-        data-width="380"
-        data-height="420"
-        data-small-header="false"
-        data-adapt-container-width="true"
-        data-hide-cover="false"
-        data-show-facepile="true"
-      >
-        <blockquote
-          cite="https://www.facebook.com/HomeOrgAustralia"
-          class="fb-xfbml-parse-ignore"
-        >
-          <a href="https://www.facebook.com/HomeOrgAustralia" target="_blank" rel="noopener noreferrer">
-            Home Organisers Australia on Facebook
-          </a>
-        </blockquote>
-      </div>
-    </div>
+      <section class="fb-section">
+        <h2 class="fb-heading">Follow us on Facebook</h2>
 
-    <!-- Questions / Email block -->
-    <div class="footer-questions">
-      <div class="q">Questions?</div>
-      <a class="email" href="mailto:roweedelgado@homeorg.com.au">
-        <span class="label">Email:</span> roweedelgado@homeorg.com.au</a>
-    </div>
-  </div>
-</section>
+        <div class="fb-wrap">
+          <!-- Facebook plugin -->
+          <div id="fb-plugin-anchor">
+            <div
+              class="fb-page"
+              data-href="https://www.facebook.com/HomeOrgAustralia"
+              data-tabs="timeline"
+              data-width="380"
+              data-height="420"
+              data-small-header="false"
+              data-adapt-container-width="true"
+              data-hide-cover="false"
+              data-show-facepile="true"
+            >
+              <blockquote
+                cite="https://www.facebook.com/HomeOrgAustralia"
+                class="fb-xfbml-parse-ignore"
+              >
+                <a
+                  href="https://www.facebook.com/HomeOrgAustralia"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Home Organisers Australia on Facebook
+                </a>
+              </blockquote>
+            </div>
+          </div>
 
-
+          <!-- Questions / Email block -->
+          <div class="footer-questions">
+            <div class="q">Questions?</div>
+            <a class="email" href="mailto:roweedelgado@homeorg.com.au">
+              <span class="label">Email:</span> roweedelgado@homeorg.com.au</a
+            >
+          </div>
+        </div>
+      </section>
     </footer>
 
     <!-- ⬇️ IMPORTANT: overlay + drawer live directly under <body>, not inside <header> -->
