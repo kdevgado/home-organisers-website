@@ -654,11 +654,6 @@ button[aria-busy="true"]::after{
 .social-btn.fb:hover::before,
 .social-btn.fb:focus-visible::before { opacity: 1; }
 
-/* Fancy hover hotspot — optional (mouse position glow) */
-.social-btn.fb {
-  /* update custom properties via JS for hotspot, but looks fine without */
-}
-
 /* Drawer link with icon */
 .mobile-social.fb {
   display: flex;
@@ -948,25 +943,6 @@ button[aria-busy="true"]::after{
   color: #6b7280; /* Tailwind's gray-500 equivalent */
   font-weight: 600;
   margin-right: 4px;
-}
-
-.testimonials {
-  margin: 5rem auto;
-  text-align: center;
-}
-
-.testimonial-grid {
-  display: grid;
-  gap: 2rem;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-}
-
-.testimonial-card {
-  background: #fff;
-  padding: 2rem;
-  border-radius: 16px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-  text-align: left;
 }
 
 .testimonial-card .profile {

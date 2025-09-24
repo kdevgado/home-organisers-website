@@ -4,6 +4,7 @@ const {
   description = "Warm, non-judgemental decluttering and home organising for Shepparton and the Goulburn Valley. Simple systems, local care, and lasting calm.",
   canonical,
 } = Astro.props;
+const showCTA = Astro.url.pathname !== "/contact";
 ---
 
 <!doctype html>
@@ -95,13 +96,11 @@ const {
     </main>
 
     <!-- Sticky CTA (hidden on contact page) -->
-    {
-      Astro.url.pathname !== "/contact" && (
-        <a class="floating-cta" href="/contact">
-          Book a free 30-min chat
-        </a>
-      )
-    }
+    {showCTA && (
+      <a class="floating-cta" href="/contact">
+        Book a free 30-min chat
+      </a>
+    )}
 
     <!-- Footer -->
     <footer class="site-footer">
