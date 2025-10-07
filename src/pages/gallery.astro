@@ -1,0 +1,153 @@
+---
+import Base from "../layouts/Base.astro";
+import BeforeAfterComponent from "../components/BeforeAfter.astro";
+---
+
+<Base title="Before & After — Real Home Transformations">
+  <section class="container services-hero">
+    <h1>Gallery</h1>
+    <p>
+      <strong>Real homes. Real results.</strong> Here's a peek at the kind of change
+      simple systems can make.
+    </p>
+
+    <!-- 🖼️ GALLERY SECTION -->
+    <div class="gallery">
+      <!-- Mickelham -->
+       <img src="/images/gallery/mickelham/4.jpg" alt=" organisation" />
+      <img src="/images/gallery/mickelham/5.jpg" alt=" organisation" />
+      <img src="/images/gallery/mickelham/1.jpg" alt=" organisation" />
+      <img src="/images/gallery/mickelham/2.jpg" alt=" organisation" />
+      <img src="/images/gallery/mickelham/3.jpg" alt=" organisation" />
+
+      <img src="/images/gallery/mickelham/6.jpg" alt=" organisation" />
+      <img src="/images/gallery/mickelham/7.jpg" alt=" organisation" />
+      <img src="/images/gallery/mickelham/8.jpg" alt=" organisation" />
+      <img src="/images/gallery/mickelham/9.jpg" alt=" organisation" />
+      <img src="/images/gallery/mickelham/10.jpg" alt=" organisation" />
+      <img src="/images/gallery/mickelham/11.jpg" alt=" organisation" />
+    
+      <!-- Sharehouse -->
+      <img src="/images/gallery/sharehouse/1.jpg" alt="Closet organisation" />
+      <img src="/images/gallery/sharehouse/2.jpg" alt="Closet organisation" />
+      <img src="/images/gallery/sharehouse/3.jpg" alt="Closet organisation" />
+      <img src="/images/gallery/sharehouse/4.jpg" alt="Closet organisation" />
+      <img src="/images/gallery/sharehouse/5.jpg" alt="Closet organisation" />
+      <img src="/images/gallery/sharehouse/6.jpg" alt="Closet organisation" />
+      <img src="/images/gallery/sharehouse/7.jpg" alt="Closet organisation" />
+      
+      <!-- Mickelham -->
+       <img src="/images/gallery/gladstone/1.jpg" alt=" organisation" />
+       <img src="/images/gallery/gladstone/2.jpg" alt=" organisation" />
+       <img src="/images/gallery/gladstone/3.jpg" alt=" organisation" />
+       <img src="/images/gallery/gladstone/4.jpg" alt=" organisation" />
+    </div>
+
+    <!-- LIGHTBOX MODAL -->
+    <div id="lightbox" class="lightbox hidden">
+      <span class="close">&times;</span>
+      <img class="lightbox-image" src="" alt="Expanded view" />
+      <button class="prev">&#10094;</button>
+      <button class="next">&#10095;</button>
+    </div>
+
+    <h2>Before - After</h2>
+
+    <div class="ba-grid">
+      <BeforeAfterComponent
+        before="/images/gallery/pantry before.jpg"
+        after="/images/gallery/pantry.jpg"
+        alt="Pantry organised with labelled containers"
+        labelBefore="Before"
+        labelAfter="After"
+        start={55}
+      />
+
+      <p><strong>Furniture.</strong></p>
+      <BeforeAfterComponent
+        before="/images/gallery/pantry_corner_before2.jpg"
+        after="/images/gallery/pantry_corner.jpg"
+        alt="Pantry organised with labelled containers"
+        labelBefore="Before"
+        labelAfter="After"
+        start={55}
+      />
+    </div>
+
+    <p class="muted">
+      More transformations coming soon. Each session focuses on practical,
+      maintainable changes — not show-home perfection.
+    </p>
+    <p>
+      <a class="btn" href="/contact"
+        >Be the next transformation — book your session</a
+      >
+    </p>
+  </section>
+
+  <!-- 💡 GALLERY & LIGHTBOX SCRIPT -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const galleryImages =
+        document.querySelectorAll<HTMLImageElement>(".gallery img");
+      const lightbox = document.getElementById(
+        "lightbox"
+      ) as HTMLElement | null;
+      const lightboxImage =
+        document.querySelector<HTMLImageElement>(".lightbox-image");
+      const closeBtn = document.querySelector<HTMLSpanElement>(".close");
+      const nextBtn = document.querySelector<HTMLButtonElement>(".next");
+      const prevBtn = document.querySelector<HTMLButtonElement>(".prev");
+      let currentIndex = 0;
+
+      if (!lightbox || !lightboxImage || !closeBtn || !nextBtn || !prevBtn)
+        return;
+
+      galleryImages.forEach((img, index) => {
+        img.addEventListener("click", () => {
+          currentIndex = index;
+          openLightbox();
+        });
+      });
+
+      function openLightbox() {
+        lightbox!.classList.remove("hidden");
+        showImage(currentIndex);
+      }
+
+      function showImage(index: number) {
+        lightboxImage!.src = galleryImages[index].src;
+      }
+
+      function closeLightbox() {
+        lightbox!.classList.add("hidden");
+      }
+
+      function nextImage() {
+        currentIndex = (currentIndex + 1) % galleryImages.length;
+        showImage(currentIndex);
+      }
+
+      function prevImage() {
+        currentIndex =
+          (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+        showImage(currentIndex);
+      }
+
+      closeBtn.addEventListener("click", closeLightbox);
+      nextBtn.addEventListener("click", nextImage);
+      prevBtn.addEventListener("click", prevImage);
+
+      lightbox.addEventListener("click", (e) => {
+        if (e.target === lightbox) closeLightbox();
+      });
+
+      window.addEventListener("keydown", (e) => {
+        if (lightbox.classList.contains("hidden")) return;
+        if (e.key === "ArrowRight") nextImage();
+        if (e.key === "ArrowLeft") prevImage();
+        if (e.key === "Escape") closeLightbox();
+      });
+    });
+  </script>
+</Base>
