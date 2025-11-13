@@ -5,6 +5,7 @@ const {
   canonical,
 } = Astro.props;
 const showCTA = Astro.url.pathname !== "/contact";
+const showCompetitionBanner = Astro.url.pathname !== "/competition";
 ---
 
 <!doctype html>
@@ -95,6 +96,34 @@ const showCTA = Astro.url.pathname !== "/contact";
       <slot />
     </main>
 
+    <!-- Sticky Competition Banner -->
+    {showCompetitionBanner && (
+      <div class="floating-competition-banner" data-competition-banner>
+        <a href="/competition" class="banner-link">
+          <span class="label">New:</span>
+          <span class="text">
+            Win a free home organising makeover - enter now
+          </span>
+        </a>
+        <button
+          type="button"
+          class="banner-close"
+          aria-label="Hide competition announcement"
+          data-banner-close
+        >
+          x
+        </button>
+      </div>
+    )}
+
+    <!-- Sticky Contact page button (hidden on contact page) -->
+    {showCTA && (
+      <a class="floating-cta" href="/contact">
+        Book a free 30-min chat
+      </a>
+    )}
+
+
     <!-- Sticky CTA (hidden on contact page) -->
     {showCTA && (
       <a class="floating-cta" href="/contact">
@@ -167,8 +196,6 @@ const showCTA = Astro.url.pathname !== "/contact";
         </div>
       </section>
     </footer>
-
-    <!-- ⬇️ IMPORTANT: overlay + drawer live directly under <body>, not inside <header> -->
     <div class="mobile-overlay" data-close></div>
 
     <nav id="mobile-nav" class="nav-mobile" aria-hidden="true">
@@ -217,6 +244,7 @@ const showCTA = Astro.url.pathname !== "/contact";
         </li>
         <li class="mobile-item"><a href="/gallery">Gallery</a></li>
         <li class="mobile-item"><a href="/about">About</a></li>
+        <li class="mobile-item"><a href="/competition">Competition</a></li>
         <li class="mobile-item cta">
           <a class="btn" href="/contact">Book a free chat</a>
         </li>
@@ -368,6 +396,35 @@ const showCTA = Astro.url.pathname !== "/contact";
           },
           { passive: true }
         );
+      })();
+    </script>
+
+        <script is:inline>
+      (function () {
+        const banner = document.querySelector("[data-competition-banner]");
+        if (!banner) return;
+
+        // Hide if user previously closed it
+        try {
+          if (localStorage.getItem("hideCompetitionBanner") === "1") {
+            banner.style.display = "none";
+            return;
+          }
+        } catch (e) {
+          // ignore storage errors
+        }
+
+        const closeBtn = banner.querySelector("[data-banner-close]");
+        if (!closeBtn) return;
+
+        closeBtn.addEventListener("click", () => {
+          banner.style.display = "none";
+          try {
+            localStorage.setItem("hideCompetitionBanner", "1");
+          } catch (e) {
+            // ignore
+          }
+        });
       })();
     </script>
   </body>

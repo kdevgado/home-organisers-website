@@ -1103,3 +1103,288 @@ button[aria-busy="true"]::after{
 
 .lightbox .prev { left: 20px; }
 .lightbox .next { right: 20px; }
+
+.announcement-banner {
+  background: #ffefd6;
+  padding: 12px;
+  text-align: center;
+  font-weight: 600;
+  border-bottom: 2px solid #e0c48b;
+}
+.announcement-banner a {
+  color: #333;
+  text-decoration: none;
+}
+
+/* Competition page layout */
+.competition-page {
+  padding: 4rem 0 5rem;
+}
+
+.competition-hero .eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.85rem;
+  color: #888;
+  margin-bottom: 0.5rem;
+}
+
+.competition-hero h1 {
+  font-size: clamp(2.1rem, 3vw, 2.6rem);
+  margin-bottom: 0.75rem;
+}
+
+.competition-hero .lead {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  max-width: 46rem;
+}
+
+.competition-hero .hero-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 2rem;
+  margin-top: 2rem;
+  align-items: flex-start;
+}
+
+.competition-hero .hero-copy .deadline {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+
+.hero-image img {
+  width: 100%;
+  border-radius: 1rem;
+  display: block;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.hero-image figcaption {
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  color: #666;
+}
+
+.competition-section {
+  margin-top: 3rem;
+}
+
+.competition-section h2 {
+  font-size: 1.6rem;
+  margin-bottom: 0.75rem;
+}
+
+.prize-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.prize-card {
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background: #f9fafb;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
+}
+
+.rule-list,
+.steps-list {
+  margin-left: 1.3rem;
+  line-height: 1.7;
+}
+
+.steps-list li + li {
+  margin-top: 0.75rem;
+}
+
+/* FAQ */
+.competition-section.faq details {
+  margin-top: 0.5rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.competition-section.faq summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* T&C note */
+.tc-note small {
+  color: #666;
+}
+
+/* Floating competition banner (top right, dismissible) */
+.floating-competition-banner {
+  position: fixed;
+  top: 7rem; /* sits below header */
+  right: 1rem;
+  z-index: 999;
+  background: #ffe9c7;
+  border-radius: 999px;
+  padding: 0.6rem 0.8rem 0.6rem 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  color: #3c2b1a;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18);
+}
+
+.floating-competition-banner .banner-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.floating-competition-banner .label {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.75rem;
+}
+
+.floating-competition-banner .text {
+  font-weight: 500;
+}
+
+.floating-competition-banner .banner-close {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0.1rem 0.3rem;
+  border-radius: 999px;
+}
+
+.floating-competition-banner .banner-close:hover {
+  background: rgba(0, 0, 0, 0.07);
+}
+
+.floating-competition-banner:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.24);
+}
+
+/* Adjust for wider screens */
+@media (min-width: 768px) {
+  .floating-competition-banner {
+    left: auto;
+    right: 1rem;
+    max-width: 420px;
+  }
+
+  .competition-hero .hero-layout {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  }
+
+  .prize-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Mobile tweaks */
+@media (max-width: 767px) {
+  .competition-page {
+    padding-top: 3rem;
+  }
+
+  .competition-hero .hero-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Competition form */
+.competition-form {
+  margin-top: 1.5rem;
+  max-width: 50rem;
+}
+
+.competition-form .hidden-field {
+  display: none;
+}
+
+.competition-form .form-grid {
+  display: grid;
+  gap: 1rem 1.25rem;
+}
+
+.competition-form .form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.competition-form .form-field.full-width {
+  grid-column: 1 / -1;
+}
+
+.competition-form label {
+  font-weight: 500;
+}
+
+.competition-form input[type="text"],
+.competition-form input[type="email"],
+.competition-form input[type="tel"],
+.competition-form input[type="url"],
+.competition-form textarea {
+  padding: 0.6rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid #d3d8df;
+  font: inherit;
+}
+
+.competition-form textarea {
+  resize: vertical;
+}
+
+/* Checkbox rows */
+.competition-form .checkbox-field {
+  /* keep it as a normal field; the label will handle the row layout */
+  flex-direction: column;
+}
+
+.competition-form .checkbox-field label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.competition-form .checkbox-field input[type="checkbox"] {
+  margin-top: 0.15rem; /* aligns nicely with first line of text */
+  margin-right: 0;
+  max-width: 1rem;
+}
+
+.competition-form button[type="submit"] {
+  margin-top: 1rem;
+  padding: 0.75rem 1.2rem;
+  border-radius: 0.8rem;
+  background: var(--brand);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 10px 24px rgba(20,184,166,.25);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background .18s ease, box-shadow .2s ease, transform .06s ease;
+}
+
+.competition-form small {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.competition-form .form-note {
+  margin-top: 0.75rem;
+}
+
+/* Grid tweak for larger screens */
+@media (min-width: 768px) {
+  .competition-form .form-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
