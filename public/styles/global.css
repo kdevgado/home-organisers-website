@@ -40,7 +40,6 @@ body{
 /* Home button next to the logo */
 .home-btn {
   --home-accent: #14b8a6;
-
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -606,6 +605,26 @@ button[aria-busy="true"]::after{
 .sub-list a { padding: 10px 12px; }
 .sub-view-all a { font-weight: 600; }
 
+/* ================================
+   NAVIGATION HOVER HIGHLIGHT
+   (EXCLUDES home-btn + CTA button)
+   ================================ */
+.nav-desktop a:not(.btn):not(.home-btn) {
+  position: relative;
+  color: var(--ink);
+  transition: color 0.25s ease;
+}
+
+.nav-desktop a:not(.btn):not(.home-btn):hover {
+  color: var(--brand-dark);
+  text-shadow: 0 0 6px rgba(20,184,166,0.35);
+}
+
+.nav-desktop a:not(.btn):not(.home-btn):hover::after {
+  width: 100%;
+}
+
+
 /* Responsive: hide desktop nav, show hamburger */
 @media (max-width: 960px) {
   .nav-desktop { display: none; }
@@ -1104,18 +1123,6 @@ button[aria-busy="true"]::after{
 .lightbox .prev { left: 20px; }
 .lightbox .next { right: 20px; }
 
-.announcement-banner {
-  background: #ffefd6;
-  padding: 12px;
-  text-align: center;
-  font-weight: 600;
-  border-bottom: 2px solid #e0c48b;
-}
-.announcement-banner a {
-  color: #333;
-  text-decoration: none;
-}
-
 /* Competition page layout */
 .competition-page {
   padding: 4rem 0 5rem;
@@ -1388,3 +1395,55 @@ button[aria-busy="true"]::after{
   }
 }
 
+.competition-highlight {
+  padding: 4rem 0;
+  background: linear-gradient(135deg, #fff8f2 0%, #fdecdc 100%);
+  border-radius: 20px;
+  margin-top: 3rem;
+}
+
+.comp-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: center;
+}
+
+.comp-text {
+  flex: 1 1 380px;
+}
+
+.comp-image img {
+  width: 100%;
+  max-width: 450px;
+  border-radius: 16px;
+  box-shadow: 0 6px 26px rgba(0,0,0,0.12);
+}
+
+.comp-eyebrow {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #c46c26;
+  margin-bottom: 0.5rem;
+}
+
+.comp-lead {
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.comp-btn {
+  margin-top: 1rem;
+  background: #e06c00;
+  border-radius: 10px;
+}
+
+.comp-btn:hover {
+  background: #c85f00;
+}
+
+.comp-deadline {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #444;
+}

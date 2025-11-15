@@ -8,12 +8,6 @@ const page = {
 ---
 
 <Base {...page}>
-  <section class="announcement-banner">
-    <a href="/competition">
-      ⭐ Win a free home organising makeover! Entries close 18 January → Learn More
-    </a>
-  </section>
-
   <!-- New Carousel Section -->
   <section class="carousel">
     <div class="carousel-inner">
@@ -292,6 +286,34 @@ const page = {
     </div>
   </section>
 
+  <!-- Competition Promo Section -->
+  <section class="competition-highlight">
+    <div class="container comp-wrap">
+      <div class="comp-text">
+        <p class="comp-eyebrow">✨ Special 2026 Giveaway</p>
+        <h2>Win a Free Home Organising Makeover</h2>
+        <p class="comp-lead">
+          Two lucky winners will receive up to 
+          <strong>15 hours of FREE professional organising</strong> 
+          (valued at $1,500).  
+          Show us your space and tell us your story — it could be you!
+        </p>
+
+        <a href="/competition" class="btn comp-btn">Enter Now</a>
+
+        <p class="comp-deadline">
+          Entries close <strong>18 January 2026</strong>
+        </p>
+      </div>
+
+      <div class="comp-image">
+        <img src="/images/competition-promo.jpg" 
+            alt="Home makeover competition"
+        />
+      </div>
+    </div>
+  </section>
+
   <section class="container features">
     <h2>Why locals choose this service</h2>
     <div class="feature-grid">
@@ -323,12 +345,12 @@ const page = {
     </div>
   </section>
 
-  <section class="container testimonials">
+<!-- <section class="container testimonials">
   <h2>What our clients say</h2>
-  <div class="testimonial-grid">
-    <article class="testimonial-card">
-      <div class="profile">
-        <img src="/images/testimonials/man-1.jpg" alt="Daniel" />
+    <div class="testimonial-grid">
+      <article class="testimonial-card">
+        <div class="profile">
+          <img src="/images/testimonials/man-1.jpg" alt="Daniel" />
         <div>
           <p class="author">Daniel, Mooroopna</p>
           <div class="stars">★★★★★</div>
@@ -368,11 +390,11 @@ const page = {
       </p>
     </article>
   </div>
-</section>
+</section> -->
 
-  <section class="container features">
-    <div class="steps">
-      <h2>How it works</h2>
+<section class="container features">
+  <div class="steps">
+    <h2>How it works</h2>
       <ol class="step-list">
         <li>
           <strong>Free phone chat (15 min):</strong> Your goals, your space, your
