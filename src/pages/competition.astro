@@ -23,7 +23,7 @@ const description =
 
         <div class="hero-layout">
           <div class="hero-copy">
-            <a href="#competition-entry-form" class="btn btn-primary">
+            <a href="https://forms.gle/VwFScZJoDKyCxJDR8"  class="btn btn-primary">
                 Enter the Competition
             </a>
 
@@ -103,7 +103,7 @@ const description =
           </li>
         </ol>
 
-        <a href="#competition-entry-form" class="btn btn-secondary">
+        <a href="https://forms.gle/VwFScZJoDKyCxJDR8"  class="btn btn-secondary">
             Enter the Competition Now
         </a>
       </section>
@@ -135,164 +135,36 @@ const description =
         </p>
       </section>
 
-            <!-- ENTRY FORM (Netlify) -->
-      <section class="competition-section" id="competition-entry-form">
-        <h2>Enter the Competition</h2>
-        <p>
-          Please complete the form below and include a link to your 2–3 minute
-          video showing the spaces you would like help with.
-        </p>
+      <section class="competition-section entry-section" id="competition-entry-form">
+        <div class="entry-card">
+          <h2>Enter the Competition</h2>
 
-        <form
-        id="competition-form"
-        name="competition-entry"
-        method="POST"
-        data-netlify="true"
-        netlify-honeypot="bot-field"
-        class="competition-form"
-        >
-          <!-- Required for Netlify form handling -->
-          <input type="hidden" name="form-name" value="competition-entry" />
-
-          <!-- Honeypot field -->
-          <p class="hidden-field">
-            <label>
-              Don't fill this out if you're human:
-              <input name="bot-field" />
-            </label>
+          <p class="entry-intro">
+            We’ve moved entries to a quick and secure Google Form.
+            It only takes <strong>3–5 minutes</strong> to complete.
           </p>
 
-          <div class="form-grid">
-            <div class="form-field">
-              <label for="name">Full Name *</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                required
-                autocomplete="name"
-              />
-            </div>
+          <ul class="entry-list">
+            <li>Have your <strong>2–3 minute video link</strong> ready.</li>
+            <li>Share a few details about your home and your situation.</li>
+            <li>Click submit and you’re in the running!</li>
+          </ul>
 
-            <div class="form-field">
-              <label for="email">Email Address *</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                required
-                autocomplete="email"
-              />
-            </div>
+          <a
+            href="https://forms.gle/VwFScZJoDKyCxJDR8"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn entry-btn"
+          >
+            Enter via Google Forms
+          </a>
 
-            <div class="form-field">
-              <label for="phone">Mobile Number *</label>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                required
-                autocomplete="tel"
-              />
-            </div>
-
-            <div class="form-field">
-              <label for="suburb">Suburb / Town *</label>
-              <input
-                type="text"
-                id="suburb"
-                name="suburb"
-                required
-              />
-              <small>Must be within 1 hour drive of Shepparton, Victoria.</small>
-            </div>
-
-            <div class="form-field">
-              <label for="space-type">Spaces you'd like help with *</label>
-              <input
-                type="text"
-                id="space-type"
-                name="spaceType"
-                placeholder="e.g. pantry, wardrobe, kids' room, home office"
-                required
-              />
-            </div>
-
-            <div class="form-field full-width">
-              <label for="story">
-                Tell us a little about your situation and how clutter is affecting
-                you or your family *
-              </label>
-              <textarea
-                id="story"
-                name="story"
-                rows="5"
-                required
-              ></textarea>
-            </div>
-
-            <div class="form-field full-width">
-              <label for="video-link">
-                Link to your 2-3 minute video (Google Drive, Dropbox, etc.) *
-              </label>
-              <input
-                type="url"
-                id="video-link"
-                name="videoLink"
-                required
-                placeholder="https://"
-              />
-              <small>
-                Make sure your link is set to “Anyone with the link can view”.
-              </small>
-            </div>
-
-            <div class="form-field checkbox-field full-width">
-              <label>
-                <input
-                  type="checkbox"
-                  name="ageConfirm"
-                  value="yes"
-                  required
-                />
-                I confirm I am 21 years or older and own my home.
-              </label>
-            </div>
-
-            <div class="form-field checkbox-field full-width">
-              <label>
-                <input
-                  type="checkbox"
-                  name="consent"
-                  value="yes"
-                  required
-                />
-                I consent to Home Organisers Australia contacting me about this
-                competition and, if I am a winner, to discuss before-and-after
-                photos and sharing my story (with my approval) for marketing and
-                educational purposes.
-              </label>
-            </div>
-          </div>
-
-          <button type="submit" class="btn btn-primary">
-            Submit My Entry
-            </button>
-
-            <p class="form-note" id="competition-status"></p>
-
-            <p class="form-note">
-            <small>
-                After you submit, you'll see a confirmation screen. If you don't,
-                please email
-                <a href="mailto:roweedelgado@homeorg.com.au">
-                roweedelgado@homeorg.com.au
-                </a>
-                to check we received your entry.
-            </small>
-            </p>
-        </form>
+          <p class="entry-note">
+            You’ll be redirected to a Google Form in a new tab.
+          </p>
+        </div>
       </section>
+
 
       <!-- FAQ -->
       <section class="competition-section faq">

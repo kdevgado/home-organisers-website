@@ -1447,3 +1447,79 @@ button[aria-busy="true"]::after{
   font-size: 0.9rem;
   color: #444;
 }
+
+/* Neat Google Form entry card */
+.entry-section {
+  display: flex;
+  justify-content: center;
+}
+
+.entry-card {
+  max-width: 44rem;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2.2rem 2rem;
+  border-radius: 1.4rem;
+  background:
+    radial-gradient(120% 120% at 0% 0%, rgba(var(--brand-rgb), 0.08), transparent 60%),
+    radial-gradient(120% 120% at 100% 100%, rgba(var(--accent-rgb), 0.14), transparent 60%),
+    #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.10);
+  text-align: left;
+}
+
+.entry-intro {
+  margin-top: 0.5rem;
+  margin-bottom: 0.9rem;
+  font-size: 1.02rem;
+  color: var(--ink-soft);
+}
+
+.entry-list {
+  margin: 0 0 1.4rem 1.1rem;
+  padding: 0;
+  color: var(--ink);
+}
+
+.entry-list li + li {
+  margin-top: 0.35rem;
+}
+
+.entry-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  font-size: 1.02rem;
+  padding: 0.9rem 1.6rem;
+  border-radius: 999px;
+}
+
+.entry-btn::after {
+  content: "↗";
+  font-size: 0.95rem;
+}
+
+.entry-note {
+  margin-top: 0.8rem;
+  font-size: 0.82rem;
+  color: #6b7280;
+}
+
+/* Center content on small screens */
+@media (max-width: 720px) {
+  .entry-card {
+    text-align: center;
+    padding: 1.8rem 1.4rem;
+  }
+
+  .entry-list {
+    text-align: left;
+    margin-left: 1.4rem;
+  }
+
+  .entry-btn {
+    width: 100%;
+  }
+}
