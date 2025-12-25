@@ -1,8 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 
-const title =
-  "Win a Free Home Organising Makeover | Home Organisers Australia";
+const title = "Win a Free Home Organising Makeover | Home Organisers Australia";
 const description =
   "Enter for your chance to win up to 15 hours of free professional home organising, plus voucher prizes. Open to homeowners within 1 hour of Shepparton, Victoria.";
 ---
@@ -16,20 +15,25 @@ const description =
         <h1>Win a Free Home Organising Makeover</h1>
         <p class="lead">
           Two lucky winners will receive up to
-          <strong>15 hours of FREE professional decluttering and organising</strong>
+          <strong
+            >15 hours of FREE professional decluttering and organising</strong
+          >
           valued at <strong>$1,500 each</strong>. Plus, ten extra winners will
           receive <strong>$200 vouchers</strong> towards our services.
         </p>
 
         <div class="hero-layout">
           <div class="hero-copy">
-            <a href="https://forms.gle/VwFScZJoDKyCxJDR8"  class="btn btn-primary">
-                Enter the Competition
+            <a
+              href="https://forms.gle/VwFScZJoDKyCxJDR8"
+              class="btn btn-primary"
+            >
+              Enter the Competition
             </a>
 
             <p class="deadline">
               Entries close:
-              <strong>Sunday, 15 March 2026 at midnight</strong>  
+              <strong>Sunday, 15 March 2026 at midnight</strong>
               Winners announced:
               <strong>Sunday, 22 March 2026</strong>
             </p>
@@ -37,7 +41,7 @@ const description =
 
           <figure class="hero-image">
             <img
-              src="/images/competition-promo.jpg"
+              src="/images/competition-promo_new.jpg"
               alt="Free home organising services competition"
             />
             <figcaption>Your home could be our next transformation.</figcaption>
@@ -53,16 +57,15 @@ const description =
             <h3>Major Prizes x 2</h3>
             <p>
               Up to <strong>15 hours of professional home organising</strong>
-              (usually 10-20 work hours) for one home, tailored to your
-              priorities. Ideal for pantries, wardrobes, living spaces, home
-              offices and more.
+              (usually 10-20 work hours) for three rooms/areas in your home, tailored to your priorities.
+              Ideal for pantries, wardrobes, living spaces, home offices and more.
             </p>
           </div>
           <div class="prize-card">
             <h3>Runner-Up Prizes x 10</h3>
             <p>
-              <strong>$200 Home Organisers Australia voucher</strong> to use
-              towards any of our services in 2026.
+              <strong>$200 Home Organisers Australia voucher</strong> to use towards
+              any of our services in 2026.
             </p>
           </div>
         </div>
@@ -73,158 +76,276 @@ const description =
         <h2>Who Can Enter</h2>
         <p>This competition is open to people who:</p>
         <ul class="rule-list">
-          <li>Are <strong>21 years of age or older</strong></li>
           <li>
             <strong>Live within a 1-hour drive of Shepparton, Victoria</strong>
           </li>
-          <li><strong>Own their home</strong></li>
+          <li>Who are <strong>18 years old or older</strong></li>
+
+          <!-- Interactive eligibility map -->
+          <div class="eligibility-map">
+            <h3 class="map-title">Check your area (interactive map)</h3>
+            <p class="map-note">
+              Pins below show common towns around Shepparton that are typically
+              within ~1 hour by car. Travel times can vary depending on traffic
+              and exact address.
+            </p>
+
+            <div
+              id="eligibilityMap"
+              class="map-canvas"
+              aria-label="Map showing eligible towns within approximately 1 hour of Shepparton"
+            >
+            </div>
+
+            <details class="map-towns">
+              <summary>View pinned towns</summary>
+              <ul>
+                <li>Mooroopna</li>
+                <li>Tatura</li>
+                <li>Kyabram</li>
+                <li>Benalla</li>
+                <li>Echuca</li>
+                <li>Cobram</li>
+                <li>Yarrawonga</li>
+                <li>Nagambie</li>
+                <li>Seymour</li>
+                <li>Tocumwal</li>
+              </ul>
+            </details>
+          </div>
         </ul>
-      </section>
 
-      <!-- HOW TO ENTER -->
-      <section class="competition-section">
-        <h2>How to Enter</h2>
-        <ol class="steps-list">
-          <li>
-            <strong>Prepare a short video (2-3 minutes).</strong><br />
-            Show us the space (or spaces) you would like help with and explain
-            why home organising support would make a difference for you or your
-            family.
-          </li>
-          <li>
-            <strong>Complete the online entry form.</strong><br />
-            Share your contact details and a link to your video (for example,
-            uploaded to Google Drive, Dropbox, or another sharing service).
-          </li>
-          <li>
-            <strong>Submit before the deadline.</strong><br />
-            All entries must be received by
-            <strong>Sunday, 15 March 2026 at 11:59pm</strong>.
-          </li>
-        </ol>
-
-        <a href="https://forms.gle/VwFScZJoDKyCxJDR8"  class="btn btn-secondary">
-            Enter the Competition Now
-        </a>
-      </section>
-
-      <!-- JUDGING & DATES -->
-      <section class="competition-section">
-        <h2>How Winners Are Selected</h2>
-        <p>
-          Entries will be reviewed by the Home Organisers Australia team. We're
-          looking for:
-        </p>
-        <ul class="rule-list">
-          <li>
-            Spaces where clutter and disorganisation are having a real impact
-            (stress, overwhelm, time pressure, family routines, etc.)
-          </li>
-          <li>
-            Clear explanation of how a makeover would support your
-            <strong>mental wellness</strong> and day-to-day life
-          </li>
-          <li>
-            Homes that are a good fit for demonstrating how thoughtful systems
-            can transform everyday living
-          </li>
-        </ul>
-        <p>
-          Winners will be contacted by email and/or phone by
-          <strong>Sunday, 22 March 2026</strong>.
-        </p>
-      </section>
-
-      <section class="competition-section entry-section" id="competition-entry-form">
-        <div class="entry-card">
-          <h2>Enter the Competition</h2>
-
-          <p class="entry-intro">
-            We've moved entries to a quick and secure Google Form.
-            It only takes <strong>3-5 minutes</strong> to complete.
-          </p>
-
-          <ul class="entry-list">
-            <li>Have your <strong>2-3 minute video link</strong> ready.</li>
-            <li>Share a few details about your home and your situation.</li>
-            <li>Click submit and you're in the running!</li>
-          </ul>
+        <!-- HOW TO ENTER -->
+        <section class="competition-section">
+          <h2>How to Enter</h2>
+          <ol class="steps-list">
+            <li>
+              <strong>Prepare a short video (2-3 minutes).</strong><br />
+              Show us the space (or spaces) you would like help with and explain why
+              home organising support would make a difference for you or your family.
+            </li>
+            <li>
+              <strong>Like our social media posts and follow our channels.</strong><br />
+              
+            </li>
+            <li>
+              <strong>Submit before the deadline.</strong><br />
+              Complete entry form below. All entries must be received by
+              <strong>Sunday, 15 March 2026 at 11:59pm</strong>.
+            </li>
+          </ol>
 
           <a
-            href="https://forms.gle/VwFScZJoDKyCxJDR8"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="btn entry-btn"
-          >
-            Enter via Google Forms
+              href="https://forms.gle/VwFScZJoDKyCxJDR8"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-secondary"
+            >
+            Submit An Entry Form
           </a>
+        </section>
 
-          <p class="entry-note">
-            You'll be redirected to a Google Form in a new tab.
-          </p>
-        </div>
-      </section>
-
-
-      <!-- FAQ -->
-      <section class="competition-section faq">
-        <h2>Frequently Asked Questions</h2>
-
-        <details>
-          <summary>What areas of my home can be included?</summary>
+        <!-- JUDGING & DATES -->
+        <section class="competition-section">
+          <h2>How Winners Are Selected</h2>
           <p>
-            We'll work with you to prioritise the spaces that will make the
-            biggest difference - pantries, wardrobes, kids' rooms, linen
-            cupboards, living areas, studies and more.
+            Entries will be reviewed by the Home Organisers Australia team.
+            We're looking for:
           </p>
-        </details>
-
-        <details>
-          <summary>Do I need to be on camera in the video?</summary>
+          <ul class="rule-list">
+            <li>
+              Clear explanation of why a makeover is needed in your home.
+            </li>
+            <li>
+              Allow HomeOrg to use before-and-after photos and videos for marketing
+              purposes
+            </li>
+          </ul>
           <p>
-            You're welcome to appear in the video, but it's not required. You
-            can simply film the spaces and record your voice explaining your
-            situation.
+            Winners will be contacted by email and/or phone by
+            <strong>Sunday, 22 March 2026</strong>.
           </p>
-        </details>
+        </section>
 
-        <details>
-          <summary>When will the organising sessions take place?</summary>
+        <section
+          class="competition-section entry-section"
+          id="competition-entry-form"
+        >
+          <div class="entry-card">
+            <h2>Enter the Competition</h2>
+
+            <p class="entry-intro">
+              We've moved entries to a quick and secure Google Form. It only
+              takes <strong>3-5 minutes</strong> to complete.
+            </p>
+
+            <ul class="entry-list">
+              <li>Have your <strong>2-3 minute video link</strong> ready.</li>
+              <li>Share a few details about your home and your situation.</li>
+              <li>Click submit and you're in the running!</li>
+            </ul>
+
+            <a
+              href="https://forms.gle/VwFScZJoDKyCxJDR8"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn entry-btn"
+            >
+              Enter via Google Forms
+            </a>
+
+            <p class="entry-note">
+              You'll be redirected to a Google Form in a new tab.
+            </p>
+          </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="competition-section faq">
+          <h2>Frequently Asked Questions</h2>
+
+          <details>
+            <summary>What areas of my home can be included?</summary>
+            <p>
+              We'll work with you to prioritise the spaces that will make the
+              biggest difference - pantries, wardrobes, kids' rooms, linen
+              cupboards, living areas, studies and more.
+            </p>
+          </details>
+
+          <details>
+            <summary>Do I need to be on camera in the video?</summary>
+            <p>
+              You're welcome to appear in the video, but it's not required. You
+              can simply film the spaces and record your voice explaining your
+              situation.
+            </p>
+          </details>
+
+          <details>
+            <summary>When will the organising sessions take place?</summary>
+            <p>
+              The sessions will be scheduled in consultation with each winner,
+              subject to availability, between February and June 2026.
+            </p>
+          </details>
+
+          <details>
+            <summary>Are there any costs for winners?</summary>
+            <p>
+              The professional organising time is free for major prize winners.
+              Any additional products (e.g. storage containers) can either be
+              sourced from what you already own or purchased to suit your
+              budget.
+            </p>
+          </details>
+        </section>
+
+        <!-- T&Cs -->
+        <section class="competition-section tc-note">
           <p>
-            The sessions will be scheduled in consultation with each winner,
-            subject to availability, between February and June 2026.
+            <small>
+              By entering, you agree that Home Organisers Australia may use
+              before-and-after photos and general details of your transformation
+              (with your consent and without sharing sensitive information) for
+              marketing and educational purposes. Full terms and conditions are
+              available on request.
+            </small>
           </p>
-        </details>
-
-        <details>
-          <summary>Are there any costs for winners?</summary>
           <p>
-            The professional organising time is free for major prize winners.
-            Any additional products (e.g. storage containers) can either be
-            sourced from what you already own or purchased to suit your budget.
+            <small>
+              Competition run by Home Organisers Australia, based in Shepparton,
+              proudly serving the Goulburn Valley and Northern Victoria region.
+            </small>
           </p>
-        </details>
-      </section>
-
-      <!-- T&Cs -->
-      <section class="competition-section tc-note">
-        <p>
-          <small>
-            By entering, you agree that Home Organisers Australia may use
-            before-and-after photos and general details of your transformation
-            (with your consent and without sharing sensitive information) for
-            marketing and educational purposes. Full terms and conditions are
-            available on request.
-          </small>
-        </p>
-        <p>
-          <small>
-            Competition run by Home Organisers Australia, based in Shepparton,
-            proudly serving the Goulburn Valley and Northern Victoria region.
-          </small>
-        </p>
+        </section>
       </section>
     </div>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+      defer></script>
+
+    <script is:inline>
+      window.addEventListener("DOMContentLoaded", () => {
+        const el = document.getElementById("eligibilityMap");
+        if (!el || !window.L) return;
+
+        // Shepparton (approx)
+        const shepparton = [-36.3833, 145.4];
+
+        const towns = [
+          {
+            name: "Shepparton",
+            coords: [-36.3833, 145.4],
+            note: "Start point",
+          },
+          { name: "Mooroopna", coords: [-36.393, 145.356] },
+          { name: "Tatura", coords: [-36.439, 145.229] },
+          { name: "Kyabram", coords: [-36.3139, 145.05] },
+          { name: "Benalla", coords: [-36.5513, 145.984] },
+          { name: "Echuca", coords: [-36.129, 144.748] },
+          { name: "Cobram", coords: [-35.919, 145.648] },
+          { name: "Yarrawonga", coords: [-36.014, 146.004] },
+          { name: "Nagambie", coords: [-36.783, 145.153] },
+          { name: "Seymour", coords: [-37.026, 145.139] },
+          { name: "Tocumwal", coords: [-35.809, 145.569] },
+        ];
+
+        const map = L.map("eligibilityMap", {
+          scrollWheelZoom: false,
+        }).setView(shepparton, 9);
+
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          attribution: "&copy; OpenStreetMap contributors",
+          maxZoom: 18,
+        }).addTo(map);
+
+        // Marker styles
+        const shepIcon = L.divIcon({
+          className: "shep-pin",
+          html: '<div class="pin-dot" title="Shepparton"></div>',
+          iconSize: [18, 18],
+          iconAnchor: [9, 9],
+        });
+
+        // Shepparton marker
+        L.marker(shepparton, { icon: shepIcon })
+          .addTo(map)
+          .bindPopup(
+            "<strong>Shepparton</strong><br/>Eligibility reference point."
+          );
+
+        // Town markers
+        towns
+          .filter((t) => t.name !== "Shepparton")
+          .forEach((t) => {
+            L.marker(t.coords)
+              .addTo(map)
+              .bindPopup(
+                `<strong>${t.name}</strong><br/>Typically within ~1 hour drive.`
+              );
+          });
+
+        // Optional: approximate ring (~75km) as a visual guide (NOT true drive-time)
+        L.circle(shepparton, {
+          radius: 75000,
+        }).addTo(map);
+
+        // Fit bounds to include all markers
+        const bounds = L.latLngBounds(towns.map((t) => t.coords));
+        map.fitBounds(bounds.pad(0.15));
+      });
+    </script>
+
+    <script src="/js/competition-form.js" type="module" defer></script>
   </section>
-  <script src="/js/competition-form.js" type="module" defer></script>
 </Base>
