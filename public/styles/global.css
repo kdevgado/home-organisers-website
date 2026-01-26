@@ -1591,6 +1591,7 @@ button[aria-busy="true"]::after{
   }
 }
 
+/* ========== Eligibility map section ========== */
 .eligibility-map {
   margin-top: 1.25rem;
   padding: 1rem;
@@ -1629,43 +1630,17 @@ button[aria-busy="true"]::after{
   background: #111;
 }
 
-.home-4cs {
-  margin-top: 3rem;
-  text-align: center;
-}
+/* ========== Home page 4Cs section ========== */
+.home-4cs { margin-top: 3rem; text-align: center; }
+.four-cs-grid { display: grid; gap: 1.2rem; margin-top: 1.5rem; grid-template-columns: repeat(4, 1fr); }
+.four-cs-grid h3 { margin-top: 0; color: var(--brand-dark); }
 
-.four-cs-grid {
-  display: grid;
-  gap: 1.2rem;
-  margin-top: 1.5rem;
-  grid-template-columns: repeat(4, 1fr);
-}
+@media (max-width: 1000px) { .four-cs-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .four-cs-grid { grid-template-columns: 1fr; } }
 
-.four-cs-grid h3 {
-  margin-top: 0;
-  color: var(--brand-dark);
-}
-
-/* Responsive */
-@media (max-width: 1000px) {
-  .four-cs-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 600px) {
-  .four-cs-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* --- Mobile simplification for Home Org 4Cs --- */
+/* Mobile simplification */
 @media (max-width: 700px) {
-  .four-cs-grid {
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
-  }
-
+  .four-cs-grid { gap: 0.75rem; }
   .home-4cs .card {
     padding: 0.9rem 1rem;
     border-radius: 10px;
@@ -1673,21 +1648,8 @@ button[aria-busy="true"]::after{
     border: 1px solid #efe7e1;
     text-align: left;
     background: #fff;
-  }
-
-  .home-4cs .card h3 {
-    font-size: 1.05rem;
-    margin-bottom: 0.25rem;
-  }
-
-  .home-4cs .card p {
-    margin: 0;
-    font-size: 0.95rem;
-    line-height: 1.55;
-  }
-
-  /* subtle left accent for structure */
-  .home-4cs .card {
     border-left: 4px solid var(--brand);
   }
+  .home-4cs .card h3 { font-size: 1.05rem; margin-bottom: 0.25rem; }
+  .home-4cs .card p { margin: 0; font-size: 0.95rem; line-height: 1.55; }
 }

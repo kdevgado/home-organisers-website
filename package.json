@@ -9,7 +9,6 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/sitemap": "^3.6.0",
     "astro": "^5.15.5",
     "cookie": "^1.0.2",
     "formidable": "^3.5.4",
@@ -19,5 +18,8 @@
     "netlify": "^23.5.1",
     "nodemailer": "^7.0.6",
     "open": "^10.2.0"
+  },
+  "devDependencies": {
+    "@astrojs/sitemap": "^3.6.0"
   }
 }
