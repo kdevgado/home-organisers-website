@@ -375,6 +375,73 @@ button[aria-busy="true"]::after{
 }
 @keyframes spin{to{transform:translateY(-50%) rotate(360deg)}}
 
+.service-fieldset {
+  border: 0;
+  padding: 0;
+  margin: 1.2rem 0;
+}
+
+.service-fieldset legend {
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+}
+
+.service-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chip {
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  padding: 0.5rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: var(--ink);
+
+  transition: transform 160ms ease, box-shadow 160ms ease,
+    border-color 160ms ease, background-color 160ms ease, color 160ms ease;
+}
+
+.chip:hover {
+  border-color: rgba(var(--brand-rgb), 0.6);
+  transform: translateY(-1px);
+}
+
+.chip.is-selected {
+  background: rgba(var(--brand-rgb), 0.12);
+  border-color: var(--brand);
+  color: var(--brand-dark);
+  box-shadow: 0 8px 18px rgba(2, 8, 23, 0.08);
+  transform: translateY(-1px);
+  font-weight: 600;
+}
+
+/* Subtle “pop” on select */
+@keyframes chipPop {
+  0% { transform: translateY(-1px) scale(1); }
+  50% { transform: translateY(-1px) scale(1.03); }
+  100% { transform: translateY(-1px) scale(1); }
+}
+.chip.chip-pop {
+  animation: chipPop 220ms ease;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .chip,
+  .chip:hover,
+  .chip.is-selected {
+    transition: none !important;
+    transform: none !important;
+  }
+  .chip.chip-pop {
+    animation: none !important;
+  }
+}
+
 /* Responsive */
 @media (max-width:1000px){
   .hero-inner{grid-template-columns:1fr}

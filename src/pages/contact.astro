@@ -41,21 +41,34 @@ import Base from "../layouts/Base.astro";
         </label>
       </div>
 
-      <label>
-        Which service are you after?
-        <select name="service">
-          <option value="Home Decluttering">Home Decluttering</option>
-          <option value="Practical Organising">Practical Organising</option>
-          <option value="Homeshare and Co-living"
-            >Homeshare and Co-living</option
-          >
-          <option value="Share house & co-living"
-            >Moving Houses & Setting Up</option
-          >
-          <option value="Staging to Sell/Lease">Staging to Sell/Lease</option>
-          <option value="Other">Other / Not sure</option>
-        </select>
-      </label>
+      <fieldset class="service-fieldset">
+        <label>Which service(s) are you interested in?</label>
+
+        <div class="service-chips">
+          <button type="button" class="chip" data-value="Home Decluttering">
+            Home Decluttering
+          </button>
+          <button type="button" class="chip" data-value="Practical Organising">
+            Practical Organising
+          </button>
+          <button type="button" class="chip" data-value="Homeshare and Co-living">
+            Homeshare & Co-living
+          </button>
+          <button type="button" class="chip" data-value="Moving Houses & Setting Up">
+            Moving Houses & Setting Up
+          </button>
+          <button type="button" class="chip" data-value="Staging to Sell/Lease">
+            Staging to Sell / Lease
+          </button>
+          <button type="button" class="chip" data-value="Not sure yet" data-default="true">
+            Not sure yet
+          </button>
+        </div>
+
+        <!-- hidden input to submit values -->
+        <input type="hidden" name="services" id="servicesInput" />
+      </fieldset>
+
 
       <label>
         Brief notes (optional)

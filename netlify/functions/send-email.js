@@ -86,9 +86,12 @@ Message:
 ${message || "N/A"}
 --------------------------------
 
-Talk soon,  
-Rowee & John  
-Home Organisers Australia
+Warm regards,
+Rowee Delgado
+Founder & Professional Home Organiser
+📞 0415 640 352
+✉️ roweedelgado@homeorg.com.au
+🌐 www.homeorg.com.au
     `,
         html: `
       <p>Hi <strong>${name}</strong>,</p>
@@ -104,9 +107,12 @@ Home Organisers Australia
       }</p>
       <hr>
 
-      <p>Talk soon,<br>
-      Rowee & John<br>
-      <strong>Home Organisers Australia</strong></p>
+      <p>Warm regards,<br>
+      Rowee Delgado<br>
+      <strong>Founder & Professional Home Organiser</strong><br>
+      📞 0415 640 352<br>
+      ✉️ roweedelgado@homeorg.com.au<br>
+      🌐 www.homeorg.com.au</p>
     `,
       };
 

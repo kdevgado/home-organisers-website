@@ -26,6 +26,72 @@ window.addEventListener("load", () => {
   }
 });
 
+// Service chips selection
+const chips = document.querySelectorAll(".chip");
+const servicesInput = document.getElementById("servicesInput");
+
+const defaultChip = document.querySelector('.chip[data-default="true"]');
+
+let selected = [];
+
+function setSelected(value, isOn) {
+  const chip = Array.from(chips).find((c) => c.dataset.value === value);
+  if (!chip) return;
+
+  if (isOn) {
+    if (!selected.includes(value)) selected.push(value);
+    chip.classList.add("is-selected");
+    // subtle animation trigger (restarts each time)
+    chip.classList.remove("chip-pop");
+    void chip.offsetWidth; // reflow
+    chip.classList.add("chip-pop");
+  } else {
+    selected = selected.filter((v) => v !== value);
+    chip.classList.remove("is-selected");
+  }
+  servicesInput.value = selected.join(", ");
+}
+
+function ensureDefaultIfEmpty() {
+  if (selected.length === 0 && defaultChip) {
+    setSelected(defaultChip.dataset.value, true);
+  }
+}
+
+// 1) Default selected on load
+ensureDefaultIfEmpty();
+
+chips.forEach((chip) => {
+  chip.addEventListener("click", () => {
+    const value = chip.dataset.value;
+    const isDefault = chip.hasAttribute("data-default");
+
+    const isAlreadySelected = selected.includes(value);
+
+    // Toggle clicked chip
+    if (isAlreadySelected) {
+      setSelected(value, false);
+    } else {
+      // If user selects a real service, remove default
+      if (!isDefault && defaultChip) {
+        setSelected(defaultChip.dataset.value, false);
+      }
+
+      // If user selects default, clear others (optional but usually clearer UX)
+      if (isDefault) {
+        // Clear all others
+        selected.slice().forEach((v) => setSelected(v, false));
+      }
+
+      setSelected(value, true);
+    }
+
+    // If nothing selected, re-enable default
+    ensureDefaultIfEmpty();
+  });
+});
+
+
 // Submit handler
 form?.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -47,7 +113,8 @@ form?.addEventListener("submit", async (e) => {
       email: form.elements["email"].value,
       phone: form.elements["phone"]?.value || "",
       suburb: form.elements["suburb"]?.value || "",
-      service: form.elements["service"]?.value || "General enquiry",
+      service: servicesInput?.value || "Not sure yet",
+      services: servicesInput?.value || "Not sure yet",
       message: form.elements["message"]?.value || "",
       booking_date: form.elements["booking_date"]?.value || "",
     };
@@ -62,6 +129,10 @@ form?.addEventListener("submit", async (e) => {
     if (!res.ok) throw new Error("Form submission failed");
 
     form.reset();
+    // Reset chip UI
+    selected = [];
+    chips.forEach((chip) => chip.classList.remove("is-selected"));
+    ensureDefaultIfEmpty();
     showToast("✅ Thanks! Your message has been sent.");
   } catch (err) {
     console.error(err);
