@@ -3,198 +3,143 @@ import Base from "../layouts/Base.astro";
 ---
 
 <Base title="Book a Consultation - Shepparton Home Organising">
-  <section class="container narrow">
-    <h1>Book a 30-minute Consultation</h1>
-    <p>
-      Pick a date and an available time below. You'll receive an instant
-      calendar invite.
-    </p>
+  <section class="contact page">
+    <div class="container narrow">
+      <h1>Book a 30-minute Consultation</h1>
+      <p>
+        Pick a date and an available time below. You'll receive an instant
+        calendar invite.
+      </p>
 
-    <form
-      id="booking-form"
-      class="booking-form"
-      novalidate
-      name="contact"
-      method="POST"
-      data-netlify="true"
-      netlify-honeypot="bot-field"
-    >
-      <div class="grid-2">
-        <label>
-          Name
-          <input type="text" name="name" required />
-        </label>
-        <label>
-          Email
-          <input type="email" name="email" required />
-        </label>
-      </div>
-
-      <div class="grid-2">
-        <label>
-          Phone (optional)
-          <input type="tel" name="phone" />
-        </label>
-        <label>
-          Suburb/Town (optional)
-          <input type="text" name="suburb" />
-        </label>
-      </div>
-
-      <fieldset class="service-fieldset">
-        <label>Which service(s) are you interested in?</label>
-
-        <div class="service-chips">
-          <button type="button" class="chip" data-value="Home Decluttering">
-            Home Decluttering
-          </button>
-          <button type="button" class="chip" data-value="Practical Organising">
-            Practical Organising
-          </button>
-          <button type="button" class="chip" data-value="Homeshare and Co-living">
-            Homeshare & Co-living
-          </button>
-          <button type="button" class="chip" data-value="Moving Houses & Setting Up">
-            Moving Houses & Setting Up
-          </button>
-          <button type="button" class="chip" data-value="Staging to Sell/Lease">
-            Staging to Sell / Lease
-          </button>
-          <button type="button" class="chip" data-value="Not sure yet" data-default="true">
-            Not sure yet
-          </button>
+      <form
+        id="booking-form"
+        class="booking-form"
+        novalidate
+        name="contact"
+        method="POST"
+        data-netlify="true"
+        netlify-honeypot="bot-field"
+      >
+        <div class="grid-2">
+          <label>
+            Name
+            <input type="text" name="name" required />
+          </label>
+          <label>
+            Email
+            <input type="email" name="email" required />
+          </label>
         </div>
 
-        <!-- hidden input to submit values -->
-        <input type="hidden" name="services" id="servicesInput" />
-      </fieldset>
+        <div class="grid-2">
+          <label>
+            Phone (optional)
+            <input type="tel" name="phone" />
+          </label>
+          <label>
+            Suburb/Town (optional)
+            <input type="text" name="suburb" />
+          </label>
+        </div>
 
+        <fieldset class="service-fieldset">
+          <legend>Which service(s) are you interested in?</legend>
 
-      <label>
-        Brief notes (optional)
-        <textarea
-          name="message"
-          rows="5"
-          placeholder="Describe in a few words the space requiring organisation"
-        ></textarea>
-      </label>
+          <div class="service-chips">
+            <button type="button" class="chip" data-value="Home Decluttering">
+              Home Decluttering
+            </button>
+            <button
+              type="button"
+              class="chip"
+              data-value="Practical Organising"
+            >
+              Practical Organising
+            </button>
+            <button
+              type="button"
+              class="chip"
+              data-value="Homeshare and Co-living"
+            >
+              Homeshare & Co-living
+            </button>
+            <button
+              type="button"
+              class="chip"
+              data-value="Moving Houses & Setting Up"
+            >
+              Moving Houses & Setting Up
+            </button>
+            <button
+              type="button"
+              class="chip"
+              data-value="Staging to Sell/Lease"
+            >
+              Staging to Sell / Lease
+            </button>
+            <button
+              type="button"
+              class="chip"
+              data-value="Not sure yet"
+              data-default="true"
+            >
+              Not sure yet
+            </button>
+          </div>
 
-      <div class="grid-2">
-        <label
-          >Consultation preferred date
-          <input
-            type="text"
-            id="booking-date"
-            name="booking_date"
-            required
-            placeholder="Choose a date"
-            autocomplete="off"
-            inputmode="none"
-          />
+          <!-- hidden input to submit values -->
+          <input type="hidden" name="services" id="servicesInput" />
+        </fieldset>
+
+        <label>
+          Brief notes (optional)
+          <textarea
+            name="message"
+            rows="5"
+            placeholder="Describe in a few words the space requiring organisation"
+          ></textarea>
         </label>
-      </div>
 
-      <button class="btn" id="book-btn" type="submit">Book consultation</button>
+        <div class="grid-2">
+          <label
+            >Consultation preferred date
+            <input
+              type="text"
+              id="booking-date"
+              name="booking_date"
+              required
+              placeholder="Choose a date"
+              autocomplete="off"
+              inputmode="none"
+            />
+          </label>
+        </div>
 
-      <p class="muted small">
-        You'll get an email confirmation with a calendar invite. Times shown use
-        your local timezone.
-      </p>
-      <p class="muted small">
-        This is a judgement-free service. Your privacy is always respected.
-      </p>
-    </form>
+        <button class="btn" id="book-btn" type="submit"
+          >Book consultation</button
+        >
+
+        <p class="muted small">
+          You'll get an email confirmation with a calendar invite. Times shown
+          use your local timezone.
+        </p>
+        <p class="muted small">
+          This is a judgement-free service. Your privacy is always respected.
+        </p>
+      </form>
+    </div>
   </section>
+
+  <!-- Toast notifications (re-use your existing styles/behavior) -->
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Calendar (Flatpickr) -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr" defer></script>
+
+  <!-- Booking behavior -->
+  <script src="/js/contact.js" type="module" defer></script>
 </Base>
-
-<!-- Toast notifications (re-use your existing styles/behavior) -->
-<div id="toast" role="status" aria-live="polite"></div>
-
-<style>
-  /* Keep your toast styles from before */
-  #toast {
-    position: fixed;
-    right: 16px;
-    bottom: 16px;
-    max-width: 320px;
-    padding: 0.9rem 1rem;
-    border-radius: 0.7rem;
-    box-shadow: 0 10px 30px rgba(2, 8, 23, 0.12);
-    background: #0f172a;
-    color: #fff;
-    opacity: 0;
-    pointer-events: none;
-    transform: translateY(8px);
-    transition:
-      opacity 0.2s,
-      transform 0.2s;
-    z-index: 1000;
-  }
-  #toast.show {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  #toast.error {
-    background: #991b1b;
-  }
-
-  .grid-2 {
-    display: grid;
-    gap: 1rem;
-    grid-template-columns: 1fr 1fr;
-  }
-  @media (max-width: 720px) {
-    .grid-2 {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  .slot-fieldset {
-    margin: 0;
-    padding: 0;
-    border: none;
-  }
-  .slot-grid {
-    min-height: 64px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 0.5rem;
-    align-items: start;
-  }
-  .slot-btn {
-    display: inline-block;
-    padding: 0.6rem 0.8rem;
-    border-radius: 0.6rem;
-    border: 1px solid #dbe1ef;
-    background: #fff;
-    cursor: pointer;
-    text-align: center;
-  }
-  .slot-btn[aria-pressed="true"] {
-    outline: 2px solid #0ea5e9;
-    border-color: #0ea5e9;
-  }
-  .slot-btn:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-  }
-  .slot-empty {
-    padding: 0.6rem 0;
-  }
-  .muted {
-    color: #64748b;
-  }
-  .small {
-    font-size: 0.9rem;
-  }
-</style>
-
-<!-- Calendar (Flatpickr) -->
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
-/>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr" defer></script>
-
-<!-- Booking behavior -->
-<script src="/js/contact.js" type="module" defer></script>
