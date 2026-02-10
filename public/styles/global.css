@@ -1210,7 +1210,7 @@ button[aria-busy="true"]::after{
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-
+/* Gallery grid with lightbox */
 .gallery {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -1230,6 +1230,43 @@ button[aria-busy="true"]::after{
 .gallery img:hover {
   transform: scale(1.03);
   box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* Video thumbnail tile (acts like an image tile) */
+.gallery .video-thumb{
+  position: relative;
+  width: 100%;
+  height: 200px;          /* match .gallery img height */
+  border: 0;
+  padding: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  background: transparent;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.gallery .video-thumb img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.gallery .video-thumb:hover{
+  transform: scale(1.03);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.play-badge{
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 3rem;
+  color: #fff;
+  text-shadow: 0 8px 20px rgba(0,0,0,0.55);
+  pointer-events: none;
 }
 
 /* Lightbox Styles */
@@ -1284,6 +1321,37 @@ button[aria-busy="true"]::after{
 
 .lightbox .prev { left: 20px; }
 .lightbox .next { right: 20px; }
+
+.lightbox-content{
+  width: min(1000px, 92vw);
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}
+
+.lightbox-video{
+  position:relative;
+  width:100%;
+  padding-top:56.25%; /* 16:9 */
+  background:#000;
+  border-radius:12px;
+  overflow:hidden;
+}
+
+.lightbox-video iframe{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:0;
+}
+
+@media (min-width: 1200px){
+  .lightbox-video{
+    max-width: 900px;
+  }
+}
+
 
 /* Competition page layout */
 .competition-page {

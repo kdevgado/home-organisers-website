@@ -13,8 +13,20 @@ import BeforeAfterComponent from "../components/BeforeAfter.astro";
 
     <!-- 🖼️ GALLERY SECTION -->
     <div class="gallery">
+      <!-- Video tile (first item) -->
+      <button
+        class="gallery-item video-thumb"
+        type="button"
+        data-type="youtube"
+        data-id="Yh1ooi1RGJc?si=866ILyPqrTb4yfrb"
+        aria-label="Play video"
+      >
+        <img src="/images/gallery/video-thumb.jpg" alt="Play video" />
+        <span class="play-badge" aria-hidden="true">▶</span>
+      </button>
+
       <!-- Mickelham -->
-       <img src="/images/gallery/mickelham/4.jpg" alt=" organisation" />
+      <img src="/images/gallery/mickelham/4.jpg" alt=" organisation" />
       <img src="/images/gallery/mickelham/5.jpg" alt=" organisation" />
       <img src="/images/gallery/mickelham/1.jpg" alt=" organisation" />
       <img src="/images/gallery/mickelham/2.jpg" alt=" organisation" />
@@ -26,7 +38,7 @@ import BeforeAfterComponent from "../components/BeforeAfter.astro";
       <img src="/images/gallery/mickelham/9.jpg" alt=" organisation" />
       <img src="/images/gallery/mickelham/10.jpg" alt=" organisation" />
       <img src="/images/gallery/mickelham/11.jpg" alt=" organisation" />
-    
+
       <!-- Sharehouse -->
       <img src="/images/gallery/sharehouse/1.jpg" alt="Closet organisation" />
       <img src="/images/gallery/sharehouse/2.jpg" alt="Closet organisation" />
@@ -35,20 +47,25 @@ import BeforeAfterComponent from "../components/BeforeAfter.astro";
       <img src="/images/gallery/sharehouse/5.jpg" alt="Closet organisation" />
       <img src="/images/gallery/sharehouse/6.jpg" alt="Closet organisation" />
       <img src="/images/gallery/sharehouse/7.jpg" alt="Closet organisation" />
-      
+
       <!-- Mickelham -->
-       <img src="/images/gallery/gladstone/1.jpg" alt=" organisation" />
-       <img src="/images/gallery/gladstone/2.jpg" alt=" organisation" />
-       <img src="/images/gallery/gladstone/3.jpg" alt=" organisation" />
-       <img src="/images/gallery/gladstone/4.jpg" alt=" organisation" />
+      <img src="/images/gallery/gladstone/1.jpg" alt=" organisation" />
+      <img src="/images/gallery/gladstone/2.jpg" alt=" organisation" />
+      <img src="/images/gallery/gladstone/3.jpg" alt=" organisation" />
+      <img src="/images/gallery/gladstone/4.jpg" alt=" organisation" />
     </div>
 
     <!-- LIGHTBOX MODAL -->
-    <div id="lightbox" class="lightbox hidden">
-      <span class="close">&times;</span>
-      <img class="lightbox-image" src="" alt="Expanded view" />
-      <button class="prev">&#10094;</button>
-      <button class="next">&#10095;</button>
+    <div id="lightbox" class="lightbox hidden" aria-hidden="true">
+      <span class="close" role="button" tabindex="0" aria-label="Close"
+        >&times;</span
+      >
+
+      <!-- Dynamic content goes here (image OR video) -->
+      <div class="lightbox-content" id="lightboxContent"></div>
+
+      <button class="prev" aria-label="Previous">&#10094;</button>
+      <button class="next" aria-label="Next">&#10095;</button>
     </div>
 
     <h2>Before - After</h2>
@@ -87,67 +104,121 @@ import BeforeAfterComponent from "../components/BeforeAfter.astro";
 
   <!-- 💡 GALLERY & LIGHTBOX SCRIPT -->
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const galleryImages =
-        document.querySelectorAll<HTMLImageElement>(".gallery img");
-      const lightbox = document.getElementById(
-        "lightbox"
-      ) as HTMLElement | null;
-      const lightboxImage =
-        document.querySelector<HTMLImageElement>(".lightbox-image");
-      const closeBtn = document.querySelector<HTMLSpanElement>(".close");
-      const nextBtn = document.querySelector<HTMLButtonElement>(".next");
-      const prevBtn = document.querySelector<HTMLButtonElement>(".prev");
-      let currentIndex = 0;
+  document.addEventListener("DOMContentLoaded", () => {
+    const galleryImages = Array.from(
+      document.querySelectorAll<HTMLImageElement>(".gallery > img") // ✅ skips thumbnail img
+    );
 
-      if (!lightbox || !lightboxImage || !closeBtn || !nextBtn || !prevBtn)
+    const videoThumb = document.querySelector<HTMLButtonElement>(".video-thumb");
+
+    const lightbox = document.getElementById("lightbox");
+    const lightboxContent = document.getElementById("lightboxContent");
+    const closeBtn = document.querySelector<HTMLSpanElement>(".close");
+    const nextBtn = document.querySelector<HTMLButtonElement>(".next");
+    const prevBtn = document.querySelector<HTMLButtonElement>(".prev");
+
+    if (!lightbox || !lightboxContent || !closeBtn || !nextBtn || !prevBtn) return;
+
+    type Item =
+      | { type: "youtube"; id: string }
+      | { type: "image"; src: string; alt: string };
+
+    const items: Item[] = [];
+
+    // Video item (index 0)
+    if (videoThumb?.dataset.id) {
+      items.push({ type: "youtube", id: videoThumb.dataset.id });
+    }
+
+    // Image items (index 1..n)
+    galleryImages.forEach((img) => {
+      items.push({ type: "image", src: img.src, alt: img.alt || "Expanded view" });
+    });
+
+    if (items.length === 0) return;
+
+    let currentIndex = 0;
+
+    const openLightbox = () => {
+      lightbox.classList.remove("hidden");
+      lightbox.setAttribute("aria-hidden", "false");
+    };
+
+    const closeLightbox = () => {
+      lightbox.classList.add("hidden");
+      lightbox.setAttribute("aria-hidden", "true");
+      lightboxContent.innerHTML = ""; // ✅ stops YouTube playback
+    };
+
+    const renderItem = (index: number) => {
+      const item = items[index];
+      lightboxContent.innerHTML = "";
+
+      if (item.type === "youtube") {
+        const wrap = document.createElement("div");
+        wrap.className = "lightbox-video";
+
+        const iframe = document.createElement("iframe");
+        iframe.src = `https://www.youtube.com/embed/${item.id}?autoplay=1&rel=0&modestbranding=1`;
+        iframe.title = "YouTube video";
+        iframe.allow =
+          "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+        iframe.allowFullscreen = true;
+
+        wrap.appendChild(iframe);
+        lightboxContent.appendChild(wrap);
         return;
-
-      galleryImages.forEach((img, index) => {
-        img.addEventListener("click", () => {
-          currentIndex = index;
-          openLightbox();
-        });
-      });
-
-      function openLightbox() {
-        lightbox!.classList.remove("hidden");
-        showImage(currentIndex);
       }
 
-      function showImage(index: number) {
-        lightboxImage!.src = galleryImages[index].src;
-      }
+      const img = document.createElement("img");
+      img.className = "lightbox-image";
+      img.src = item.src;
+      img.alt = item.alt;
+      lightboxContent.appendChild(img);
+    };
 
-      function closeLightbox() {
-        lightbox!.classList.add("hidden");
-      }
+    const nextItem = () => {
+      currentIndex = (currentIndex + 1) % items.length;
+      renderItem(currentIndex);
+    };
 
-      function nextImage() {
-        currentIndex = (currentIndex + 1) % galleryImages.length;
-        showImage(currentIndex);
-      }
+    const prevItem = () => {
+      currentIndex = (currentIndex - 1 + items.length) % items.length;
+      renderItem(currentIndex);
+    };
 
-      function prevImage() {
-        currentIndex =
-          (currentIndex - 1 + galleryImages.length) % galleryImages.length;
-        showImage(currentIndex);
-      }
+    // Click video tile => open index 0
+    videoThumb?.addEventListener("click", () => {
+      currentIndex = 0;
+      openLightbox();
+      renderItem(currentIndex);
+    });
 
-      closeBtn.addEventListener("click", closeLightbox);
-      nextBtn.addEventListener("click", nextImage);
-      prevBtn.addEventListener("click", prevImage);
-
-      lightbox.addEventListener("click", (e) => {
-        if (e.target === lightbox) closeLightbox();
-      });
-
-      window.addEventListener("keydown", (e) => {
-        if (lightbox.classList.contains("hidden")) return;
-        if (e.key === "ArrowRight") nextImage();
-        if (e.key === "ArrowLeft") prevImage();
-        if (e.key === "Escape") closeLightbox();
+    // Click image => open correct index in items
+    galleryImages.forEach((img, index) => {
+      img.addEventListener("click", () => {
+        const hasVideo = items[0]?.type === "youtube";
+        currentIndex = hasVideo ? index + 1 : index;
+        openLightbox();
+        renderItem(currentIndex);
       });
     });
-  </script>
+
+    closeBtn.addEventListener("click", closeLightbox);
+    nextBtn.addEventListener("click", nextItem);
+    prevBtn.addEventListener("click", prevItem);
+
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    window.addEventListener("keydown", (e) => {
+      if (lightbox.classList.contains("hidden")) return;
+      if (e.key === "ArrowRight") nextItem();
+      if (e.key === "ArrowLeft") prevItem();
+      if (e.key === "Escape") closeLightbox();
+    });
+  });
+</script>
+
 </Base>
