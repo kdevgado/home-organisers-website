@@ -6,25 +6,41 @@ import BeforeAfterComponent from "../components/BeforeAfter.astro";
 <Base title="Before & After — Real Home Transformations">
   <section class="container services-hero">
     <h1>Gallery</h1>
-    <p>
-      <strong>Real homes. Real results.</strong> Here's a peek at the kind of change
-      simple systems can make.
-    </p>
+      <p>
+        <strong>Real homes. Real results.</strong> Here's a peek at the kind of change
+        simple systems can make.
+      </p>
+    <!-- 🎬 FEATURED VIDEO -->
+    <section class="featured-video">
+      <div class="featured-video__shell">
+        <div class="featured-video__header">
+          <p class="featured-video__kicker">Featured Transformation</p>
+          <h2 class="featured-video__title">House Staging Walkthrough</h2>
+          <p class="featured-video__desc">
+            A quick look at how we create calm, functional spaces with simple systems.
+          </p>
+        </div>
+
+        <button
+          class="video-thumb featured-video__thumb"
+          type="button"
+          data-type="youtube"
+          data-id="Yh1ooi1RGJc?si=866ILyPqrTb4yfrb"
+          aria-label="Play house staging video"
+        >
+          <img src="/images/gallery/video-thumb.jpg" alt="Play house staging video" />
+          <span class="featured-video__play" aria-hidden="true">
+            <span class="featured-video__playIcon">▶</span>
+            <span class="featured-video__playText">Play video</span>
+          </span>
+        </button>
+      </div>
+    </section>
+
+    <h2 class="gallery-heading">House Staging</h2>
 
     <!-- 🖼️ GALLERY SECTION -->
     <div class="gallery">
-      <!-- Video tile (first item) -->
-      <button
-        class="gallery-item video-thumb"
-        type="button"
-        data-type="youtube"
-        data-id="Yh1ooi1RGJc?si=866ILyPqrTb4yfrb"
-        aria-label="Play video"
-      >
-        <img src="/images/gallery/video-thumb.jpg" alt="Play video" />
-        <span class="play-badge" aria-hidden="true">▶</span>
-      </button>
-
       <!-- Mickelham -->
       <img src="/images/gallery/mickelham/4.jpg" alt=" organisation" />
       <img src="/images/gallery/mickelham/5.jpg" alt=" organisation" />

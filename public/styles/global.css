@@ -1232,30 +1232,154 @@ button[aria-busy="true"]::after{
   box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 }
 
-/* Video thumbnail tile (acts like an image tile) */
-.gallery .video-thumb{
-  position: relative;
-  width: 100%;
-  height: 200px;          /* match .gallery img height */
-  border: 0;
-  padding: 0;
-  border-radius: 12px;
-  overflow: hidden;
-  cursor: pointer;
-  background: transparent;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+/* =========================
+   Featured video (Gallery)
+   ========================= */
+
+.featured-video{
+  margin: 0 auto 2.5rem;
 }
 
-.gallery .video-thumb img{
+.featured-video__shell{
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.25rem;
+  border-radius: 22px;
+  background:
+    radial-gradient(1200px 420px at 10% 0%, rgba(30, 120, 80, 0.16), transparent 55%),
+    radial-gradient(900px 360px at 90% 20%, rgba(30, 120, 80, 0.10), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.90));
+  border: 1px solid rgba(30, 120, 80, 0.18);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.featured-video__shell::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  background:
+    radial-gradient(600px 260px at 15% 10%, rgba(30, 120, 80, 0.22), transparent 60%),
+    radial-gradient(420px 200px at 85% 30%, rgba(30, 120, 80, 0.16), transparent 60%);
+  pointer-events:none;
+  opacity: .8;
+}
+
+.featured-video__header{
+  position: relative;
+  padding: 0.5rem 0.75rem 1rem;
+  text-align: left;
+}
+
+.featured-video__kicker{
+  margin: 0 0 .35rem;
+  font-size: .85rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: rgba(30, 120, 80, 0.9);
+  font-weight: 700;
+}
+
+.featured-video__title{
+  margin: 0 0 .35rem;
+  font-size: clamp(1.35rem, 2.4vw, 2rem);
+  line-height: 1.15;
+}
+
+.featured-video__desc{
+  margin: 0;
+  color: rgba(0,0,0,0.65);
+  max-width: 60ch;
+}
+
+/* Use your existing .video-thumb base styles,
+   but make this one feel “hero” */
+.featured-video__thumb{
+  position: relative;
+  width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  margin-top: .75rem;
+  aspect-ratio: 16 / 9;
+  border: 1px solid rgba(30, 120, 80, 0.18);
+  box-shadow: 0 14px 34px rgba(0,0,0,0.10);
+  transform: translateZ(0);
+}
+
+.featured-video__thumb img{
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
+  display:block;
+  filter: saturate(1.05) contrast(1.03);
+  transform: scale(1.01);
+  transition: transform .35s ease, filter .35s ease;
 }
 
-.gallery .video-thumb:hover{
-  transform: scale(1.03);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+.featured-video__thumb::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: linear-gradient(
+    135deg,
+    rgba(30,120,80,0.28),
+    rgba(255,255,255,0.0) 45%,
+    rgba(0,0,0,0.18)
+  );
+  pointer-events:none;
+}
+
+.featured-video__thumb:hover img{
+  transform: scale(1.05);
+  filter: saturate(1.15) contrast(1.05);
+}
+
+.featured-video__play{
+  position:absolute;
+  left: 18px;
+  bottom: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: .7rem;
+  padding: .7rem 1rem;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.92);
+  border: 1px solid rgba(30, 120, 80, 0.22);
+  box-shadow: 0 10px 26px rgba(0,0,0,0.12);
+  backdrop-filter: blur(6px);
+}
+
+.featured-video__playIcon{
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: rgba(30, 120, 80, 0.10);
+  color: rgba(30, 120, 80, 0.95);
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.featured-video__playText{
+  font-weight: 700;
+  color: rgba(0,0,0,0.75);
+}
+
+/* Centering adjustments on small screens */
+@media (max-width: 700px){
+  .featured-video__header{
+    text-align: center;
+  }
+  .featured-video__desc{
+    margin: 0 auto;
+  }
+  .featured-video__play{
+    left: 12px;
+    bottom: 12px;
+    padding: .6rem .85rem;
+  }
 }
 
 .play-badge{
