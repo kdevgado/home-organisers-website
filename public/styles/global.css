@@ -1065,29 +1065,45 @@ button[aria-busy="true"]::after{
   gap: 1rem;
 }
 
-/* Mobile carousel */
-/* Mobile carousel for services */
-.service-carousel {
-  position: relative;
-}
-
-.service-track {
-  overflow: hidden;
-}
-
+/* Services: mobile swipe carousel */
 @media (max-width: 700px) {
+  .service-carousel { position: relative; }
+
+  .service-track {
+    overflow-x: auto;
+    overflow-y: visible;                 /* don't trap vertical scroll */
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;       /* less “sticky” than mandatory */
+    scroll-behavior: smooth;
+    width: 100%;
+    padding: 0.25rem 0.25rem 0.75rem;
+    touch-action: pan-y;                 /* allow vertical page scroll */
+  }
+
+  .service-track::-webkit-scrollbar { display: none; }
+  .service-track { scrollbar-width: none; }
+
   .service-grid {
-    display: flex;
+    display: flex !important;
+    flex-wrap: nowrap !important;
     gap: 1rem;
-    transition: transform 0.4s ease;
+    width: max-content;
+    padding: 0;
   }
+
   .service-card {
-    flex: 0 0 100%;
+    flex: 0 0 82%;                       /* slightly smaller than 86% */
+    max-width: 420px;                    /* prevents giant cards on tablets */
+    scroll-snap-align: start;
   }
-  .carousel-btn {
-    display: block;
+
+  .service-card .media {
+    height: clamp(170px, 46vw, 230px);   /* cap image height so it’s not huge */
+    aspect-ratio: auto;                  /* height drives it on mobile */
   }
 }
+
+
 
 /* Arrow buttons for mobile service carousel */
 .carousel-btn {
