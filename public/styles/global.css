@@ -1077,7 +1077,9 @@ button[aria-busy="true"]::after{
     scroll-behavior: smooth;
     width: 100%;
     padding: 0.25rem 0.25rem 0.75rem;
-    touch-action: pan-y;                 /* allow vertical page scroll */
+    touch-action: auto;              /* allow both vertical + horizontal gestures */
+    overscroll-behavior-x: contain;  /* keep horizontal swipe contained */
+    -webkit-overflow-scrolling: touch;
   }
 
   .service-track::-webkit-scrollbar { display: none; }
