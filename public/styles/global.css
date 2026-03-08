@@ -866,7 +866,7 @@ button[aria-busy="true"]::after{
 /* ========== Footer FB section ========== */
 .fb-section {
   margin-top: 36px;
-  width: 400px;
+  width: 600px;
   margin: 0 auto;
 }
 .fb-heading {
@@ -883,7 +883,51 @@ button[aria-busy="true"]::after{
   max-width: 100%;
 }
 
-/* === Booking page polish (append to global.css) === */
+/* =========================
+   Instagram strip (Index)
+   ========================= */
+/* Instagram image grid */
+
+.ig-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+.ig-grid a{
+  display:block;
+  overflow:hidden;
+  border-radius:12px;
+}
+
+.ig-grid img{
+  width:100%;
+  aspect-ratio:1/1;
+  object-fit:cover;
+  transition:transform .3s ease;
+}
+
+.ig-grid a:hover img{
+  transform:scale(1.05);
+}
+
+/* mobile */
+@media (max-width:700px){
+  .ig-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+.instagram-feed iframe{
+  width:100%;
+  min-height:420px;
+}
+
+.instagram-feed h2{
+  margin-bottom:1rem;
+}
+
+/* === Booking page polish === */
 /* Layout: give the booking page a comfy reading width */
 .container.narrow {
   max-width: 820px;
@@ -1077,9 +1121,7 @@ button[aria-busy="true"]::after{
     scroll-behavior: smooth;
     width: 100%;
     padding: 0.25rem 0.25rem 0.75rem;
-    touch-action: auto;              /* allow both vertical + horizontal gestures */
-    overscroll-behavior-x: contain;  /* keep horizontal swipe contained */
-    -webkit-overflow-scrolling: touch;
+
   }
 
   .service-track::-webkit-scrollbar { display: none; }
