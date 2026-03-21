@@ -5,7 +5,7 @@ const {
   canonical,
 } = Astro.props;
 const showCTA = Astro.url.pathname !== "/contact";
-const showCompetitionBanner = Astro.url.pathname !== "/competition";
+// const showCompetitionBanner = Astro.url.pathname !== "/competition";
 ---
 
 <!doctype html>
@@ -97,7 +97,7 @@ const showCompetitionBanner = Astro.url.pathname !== "/competition";
     </main>
 
     <!-- Sticky Competition Banner -->
-    {
+    <!-- {
       showCompetitionBanner && (
         <div class="floating-competition-banner" data-competition-banner>
           <a href="/competition" class="banner-link">
@@ -116,7 +116,7 @@ const showCompetitionBanner = Astro.url.pathname !== "/competition";
           </button>
         </div>
       )
-    }
+    } -->
 
     <!-- Sticky Contact page button (hidden on contact page) -->
     {
@@ -223,7 +223,7 @@ const showCompetitionBanner = Astro.url.pathname !== "/competition";
         </li>
         <li class="mobile-item"><a href="/gallery">Gallery</a></li>
         <li class="mobile-item"><a href="/about">About</a></li>
-        <li class="mobile-item"><a href="/competition">Competition</a></li>
+        <!-- <li class="mobile-item"><a href="/competition">Competition</a></li> -->
         <li class="mobile-item cta">
           <a class="btn" href="/contact">Book a free chat</a>
         </li>
@@ -380,8 +380,8 @@ const showCompetitionBanner = Astro.url.pathname !== "/competition";
 
     <script is:inline>
       (function () {
-        const banner = document.querySelector("[data-competition-banner]");
-        if (!banner) return;
+        // const banner = document.querySelector("[data-competition-banner]");
+        // if (!banner) return;
 
         // Hide if user previously closed it
         try {
@@ -393,8 +393,8 @@ const showCompetitionBanner = Astro.url.pathname !== "/competition";
           // ignore storage errors
         }
 
-        const closeBtn = banner.querySelector("[data-banner-close]");
-        if (!closeBtn) return;
+        // const closeBtn = banner.querySelector("[data-banner-close]");
+        // if (!closeBtn) return;
 
         closeBtn.addEventListener("click", () => {
           banner.style.display = "none";
