@@ -805,53 +805,171 @@ button[aria-busy="true"]::after{
   will-change: auto !important;
 }
 
-/* ========== Facebook Icon Buttons (header + drawer) ========== */
-.icon-fb {
-  width: 18px;
-  height: 18px;
-  fill: currentColor;
+/* ========== Social Icon Buttons ========== */
+
+.social-actions {
+  display: inline-flex;
+  align-items: center;
 }
 
-/* Header icon button */
-.social-btn.fb {
-  --fb: #1877f2;
+.social-btn {
+  --btn-color: #111;
+  --btn-shadow: rgba(0, 0, 0, 0.16);
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 38px;
   height: 38px;
-  margin-left: 6px;          /* sits right after Home button */
-  border: 2px solid var(--fb);
+  margin-left: 6px;
   border-radius: 10px;
-  color: var(--fb);
   text-decoration: none;
   position: relative;
   overflow: hidden;
-  transition: transform .18s ease, box-shadow .18s ease, color .18s ease, background-color .18s ease, border-color .18s ease;
+  isolation: isolate;
+
+  color: var(--btn-color);
+  background: #fff;
+  border: 2px solid var(--btn-color);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.25s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease;
 }
 
-.social-btn.fb::before {
+.social-btn__icon {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+  position: relative;
+  z-index: 2;
+  transition: transform 0.25s ease;
+}
+
+.social-btn::before,
+.social-btn::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(120px 120px at var(--x,50%) var(--y,50%), rgba(24,119,242,.15), transparent 60%);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.35s ease;
+}
+
+/* soft glow */
+.social-btn::before {
+  background: radial-gradient(
+    120px 120px at 50% 50%,
+    color-mix(in srgb, var(--btn-color) 22%, transparent),
+    transparent 60%
+  );
   opacity: 0;
-  transition: opacity .25s ease;
+  transform: scale(0.9);
+  z-index: 0;
 }
 
-.social-btn.fb:hover,
-.social-btn.fb:focus-visible {
-  background-color: var(--fb);
+/* animated shine */
+.social-btn::after {
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 35%,
+    rgba(255, 255, 255, 0.45) 50%,
+    rgba(255, 255, 255, 0.1) 65%,
+    transparent 100%
+  );
+  transform: translateX(-140%);
+  z-index: 1;
+}
+
+.social-btn:hover,
+.social-btn:focus-visible {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 8px 18px var(--btn-shadow);
+}
+
+.social-btn:hover::before,
+.social-btn:focus-visible::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.social-btn:hover::after,
+.social-btn:focus-visible::after {
+  transform: translateX(140%);
+  transition: transform 0.65s ease;
+}
+
+.social-btn:hover .social-btn__icon,
+.social-btn:focus-visible .social-btn__icon {
+  transform: scale(1.08);
+}
+
+/* Facebook */
+.social-btn--facebook {
+  --btn-color: #1877f2;
+  --btn-shadow: rgba(24, 119, 242, 0.28);
+}
+
+.social-btn--facebook:hover,
+.social-btn--facebook:focus-visible {
+  background: #1877f2;
   color: #fff;
-  border-color: var(--fb);
-  box-shadow: 0 6px 16px rgba(24,119,242,.25);
-  transform: translateY(-1px);
+  border-color: #1877f2;
 }
-.social-btn.fb:hover::before,
-.social-btn.fb:focus-visible::before { opacity: 1; }
 
-/* Drawer link with icon */
-.mobile-social.fb {
+/* Instagram */
+.social-btn--instagram {
+  --btn-color: #d6249f;
+  --btn-shadow: rgba(214, 36, 159, 0.26);
+
+  border-color: transparent;
+  background:
+    linear-gradient(#fff, #fff) padding-box,
+    linear-gradient(135deg, #fdf497, #fd5949, #d6249f, #285aeb) border-box;
+}
+
+.social-btn--instagram::before {
+  background: radial-gradient(
+    120px 120px at 50% 50%,
+    rgba(214, 36, 159, 0.18),
+    transparent 60%
+  );
+}
+
+.social-btn--instagram:hover,
+.social-btn--instagram:focus-visible {
+  color: #fff;
+  border-color: transparent;
+  background:
+    linear-gradient(135deg, #fdf497, #fd5949, #d6249f, #285aeb) padding-box,
+    linear-gradient(135deg, #fdf497, #fd5949, #d6249f, #285aeb) border-box;
+}
+
+/* optional: subtle idle animation for Instagram */
+.social-btn--instagram .social-btn__icon {
+  animation: igFloat 2.8s ease-in-out infinite;
+}
+
+.social-btn--instagram:hover .social-btn__icon,
+.social-btn--instagram:focus-visible .social-btn__icon {
+  animation-play-state: paused;
+}
+
+@keyframes igFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-1px);
+  }
+}
+
+/* drawer links */
+.mobile-social {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -859,9 +977,24 @@ button[aria-busy="true"]::after{
   border-radius: 10px;
   text-decoration: none;
   color: inherit;
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
+
+.mobile-social:hover,
+.mobile-social:focus-visible {
+  transform: translateX(2px);
+}
+
 .mobile-social.fb:hover,
-.mobile-social.fb:focus-visible { background: #f3f3f3; }
+.mobile-social.fb:focus-visible {
+  background: #f1f6ff;
+}
+
+.mobile-social.ig:hover,
+.mobile-social.ig:focus-visible {
+  background: #f8f1f6;
+}
+
 
 /* ========== Footer FB section ========== */
 .fb-section {
