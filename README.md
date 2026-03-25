@@ -1,50 +1,133 @@
-<<<<<<< HEAD
-# home-organisers-website
-=======
-# Astro Starter Kit: Basics
+# 🏠 Home Organisers Australia — Website
 
-```sh
-npm create astro@latest -- --template basics
+> A modern, client-focused website for a home organisation service business.
+
+This project is a **full-stack website** designed to support a real-world service business — combining **clean user experience, service presentation, and operational workflow support**.
+
+---
+
+## 🚀 Overview
+
+The Home Organisers Australia website serves as:
+
+* A **digital storefront** for services
+* A **client onboarding platform**
+* A foundation for **business operations & scaling**
+
+It bridges the gap between:
+
+> 💼 Real-world service business
+> 💻 Scalable software system
+
+---
+
+## 🎯 Goals
+
+* Present services clearly and professionally
+* Convert visitors into **qualified clients**
+* Streamline **booking and communication workflows**
+* Build a foundation for **future automation and scaling**
+
+---
+
+## 🧩 Features
+
+### 🌐 Service-Focused UI
+
+* Clean, minimal design for clarity
+* Clearly structured service offerings
+* Mobile-friendly and responsive
+
+### 📅 Booking & Enquiries
+
+* Client enquiry / booking forms
+* Structured data capture for services
+* Foundation for future scheduling automation
+
+### 🧾 Service Breakdown
+
+* Detailed descriptions of:
+
+  * Home organisation services
+  * Decluttering solutions
+  * Custom client plans
+
+### 💼 Business Integration
+
+* Designed to support:
+
+  * Client workflow tracking
+  * Service delivery pipeline
+  * Future CRM-style features
+
+---
+
+## 🏗 Architecture
+
+```id="homeos-arch"
+CLIENT → WEBSITE → BACKEND → BUSINESS OPERATIONS
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+* **Client:** Browses services & submits enquiry
+* **Website:** Handles UX + data capture
+* **Backend:** Processes and stores requests
+* **Operations:** Enables real-world service execution
 
-## 🚀 Project Structure
+---
 
-Inside of your Astro project, you'll see the following folders and files:
+## 🛠 Tech Stack
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
+*(Subject to iteration)*
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+**Frontend:**
 
-## 🧞 Commands
+* React / Next.js
+* HTML, CSS, JavaScript
 
-All commands are run from the root of the project, from a terminal:
+**Backend:**
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+* Node.js / Express *(or evolving stack)*
 
-## 👀 Want to learn more?
+**Other:**
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
->>>>>>> 7f97e16 (Initial commit from Astro)
+* Form handling & validation
+* Hosting / deployment (TBD)
+
+---
+
+## 🔬 Key Focus Areas
+
+* **User experience first** — clarity over complexity
+* **Real-world usability** — built for actual clients, not demos
+* **Scalability** — structured for future growth
+* **System thinking** — connects frontend → operations
+
+---
+
+## 🧪 Current Status
+
+🚧 Early-stage / actively developing
+
+* Core pages and layout in progress
+* Booking & enquiry systems being refined
+* Iterating based on **real use-case needs**
+
+---
+
+## 🔮 Future Plans
+
+* Online booking system with scheduling
+* Client dashboard / portal
+* Payment integration
+* CRM + workflow automation
+* Analytics for business insights
+
+---
+
+## 🤝 Context
+
+This project is part of a broader focus on:
+
+* Building **real-world software systems**
+* Integrating **technology with business operations**
+* Developing scalable, practical solutions
