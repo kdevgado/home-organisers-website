@@ -527,11 +527,6 @@ button[aria-busy="true"]::after{
   margin: 1.2rem 0;
 }
 
-.service-fieldset legend {
-  color: #e6edf6;
-  margin-bottom: 0.6rem;
-}
-
 .service-chips {
   display: flex;
   flex-wrap: wrap;
