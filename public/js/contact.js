@@ -98,8 +98,12 @@ form?.addEventListener("submit", async (e) => {
 
   const name = form.elements["name"]?.value?.trim();
   const email = form.elements["email"]?.value?.trim();
-  if (!name || !email) {
-    showToast("Please enter your name and email.", { error: true });
+  const phone = form.elements["phone"]?.value?.trim();
+  const contactMethod = form.elements["contact_method"]?.value;
+  const referral = form.elements["referral_source"]?.value;
+
+  if (!name || !email || !phone || !contactMethod || !referral) {
+    showToast("Please fill out all required fields.", { error: true });
     return;
   }
 
@@ -113,6 +117,8 @@ form?.addEventListener("submit", async (e) => {
       email: form.elements["email"].value,
       phone: form.elements["phone"]?.value || "",
       suburb: form.elements["suburb"]?.value || "",
+      contact_method: form.elements["contact_method"]?.value || "",
+      referral_source: form.elements["referral_source"]?.value || "",
       service: servicesInput?.value || "Not sure yet",
       services: servicesInput?.value || "Not sure yet",
       message: form.elements["message"]?.value || "",

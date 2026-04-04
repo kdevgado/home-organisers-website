@@ -34,11 +34,23 @@ import Base from "../layouts/Base.astro";
         <div class="grid-2">
           <label>
             Phone (optional)
-            <input type="tel" name="phone" />
+            <input type="tel" name="phone" required />
           </label>
           <label>
             Suburb/Town (optional)
             <input type="text" name="suburb" />
+          </label>
+        </div>
+
+        <div class="grid-2">
+          <label>
+            Preferred method of contact
+            <select name="contact_method" required>
+              <option value="">Select an option</option>
+              <option value="Phone">Phone</option>
+              <option value="Email">Email</option>
+              <option value="SMS">SMS</option>
+            </select>
           </label>
         </div>
 
@@ -167,15 +179,15 @@ import Base from "../layouts/Base.astro";
   <script src="/js/contact.js" type="module" defer></script>
 
   <script is:inline>
-  const referralSelect = document.querySelector('[name="referral_source"]');
-  const otherWrap = document.getElementById('referral-other-wrap');
+    const referralSelect = document.querySelector('[name="referral_source"]');
+    const otherWrap = document.getElementById("referral-other-wrap");
 
-  referralSelect?.addEventListener('change', () => {
-    if (referralSelect.value === 'Other') {
-      otherWrap.style.display = 'block';
-    } else {
-      otherWrap.style.display = 'none';
-    }
-  });
-</script>
+    referralSelect?.addEventListener("change", () => {
+      if (referralSelect.value === "Other") {
+        otherWrap.style.display = "block";
+      } else {
+        otherWrap.style.display = "none";
+      }
+    });
+  </script>
 </Base>
