@@ -2,53 +2,49 @@
 const toast = document.getElementById("toast");
 const form = document.getElementById("booking-form");
 const btn = document.getElementById("book-btn");
-const dateInput = document.getElementById("booking-date");
-
-// Show a toast
-function showToast(msg, { error = false } = {}) {
-  if (!toast) return;
-  toast.textContent = msg;
-  toast.classList.toggle("error", !!error);
-  toast.classList.add("show");
-  setTimeout(() => toast.classList.remove("show"), 3500);
-}
-
-// Init date picker
-window.addEventListener("load", () => {
-  if (window.flatpickr) {
-    flatpickr("#booking-date", {
-      minDate: "today",
-      dateFormat: "Y-m-d",
-      altInput: true,
-      altFormat: "D, d M Y",
-      weekNumbers: true,
-    });
-  }
-});
-
-// Service chips selection
 const chips = document.querySelectorAll(".chip");
 const servicesInput = document.getElementById("servicesInput");
-
 const defaultChip = document.querySelector('.chip[data-default="true"]');
 
 let selected = [];
 
-function setSelected(value, isOn) {
-  const chip = Array.from(chips).find((c) => c.dataset.value === value);
-  if (!chip) return;
+function showToast(message, { error = false } = {}) {
+  if (!toast) return;
 
-  if (isOn) {
+  toast.textContent = message;
+  toast.classList.toggle("error", error);
+  toast.classList.add("show");
+
+  setTimeout(() => toast.classList.remove("show"), 3500);
+}
+
+window.addEventListener("load", () => {
+  if (!window.flatpickr) return;
+
+  flatpickr("#booking-date", {
+    minDate: "today",
+    dateFormat: "Y-m-d",
+    altInput: true,
+    altFormat: "D, d M Y",
+    weekNumbers: true,
+  });
+});
+
+function setSelected(value, isSelected) {
+  const chip = Array.from(chips).find((item) => item.dataset.value === value);
+  if (!chip || !servicesInput) return;
+
+  if (isSelected) {
     if (!selected.includes(value)) selected.push(value);
     chip.classList.add("is-selected");
-    // subtle animation trigger (restarts each time)
     chip.classList.remove("chip-pop");
-    void chip.offsetWidth; // reflow
+    void chip.offsetWidth;
     chip.classList.add("chip-pop");
   } else {
-    selected = selected.filter((v) => v !== value);
+    selected = selected.filter((item) => item !== value);
     chip.classList.remove("is-selected");
   }
+
   servicesInput.value = selected.join(", ");
 }
 
@@ -58,51 +54,48 @@ function ensureDefaultIfEmpty() {
   }
 }
 
-// 1) Default selected on load
 ensureDefaultIfEmpty();
 
 chips.forEach((chip) => {
   chip.addEventListener("click", () => {
-    const value = chip.dataset.value;
+    const { value } = chip.dataset;
     const isDefault = chip.hasAttribute("data-default");
-
     const isAlreadySelected = selected.includes(value);
 
-    // Toggle clicked chip
     if (isAlreadySelected) {
       setSelected(value, false);
-    } else {
-      // If user selects a real service, remove default
-      if (!isDefault && defaultChip) {
-        setSelected(defaultChip.dataset.value, false);
-      }
-
-      // If user selects default, clear others (optional but usually clearer UX)
-      if (isDefault) {
-        // Clear all others
-        selected.slice().forEach((v) => setSelected(v, false));
-      }
-
-      setSelected(value, true);
+      ensureDefaultIfEmpty();
+      return;
     }
 
-    // If nothing selected, re-enable default
-    ensureDefaultIfEmpty();
+    if (isDefault) {
+      selected.slice().forEach((item) => setSelected(item, false));
+    } else if (defaultChip) {
+      setSelected(defaultChip.dataset.value, false);
+    }
+
+    setSelected(value, true);
   });
 });
 
+form?.addEventListener("submit", async (event) => {
+  event.preventDefault();
 
-// Submit handler
-form?.addEventListener("submit", async (e) => {
-  e.preventDefault();
+  const name = form.elements.name?.value?.trim();
+  const email = form.elements.email?.value?.trim();
+  const phone = form.elements.phone?.value?.trim();
+  const contactMethod = form.elements.contact_method?.value;
+  const referralSource = form.elements.referral_source?.value;
+  const bookingDate = form.elements.booking_date?.value?.trim();
 
-  const name = form.elements["name"]?.value?.trim();
-  const email = form.elements["email"]?.value?.trim();
-  const phone = form.elements["phone"]?.value?.trim();
-  const contactMethod = form.elements["contact_method"]?.value;
-  const referral = form.elements["referral_source"]?.value;
-
-  if (!name || !email || !phone || !contactMethod || !referral) {
+  if (
+    !name ||
+    !email ||
+    !phone ||
+    !contactMethod ||
+    !referralSource ||
+    !bookingDate
+  ) {
     showToast("Please fill out all required fields.", { error: true });
     return;
   }
@@ -111,38 +104,36 @@ form?.addEventListener("submit", async (e) => {
     btn.disabled = true;
     btn.textContent = "Sending...";
 
-    // Collect form data
     const formData = {
-      name: form.elements["name"].value,
-      email: form.elements["email"].value,
-      phone: form.elements["phone"]?.value || "",
-      suburb: form.elements["suburb"]?.value || "",
-      contact_method: form.elements["contact_method"]?.value || "",
-      referral_source: form.elements["referral_source"]?.value || "",
-      service: servicesInput?.value || "Not sure yet",
+      name,
+      email,
+      phone,
+      suburb: form.elements.suburb?.value?.trim() || "",
+      contact_method: contactMethod,
+      referral_source: referralSource,
       services: servicesInput?.value || "Not sure yet",
-      message: form.elements["message"]?.value || "",
-      booking_date: form.elements["booking_date"]?.value || "",
+      message: form.elements.message?.value?.trim() || "",
+      booking_date: bookingDate,
     };
 
-    // Send to Netlify Function
-    const res = await fetch("/.netlify/functions/send-email", {
+    const response = await fetch("/.netlify/functions/send-email", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
     });
 
-    if (!res.ok) throw new Error("Form submission failed");
+    if (!response.ok) {
+      throw new Error("Form submission failed");
+    }
 
     form.reset();
-    // Reset chip UI
     selected = [];
     chips.forEach((chip) => chip.classList.remove("is-selected"));
     ensureDefaultIfEmpty();
-    showToast("✅ Thanks! Your message has been sent.");
-  } catch (err) {
-    console.error(err);
-    showToast("❌ Something went wrong. Please try again.", { error: true });
+    showToast("Thanks! Your consultation request has been sent.");
+  } catch (error) {
+    console.error(error);
+    showToast("Something went wrong. Please try again.", { error: true });
   } finally {
     btn.disabled = false;
     btn.textContent = "Book consultation";

@@ -170,17 +170,4 @@ import Base from "../layouts/Base.astro";
 
   <!-- Booking behavior -->
   <script src="/js/contact.js" type="module" defer></script>
-
-  <script is:inline>
-    const referralSelect = document.querySelector('[name="referral_source"]');
-    const otherWrap = document.getElementById("referral-other-wrap");
-
-    referralSelect?.addEventListener("change", () => {
-      if (referralSelect.value === "Other") {
-        otherWrap.style.display = "block";
-      } else {
-        otherWrap.style.display = "none";
-      }
-    });
-  </script>
 </Base>
