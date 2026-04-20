@@ -1244,6 +1244,13 @@ button[aria-busy="true"]::after{
     border-color: rgba(255,255,255,.08);
   }
   .booking-form label { color: #e6edf6; }   /* <-- add this line */
+  .booking-form select {
+    color-scheme: dark;
+  }
+  .booking-form select option {
+    background: #0e172a;
+    color: #e6edf6;
+  }
   .slot-btn {
     background:#0e172a; border-color: rgba(255,255,255,.1); color:#e6edf6;
   }
