@@ -39,13 +39,59 @@ const splitServices = (services) => {
     .filter(Boolean);
 };
 
+const json = (statusCode, body) => ({
+  statusCode,
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(body),
+});
+
+const methodNotAllowed = () => ({
+  statusCode: 405,
+  headers: { Allow: "POST", "Content-Type": "application/json" },
+  body: JSON.stringify({ error: "Method Not Allowed" }),
+});
+
+const requiredEnv = [
+  "GMAIL_USER",
+  "GOOGLE_CLIENT_ID",
+  "GOOGLE_CLIENT_SECRET",
+  "GOOGLE_REFRESH_TOKEN",
+];
+
+const missingEnv = () =>
+  requiredEnv.filter((name) => !process.env[name] || !process.env[name].trim());
+
+const isEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+
+const parseBody = (body) => {
+  try {
+    return { data: JSON.parse(body || "{}") };
+  } catch {
+    return { error: "Invalid JSON body" };
+  }
+};
+
 export async function handler(event) {
   if (event.httpMethod !== "POST") {
-    return { statusCode: 405, body: "Method Not Allowed" };
+    return methodNotAllowed();
   }
 
   try {
-    const data = JSON.parse(event.body);
+    const envErrors = missingEnv();
+    if (envErrors.length) {
+      console.error(
+        `send-email missing required environment variables: ${envErrors.join(
+          ", "
+        )}`
+      );
+      return json(500, { error: "Email service is not configured" });
+    }
+
+    const { data, error } = parseBody(event.body);
+    if (error) {
+      return json(400, { error });
+    }
+
     const {
       name,
       email,
@@ -58,6 +104,11 @@ export async function handler(event) {
       message,
       booking_date,
     } = data;
+
+    const cleanEmail = formatText(email, "");
+    if (!formatText(name, "") || !isEmail(cleanEmail)) {
+      return json(400, { error: "Name and a valid email are required" });
+    }
 
     const selectedServices = splitServices(services || service);
     const servicesText = selectedServices.length
@@ -162,7 +213,7 @@ export async function handler(event) {
     const mailOptions = {
       from: `"Website Enquiry" <${process.env.GMAIL_USER}>`,
       to: process.env.GMAIL_USER,
-      replyTo: email,
+      replyTo: cleanEmail,
       subject: `New consultation request from ${formatText(name, "Website visitor")}`,
       text: ownerText,
       html: ownerHtml,
@@ -244,20 +295,16 @@ export async function handler(event) {
 
       await transporter.sendMail({
         from: `"Home Organisers Australia" <${process.env.GMAIL_USER}>`,
-        to: email,
+        to: cleanEmail,
         subject: "We received your consultation request",
         text: autoReplyText,
         html: autoReplyHtml,
       });
     }
 
-    return {
-      statusCode: 200,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ success: true }),
-    };
+    return json(200, { success: true });
   } catch (err) {
     console.error(err);
-    return { statusCode: 500, body: "Failed to send email" };
+    return json(500, { error: "Failed to send email" });
   }
 }
