@@ -1,4 +1,7 @@
 import { google } from "googleapis";
+import { DateTime } from "luxon";
+
+const CALENDAR_TIMEZONE = "Australia/Melbourne";
 
 export async function handler(event) {
   if (event.httpMethod !== "GET") {
@@ -33,8 +36,12 @@ export async function handler(event) {
     const calendar = google.calendar({ version: "v3", auth });
     const calendarId = process.env.GOOGLE_CALENDAR_ID || "primary";
 
-    const timeMin = new Date(`${date}T09:00:00+10:00`); // Start of business hours
-    const timeMax = new Date(`${date}T17:00:00+10:00`); // End of business hours
+    const timeMin = DateTime.fromISO(`${date}T09:00:00`, {
+      zone: CALENDAR_TIMEZONE,
+    }).toJSDate();
+    const timeMax = DateTime.fromISO(`${date}T17:00:00`, {
+      zone: CALENDAR_TIMEZONE,
+    }).toJSDate();
 
     // Generate all 30-min slots
     const slots = [];
