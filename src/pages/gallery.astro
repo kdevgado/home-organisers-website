@@ -69,6 +69,9 @@ import BeforeAfterComponent from "../components/BeforeAfter.astro";
       <img src="/images/gallery/gladstone/2.jpg" alt=" organisation" />
       <img src="/images/gallery/gladstone/3.jpg" alt=" organisation" />
       <img src="/images/gallery/gladstone/4.jpg" alt=" organisation" />
+
+      <!-- Shepparton -->
+      <img src="/images/gallery/shepparton/shelves.png" alt="Organised shelving in a Shepparton home" />
     </div>
 
     <!-- LIGHTBOX MODAL -->
@@ -84,26 +87,68 @@ import BeforeAfterComponent from "../components/BeforeAfter.astro";
       <button class="next" aria-label="Next">&#10095;</button>
     </div>
 
-    <h2>Before - After</h2>
+    <div class="before-after-intro">
+      <p class="featured-video__kicker">Before & After</p>
+      <h2>Practical transformations</h2>
+      <p>
+        Small changes, clearer zones, and systems that make the space easier to keep tidy.
+      </p>
+    </div>
 
     <div class="ba-grid">
       <BeforeAfterComponent
-        before="/images/gallery/pantry before.jpg"
-        after="/images/gallery/pantry.jpg"
+        before="/images/gallery/before-after/pantry before.jpg"
+        after="/images/gallery/before-after/pantry.jpg"
         alt="Pantry organised with labelled containers"
+        title="Pantry reset"
+        description="Labels and clear containers make everyday items easier to see and reach."
         labelBefore="Before"
         labelAfter="After"
         start={55}
       />
 
-      <p><strong>Furniture.</strong></p>
       <BeforeAfterComponent
-        before="/images/gallery/pantry_corner_before2.jpg"
-        after="/images/gallery/pantry_corner.jpg"
+        before="/images/gallery/before-after/pantry_corner_before2.jpg"
+        after="/images/gallery/before-after/pantry_corner.jpg"
         alt="Pantry organised with labelled containers"
+        title="Corner pantry"
+        description="A busy corner becomes calmer with grouped categories and better shelf flow."
         labelBefore="Before"
         labelAfter="After"
         start={55}
+      />
+
+      <BeforeAfterComponent
+        before="/images/gallery/before-after/kitchen_before.png"
+        after="/images/gallery/before-after/kitchen_after.jpg"
+        alt="Kitchen bench and storage area after organising"
+        title="Kitchen surfaces"
+        description="Benches and storage zones are cleared so the room feels lighter and easier to use."
+        labelBefore="Before"
+        labelAfter="After"
+        start={50}
+      />
+
+      <BeforeAfterComponent
+        before="/images/gallery/before-after/kitchen2_before.png"
+        after="/images/gallery/before-after/kitchen2_after.jpg"
+        alt="Kitchen storage area after organising"
+        title="Kitchen storage"
+        description="A more intentional layout helps the essentials sit where they naturally belong."
+        labelBefore="Before"
+        labelAfter="After"
+        start={50}
+      />
+
+      <BeforeAfterComponent
+        before="/images/gallery/before-after/kitchen3_before.png"
+        after="/images/gallery/before-after/kitchen3_after.jpg"
+        alt="Kitchen area after organising"
+        title="Kitchen refresh"
+        description="The finished space keeps the practical items close while reducing visual clutter."
+        labelBefore="Before"
+        labelAfter="After"
+        start={50}
       />
     </div>
 
@@ -236,5 +281,36 @@ import BeforeAfterComponent from "../components/BeforeAfter.astro";
     });
   });
 </script>
+
+<style>
+  .before-after-intro {
+    max-width: 760px;
+    margin: 3.5rem auto 1.25rem;
+    text-align: center;
+  }
+
+  .before-after-intro h2 {
+    margin: 0 0 .45rem;
+  }
+
+  .before-after-intro p:last-child {
+    margin: 0 auto;
+    color: var(--ink-soft);
+  }
+
+  .ba-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.1rem;
+    max-width: 1180px;
+    margin-inline: auto;
+  }
+
+  @media (max-width: 850px) {
+    .ba-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
 
 </Base>

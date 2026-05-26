@@ -4,87 +4,207 @@
  *  - before (string)
  *  - after  (string)
  *  - alt    (string)
+ *  - title? (string)
+ *  - description? (string)
  *  - labelBefore? (string)
  *  - labelAfter?  (string)
- *  - start? (0–100)
+ *  - start? (0-100)
  */
 const {
   before,
   after,
   alt = 'Before and after comparison',
+  title,
+  description,
   labelBefore = 'Before',
   labelAfter = 'After',
   start = 50
 } = Astro.props;
 ---
-<div class="ba" style={`--pos:${start}%`} data-start={start}>
-  <img class="ba-img ba-after" src={after} alt={alt} loading="eager" />
-  <img class="ba-img ba-before" src={before} alt="" aria-hidden="true" loading="eager" />
 
-  <div class="ba-handle" aria-hidden="true"></div>
-  <input
-    class="ba-range"
-    type="range"
-    min="0"
-    max="100"
-    value={start}
-    aria-label="Slide to compare before and after"
-  />
+<div class="ba-block">
+  {(title || description) && (
+    <div class="ba-block__copy">
+      {title && <h3>{title}</h3>}
+      {description && <p>{description}</p>}
+    </div>
+  )}
 
-  <div class="ba-label ba-label--before">{labelBefore}</div>
-  <div class="ba-label ba-label--after">{labelAfter}</div>
+  <div class="ba" style={`--pos:${start}%`} data-start={start}>
+    <img class="ba-img ba-after" src={after} alt={alt} loading="eager" />
+    <img class="ba-img ba-before" src={before} alt="" aria-hidden="true" loading="eager" />
+
+    <div class="ba-handle" aria-hidden="true">
+      <span></span>
+    </div>
+    <input
+      class="ba-range"
+      type="range"
+      min="0"
+      max="100"
+      value={start}
+      aria-label="Slide to compare before and after"
+    />
+
+    <div class="ba-label ba-label--before">{labelBefore}</div>
+    <div class="ba-label ba-label--after">{labelAfter}</div>
+  </div>
 </div>
 
 <style>
+  .ba-block {
+    display: grid;
+    gap: .7rem;
+  }
+
+  .ba-block__copy {
+    max-width: 720px;
+  }
+
+  .ba-block__copy h3 {
+    margin: 0;
+    font-size: 1.08rem;
+    line-height: 1.25;
+  }
+
+  .ba-block__copy p {
+    margin: .25rem 0 0;
+    color: var(--ink-soft, #475569);
+    font-size: .95rem;
+    line-height: 1.45;
+  }
+
   .ba {
     --pos: 50%;
     position: relative;
     width: 100%;
     aspect-ratio: 4 / 3;
-    border-radius: var(--radius, 14px);
+    border-radius: 14px;
     overflow: hidden;
-    box-shadow: var(--shadow, 0 10px 30px rgba(2,8,23,.08));
+    border: 1px solid rgba(15, 23, 42, .08);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.45);
     background: #f7f4f1;
     touch-action: none;
   }
-  @media (min-width: 1200px) { .ba { aspect-ratio: 3 / 2; } }
-  @media (max-width: 700px)  { .ba { aspect-ratio: 4 / 3; } }
 
   .ba-img {
-    position: absolute; inset: 0;
-    width: 100%; height: 100%;
-    object-fit: cover; object-position: bottom center;
-    user-select: none; -webkit-user-drag: none; pointer-events: none;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    user-select: none;
+    -webkit-user-drag: none;
+    pointer-events: none;
   }
-  .ba-before { clip-path: inset(0 calc(100% - var(--pos)) 0 0); }
+
+  .ba-before {
+    clip-path: inset(0 calc(100% - var(--pos)) 0 0);
+  }
+
+  .ba::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(90deg, rgba(15,23,42,.12), transparent 16%, transparent 84%, rgba(15,23,42,.12));
+    mix-blend-mode: multiply;
+    opacity: .45;
+  }
 
   .ba-handle {
-    position: absolute; top: 0; bottom: 0; left: var(--pos);
-    transform: translateX(-50%); width: 2px;
-    background: rgba(15, 23, 42, .35); pointer-events: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--pos);
+    transform: translateX(-50%);
+    width: 3px;
+    background: rgba(255,255,255,.96);
+    box-shadow: 0 0 0 1px rgba(15, 23, 42, .16), 0 0 18px rgba(2,8,23,.22);
+    pointer-events: none;
+    z-index: 3;
   }
-  .ba-handle::after {
-    content: ""; position: absolute; top: 50%; left: 50%;
+
+  .ba-handle span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%,-50%);
-    width: 18px; height: 18px; border-radius: 50%;
-    background: #fff; border: 2px solid rgba(15,23,42,.4);
-    box-shadow: 0 4px 12px rgba(0,0,0,.15);
+    width: 46px;
+    height: 46px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.94);
+    border: 1px solid rgba(15,23,42,.16);
+    box-shadow: 0 10px 24px rgba(2,8,23,.22);
+    backdrop-filter: blur(6px);
+  }
+
+  .ba-handle span::before,
+  .ba-handle span::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    border-top: 2px solid var(--brand-dark, #0f766e);
+    border-left: 2px solid var(--brand-dark, #0f766e);
+  }
+
+  .ba-handle span::before {
+    left: 12px;
+    transform: translateY(-50%) rotate(-45deg);
+  }
+
+  .ba-handle span::after {
+    right: 12px;
+    transform: translateY(-50%) rotate(135deg);
   }
 
   .ba-range {
-    position: absolute; inset: 0; width: 100%; height: 100%;
-    opacity: 0; cursor: ew-resize; z-index: 2; touch-action: none;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: ew-resize;
+    z-index: 4;
+    touch-action: none;
   }
 
   .ba-label {
-    position: absolute; top: 10px; padding: .25rem .5rem;
-    font-weight: 700; font-size: .9rem; border-radius: .5rem;
-    background: rgba(0,0,0,.5); color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.25);
-    user-select: none; pointer-events: none; z-index: 1;
+    position: absolute;
+    top: 12px;
+    padding: .3rem .65rem;
+    font-weight: 800;
+    font-size: .78rem;
+    border-radius: 999px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    background: rgba(255,255,255,.92);
+    color: var(--ink, #0f172a);
+    border: 1px solid rgba(15,23,42,.10);
+    box-shadow: 0 8px 20px rgba(2,8,23,.12);
+    user-select: none;
+    pointer-events: none;
+    z-index: 2;
   }
-  .ba-label--before { left: 10px; }
-  .ba-label--after  { right: 10px; }
+
+  .ba-label--before {
+    left: 12px;
+  }
+
+  .ba-label--after {
+    right: 12px;
+  }
+
+  @media (max-width: 700px) {
+    .ba-handle span {
+      width: 40px;
+      height: 40px;
+    }
+  }
 </style>
 
-<!-- External logic only -->
 <script src="/js/ba.js" type="module" defer></script>
