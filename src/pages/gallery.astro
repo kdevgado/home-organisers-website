@@ -3,90 +3,13 @@ import Base from "../layouts/Base.astro";
 import BeforeAfterComponent from "../components/BeforeAfter.astro";
 ---
 
-<Base title="Before & After — Real Home Transformations">
+<Base title="Before & After - Real Home Transformations">
   <section class="container services-hero">
     <h1>Gallery</h1>
-      <p>
-        <strong>Real homes. Real results.</strong> Here's a peek at the kind of change
-        simple systems can make.
-      </p>
-    <!-- 🎬 FEATURED VIDEO -->
-    <section class="featured-video">
-      <div class="featured-video__shell">
-        <div class="featured-video__header">
-          <p class="featured-video__kicker">Featured Transformation</p>
-          <h2 class="featured-video__title">House Staging Walkthrough</h2>
-          <p class="featured-video__desc">
-            A quick look at how we create calm, functional spaces with simple systems.
-          </p>
-        </div>
-
-        <button
-          class="video-thumb featured-video__thumb"
-          type="button"
-          data-type="youtube"
-          data-id="Yh1ooi1RGJc?si=866ILyPqrTb4yfrb"
-          aria-label="Play house staging video"
-        >
-          <img src="/images/gallery/video-thumb.jpg" alt="Play house staging video" />
-          <span class="featured-video__play" aria-hidden="true">
-            <span class="featured-video__playIcon">▶</span>
-            <span class="featured-video__playText">Play video</span>
-          </span>
-        </button>
-      </div>
-    </section>
-
-    <h2 class="gallery-heading">House Staging</h2>
-
-    <!-- 🖼️ GALLERY SECTION -->
-    <div class="gallery">
-      <!-- Mickelham -->
-      <img src="/images/gallery/mickelham/4.jpg" alt=" organisation" />
-      <img src="/images/gallery/mickelham/5.jpg" alt=" organisation" />
-      <img src="/images/gallery/mickelham/1.jpg" alt=" organisation" />
-      <img src="/images/gallery/mickelham/2.jpg" alt=" organisation" />
-      <img src="/images/gallery/mickelham/3.jpg" alt=" organisation" />
-
-      <img src="/images/gallery/mickelham/6.jpg" alt=" organisation" />
-      <img src="/images/gallery/mickelham/7.jpg" alt=" organisation" />
-      <img src="/images/gallery/mickelham/8.jpg" alt=" organisation" />
-      <img src="/images/gallery/mickelham/9.jpg" alt=" organisation" />
-      <img src="/images/gallery/mickelham/10.jpg" alt=" organisation" />
-      <img src="/images/gallery/mickelham/11.jpg" alt=" organisation" />
-
-      <!-- Sharehouse -->
-      <img src="/images/gallery/sharehouse/1.jpg" alt="Closet organisation" />
-      <img src="/images/gallery/sharehouse/2.jpg" alt="Closet organisation" />
-      <img src="/images/gallery/sharehouse/3.jpg" alt="Closet organisation" />
-      <img src="/images/gallery/sharehouse/4.jpg" alt="Closet organisation" />
-      <img src="/images/gallery/sharehouse/5.jpg" alt="Closet organisation" />
-      <img src="/images/gallery/sharehouse/6.jpg" alt="Closet organisation" />
-      <img src="/images/gallery/sharehouse/7.jpg" alt="Closet organisation" />
-
-      <!-- Mickelham -->
-      <img src="/images/gallery/gladstone/1.jpg" alt=" organisation" />
-      <img src="/images/gallery/gladstone/2.jpg" alt=" organisation" />
-      <img src="/images/gallery/gladstone/3.jpg" alt=" organisation" />
-      <img src="/images/gallery/gladstone/4.jpg" alt=" organisation" />
-
-      <!-- Shepparton -->
-      <img src="/images/gallery/shepparton/shelves.png" alt="Organised shelving in a Shepparton home" />
-    </div>
-
-    <!-- LIGHTBOX MODAL -->
-    <div id="lightbox" class="lightbox hidden" aria-hidden="true">
-      <span class="close" role="button" tabindex="0" aria-label="Close"
-        >&times;</span
-      >
-
-      <!-- Dynamic content goes here (image OR video) -->
-      <div class="lightbox-content" id="lightboxContent"></div>
-
-      <button class="prev" aria-label="Previous">&#10094;</button>
-      <button class="next" aria-label="Next">&#10095;</button>
-    </div>
-
+    <p>
+      <strong>Real homes. Real results.</strong> Here's a peek at the kind of change
+      simple systems can make.
+    </p>
     <div class="before-after-intro">
       <p class="featured-video__kicker">Before & After</p>
       <h2>Practical transformations</h2>
@@ -152,22 +75,104 @@ import BeforeAfterComponent from "../components/BeforeAfter.astro";
       />
     </div>
 
+    <section class="featured-video gallery-section">
+      <div class="featured-video__shell">
+        <div class="featured-video__header video-highlight__header">
+          <div>
+            <p class="featured-video__kicker">Featured Transformation</p>
+            <h2 class="featured-video__title">House Staging Walkthrough</h2>
+            <p class="featured-video__desc">
+              A quick look at how we create calm, functional spaces with simple systems.
+            </p>
+          </div>
+          <a
+            class="video-highlight__channel"
+            href="https://www.youtube.com/@HomeOrgAustralia"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Visit YouTube channel
+          </a>
+        </div>
+
+        <button
+          class="video-thumb featured-video__thumb"
+          type="button"
+          data-type="youtube"
+          data-id="Yh1ooi1RGJc"
+          aria-label="Play house staging video"
+        >
+          <img src="/images/gallery/video-thumb.jpg" alt="Play house staging video" />
+          <span class="featured-video__play" aria-hidden="true">
+            <span class="featured-video__playIcon">&#9658;</span>
+            <span class="featured-video__playText">Play video</span>
+          </span>
+        </button>
+      </div>
+    </section>
+
+    <div class="gallery-intro">
+      <p class="featured-video__kicker">Gallery</p>
+      <h2 class="gallery-heading">House Staging</h2>
+    </div>
+
+    <div class="gallery">
+      <img src="/images/gallery/mickelham/4.jpg" alt="House staging transformation" />
+      <img src="/images/gallery/mickelham/5.jpg" alt="House staging transformation" />
+      <img src="/images/gallery/mickelham/1.jpg" alt="House staging transformation" />
+      <img src="/images/gallery/mickelham/2.jpg" alt="House staging transformation" />
+      <img src="/images/gallery/mickelham/3.jpg" alt="House staging transformation" />
+
+      <img src="/images/gallery/mickelham/6.jpg" alt="House staging transformation" />
+      <img src="/images/gallery/mickelham/7.jpg" alt="House staging transformation" />
+      <img src="/images/gallery/mickelham/8.jpg" alt="House staging transformation" />
+      <img src="/images/gallery/mickelham/9.jpg" alt="House staging transformation" />
+      <img src="/images/gallery/mickelham/10.jpg" alt="House staging transformation" />
+      <img src="/images/gallery/mickelham/11.jpg" alt="House staging transformation" />
+
+      <img src="/images/gallery/sharehouse/1.jpg" alt="Closet organisation" />
+      <img src="/images/gallery/sharehouse/2.jpg" alt="Closet organisation" />
+      <img src="/images/gallery/sharehouse/3.jpg" alt="Closet organisation" />
+      <img src="/images/gallery/sharehouse/4.jpg" alt="Closet organisation" />
+      <img src="/images/gallery/sharehouse/5.jpg" alt="Closet organisation" />
+      <img src="/images/gallery/sharehouse/6.jpg" alt="Closet organisation" />
+      <img src="/images/gallery/sharehouse/7.jpg" alt="Closet organisation" />
+
+      <img src="/images/gallery/gladstone/1.jpg" alt="House staging transformation" />
+      <img src="/images/gallery/gladstone/2.jpg" alt="House staging transformation" />
+      <img src="/images/gallery/gladstone/3.jpg" alt="House staging transformation" />
+      <img src="/images/gallery/gladstone/4.jpg" alt="House staging transformation" />
+
+      <img src="/images/gallery/shepparton/shelves.png" alt="Organised shelving in a Shepparton home" />
+    </div>
+
+    <div id="lightbox" class="lightbox hidden" aria-hidden="true">
+      <span class="close" role="button" tabindex="0" aria-label="Close"
+        >&times;</span
+      >
+
+      <div class="lightbox-content" id="lightboxContent"></div>
+
+      <button class="prev" aria-label="Previous">&#10094;</button>
+      <button class="next" aria-label="Next">&#10095;</button>
+    </div>
+
     <p class="muted">
       More transformations coming soon. Each session focuses on practical,
-      maintainable changes — not show-home perfection.
+      maintainable changes - not show-home perfection.
     </p>
     <p>
       <a class="btn" href="/contact"
-        >Be the next transformation — book your session</a
+        >Be the next transformation - book your session</a
       >
     </p>
   </section>
 
-  <!-- 💡 GALLERY & LIGHTBOX SCRIPT -->
+  <!-- Gallery and lightbox script -->
   <script>
   document.addEventListener("DOMContentLoaded", () => {
     const galleryImages = Array.from(
-      document.querySelectorAll<HTMLImageElement>(".gallery > img") // ✅ skips thumbnail img
+      document.querySelectorAll<HTMLImageElement>(".gallery > img")
     );
 
     const videoThumb = document.querySelector<HTMLButtonElement>(".video-thumb");
@@ -208,7 +213,7 @@ import BeforeAfterComponent from "../components/BeforeAfter.astro";
     const closeLightbox = () => {
       lightbox.classList.add("hidden");
       lightbox.setAttribute("aria-hidden", "true");
-      lightboxContent.innerHTML = ""; // ✅ stops YouTube playback
+      lightboxContent.innerHTML = "";
     };
 
     const renderItem = (index: number) => {
@@ -285,7 +290,7 @@ import BeforeAfterComponent from "../components/BeforeAfter.astro";
 <style>
   .before-after-intro {
     max-width: 760px;
-    margin: 3.5rem auto 1.25rem;
+    margin: 2.25rem auto 1.25rem;
     text-align: center;
   }
 
@@ -306,9 +311,65 @@ import BeforeAfterComponent from "../components/BeforeAfter.astro";
     margin-inline: auto;
   }
 
+  .gallery-section {
+    margin-top: 3.5rem;
+  }
+
+  .video-highlight__header {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .video-highlight__channel {
+    align-self: start;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.75rem;
+    padding: .7rem 1rem;
+    border-radius: 999px;
+    background: #fff;
+    color: rgba(30, 120, 80, .95);
+    border: 1px solid rgba(30, 120, 80, .22);
+    box-shadow: 0 10px 24px rgba(0,0,0,.08);
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+
+  .video-highlight__channel:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 14px 30px rgba(0,0,0,.11);
+  }
+
+  .gallery-intro {
+    max-width: 760px;
+    margin: 3rem auto 1rem;
+    text-align: center;
+  }
+
+  .gallery-heading {
+    margin: 0;
+  }
+
   @media (max-width: 850px) {
     .ba-grid {
       grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .video-highlight__header {
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .video-highlight__channel {
+      align-self: center;
+      white-space: normal;
     }
   }
 </style>
