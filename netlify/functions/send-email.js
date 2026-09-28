@@ -92,6 +92,25 @@ export async function handler(event) {
       return json(400, { error });
     }
 
+    if (!data || typeof data !== "object" || Array.isArray(data)) {
+      return json(400, { error: "Invalid form data" });
+    }
+    const isFollowUs = data.form_type === "follow-us";
+    if (isFollowUs) {
+      if (data.website) return json(200, { success: true });
+      if (
+        typeof data.name !== "string" || !data.name.trim() || data.name.length > 120 ||
+        typeof data.email !== "string" || data.email.length > 254 ||
+        !isEmail(data.email.trim()) || /[\r\n]/.test(data.email) ||
+        (data.phone !== undefined && (typeof data.phone !== "string" || data.phone.length > 40))
+      ) {
+        return json(400, { error: "Please provide a name and valid contact details" });
+      }
+      if (data.consent !== true) {
+        return json(400, { error: "Please agree to receive promotional updates" });
+      }
+    }
+
     const {
       name,
       email,
@@ -112,7 +131,7 @@ export async function handler(event) {
     }
 
     const isCompetitionEntry = service === "Competition Entry";
-    if (!isCompetitionEntry && !formatText(address, "")) {
+    if (!isFollowUs && !isCompetitionEntry && !formatText(address, "")) {
       return json(400, { error: "Address is required" });
     }
     const locationLabel = isCompetitionEntry ? "Suburb/Town" : "Address";
@@ -136,6 +155,27 @@ export async function handler(event) {
         accessToken: accessToken.token,
       },
     });
+
+    if (isFollowUs) {
+      await transporter.sendMail({
+        from: `"Website Sign-up" <${process.env.GMAIL_USER}>`,
+        to: process.env.GMAIL_USER,
+        replyTo: cleanEmail,
+        subject: "New Follow Us promotional sign-up",
+        text: [
+          "New Follow Us promotional sign-up",
+          "",
+          `Name: ${formatText(name)}`,
+          `Email: ${cleanEmail}`,
+          `Phone: ${formatText(phone)}`,
+          "",
+          "Consent: Agreed to receive freebies, organising tips and promotional updates from Home Organisers Australia.",
+          `Received at: ${new Date().toISOString()}`,
+          "Source: Follow Us page",
+        ].join("\n"),
+      });
+      return json(200, { success: true });
+    }
 
     const ownerText = [
       "New consultation request",

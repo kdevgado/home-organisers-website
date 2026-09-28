@@ -1,0 +1,72 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base
+  title="Follow Us - Home Organisers Australia"
+  description="Stay in touch with Home Organisers Australia for freebies, organising tips and promotional updates."
+>
+  <section class="page">
+    <div class="container narrow">
+      <p class="muted">Stay in the loop</p>
+      <h1>Follow Us</h1>
+      <p>
+        A little inspiration for a more organised home. Leave your details to
+        hear about freebies, helpful organising tips and upcoming promotions
+        from Home Organisers Australia.
+      </p>
+
+      <form id="follow-us-form" class="booking-form" method="POST" action="/.netlify/functions/send-email">
+        <h2>Be first to hear</h2>
+        <p class="muted small">Name, email and your agreement below are required.</p>
+        <div class="grid-2">
+          <label>
+            Name
+            <input type="text" name="name" autocomplete="name" maxlength="120" required />
+          </label>
+          <label>
+            Email
+            <input type="email" name="email" autocomplete="email" maxlength="254" required />
+          </label>
+        </div>
+        <label>
+          Phone (optional)
+          <input type="tel" name="phone" autocomplete="tel" maxlength="40" />
+        </label>
+        <div hidden aria-hidden="true">
+          <label>Leave this field blank <input name="website" tabindex="-1" autocomplete="off" /></label>
+        </div>
+        <label class="signup-consent">
+          <input type="checkbox" name="consent" required />
+          <span>I agree to receive freebies, organising tips and promotional updates from Home Organisers Australia.</span>
+        </label>
+        <p class="muted small">
+          You can ask to stop receiving updates at any time by emailing
+          <a href="mailto:roweedelgado@homeorg.com.au">roweedelgado@homeorg.com.au</a>.
+        </p>
+        <button class="btn" type="submit" disabled>Keep me updated</button>
+        <p id="follow-us-status" role="status" aria-live="polite" aria-atomic="true"></p>
+        <noscript>Please enable JavaScript to sign up, or email <a href="mailto:roweedelgado@homeorg.com.au">roweedelgado@homeorg.com.au</a>.</noscript>
+      </form>
+
+      <div class="follow-socials">
+        <h2>Find us on social media</h2>
+        <p>Follow along for fresh ideas and updates.</p>
+        <div class="social-links">
+          <a href="https://www.facebook.com/HomeOrgAustralia" target="_blank" rel="noopener noreferrer">Facebook <span class="small">(opens in a new tab)</span></a>
+          <a href="https://www.instagram.com/homeorg.com.au/" target="_blank" rel="noopener noreferrer">Instagram <span class="small">(opens in a new tab)</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script src="/js/follow-us.js" type="module"></script>
+</Base>
+
+<style>
+  .booking-form .signup-consent { display: flex; gap: .75rem; align-items: flex-start; }
+  .signup-consent input { appearance: auto; width: 1.15rem; height: 1.15rem; flex: 0 0 auto; margin-top: .25rem; accent-color: var(--brand); }
+  #follow-us-status { margin-bottom: 0; }
+  #follow-us-status[data-error="true"] { color: #9b2424; }
+  .follow-socials { margin-top: 2rem; }
+  .social-links { display: flex; flex-wrap: wrap; gap: 1rem 2rem; }
+</style>
