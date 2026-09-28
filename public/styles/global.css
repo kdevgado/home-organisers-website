@@ -1244,15 +1244,78 @@ button[aria-busy="true"]::after{
 /* Dark mode niceties */
 @media (prefers-color-scheme: dark){
   .booking-form {
-    background: linear-gradient(180deg,#0b1220,#0b1220);
-    border-color: rgba(255,255,255,.08);
-  }
-  .booking-form label { color: #e6edf6; }   /* <-- add this line */
-  .booking-form select {
     color-scheme: dark;
+    --ink: #e6edf6;
+    --ink-soft: #b5c2d6;
+    --surface: #0e172a;
+    --border: #52627a;
+    color: var(--ink);
+    background: #0b1220;
+    border-color: #334155;
+  }
+  .booking-form input[type="text"],
+  .booking-form input[type="email"],
+  .booking-form input[type="tel"],
+  .booking-form select,
+  .booking-form textarea {
+    background: var(--surface);
+    border-color: var(--border);
+    color: var(--ink);
+  }
+  .booking-form input::placeholder,
+  .booking-form textarea::placeholder {
+    color: var(--ink-soft);
+    opacity: 1;
+  }
+  .booking-form input:autofill {
+    -webkit-text-fill-color: var(--ink);
+    box-shadow: 0 0 0 1000px var(--surface) inset;
+  }
+  .booking-form select {
+    background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 7L10 12L15 7' stroke='%23e6edf6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right .8rem center;
+    background-size: 16px;
+    padding-right: 2.6rem;
   }
   .booking-form select option {
+    background: var(--surface);
+    color: var(--ink);
+  }
+  .booking-form input:focus,
+  .booking-form select:focus,
+  .booking-form textarea:focus {
+    border-color: #5eead4;
+    outline-color: #5eead4;
+  }
+  .booking-form .chip {
+    background: var(--surface);
+    border-color: var(--border);
+    color: var(--ink);
+  }
+  .booking-form .chip:hover {
+    background: #1b2c40;
+    border-color: #5eead4;
+  }
+  .booking-form .chip.is-selected {
+    background: #134e4a;
+    border-color: #5eead4;
+    color: #ccfbf1;
+  }
+  .booking-form .chip:focus-visible,
+  .booking-form .btn:focus-visible {
+    outline: 2px solid #5eead4;
+    outline-offset: 3px;
+  }
+  .booking-form .btn {
+    color: #082f2b;
+  }
+  .booking-form .btn:hover {
+    color: #fff;
+  }
+  #toast:not(.error) {
     background: #0e172a;
+    border-color: #52627a;
     color: #e6edf6;
   }
   .slot-btn {
