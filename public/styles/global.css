@@ -1134,6 +1134,10 @@ button[aria-busy="true"]::after{
   transition: border-color .18s ease, box-shadow .18s ease, background-color .18s ease;
   background: #fff;
 }
+.booking-form textarea {
+  resize: vertical;
+}
+
 .booking-form input:focus,
 .booking-form select:focus,
 .booking-form textarea:focus {
