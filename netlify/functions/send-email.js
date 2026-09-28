@@ -96,6 +96,7 @@ export async function handler(event) {
       name,
       email,
       phone,
+      address,
       suburb,
       services,
       service,
@@ -109,6 +110,13 @@ export async function handler(event) {
     if (!formatText(name, "") || !isEmail(cleanEmail)) {
       return json(400, { error: "Name and a valid email are required" });
     }
+
+    const isCompetitionEntry = service === "Competition Entry";
+    if (!isCompetitionEntry && !formatText(address, "")) {
+      return json(400, { error: "Address is required" });
+    }
+    const locationLabel = isCompetitionEntry ? "Suburb/Town" : "Address";
+    const location = isCompetitionEntry ? suburb : address;
 
     const selectedServices = splitServices(services || service);
     const servicesText = selectedServices.length
@@ -135,7 +143,7 @@ export async function handler(event) {
       `Name: ${formatText(name)}`,
       `Email: ${formatText(email)}`,
       `Phone: ${formatText(phone)}`,
-      `Suburb/Town: ${formatText(suburb)}`,
+      `${locationLabel}: ${formatText(location)}`,
       `Preferred contact method: ${formatText(contact_method)}`,
       `How they found us: ${formatText(referral_source)}`,
       `Services requested: ${servicesText}`,
@@ -171,8 +179,8 @@ export async function handler(event) {
                 <td style="padding: 0 0 14px;">${formatHtml(phone)}</td>
               </tr>
               <tr>
-                <td style="padding: 0 0 14px; font-weight: 700;">Suburb/Town</td>
-                <td style="padding: 0 0 14px;">${formatHtml(suburb)}</td>
+                <td style="padding: 0 0 14px; font-weight: 700;">${locationLabel}</td>
+                <td style="padding: 0 0 14px;">${formatHtml(location)}</td>
               </tr>
               <tr>
                 <td style="padding: 0 0 14px; font-weight: 700;">Preferred contact</td>

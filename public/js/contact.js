@@ -84,6 +84,7 @@ form?.addEventListener("submit", async (event) => {
   const name = form.elements.name?.value?.trim();
   const email = form.elements.email?.value?.trim();
   const phone = form.elements.phone?.value?.trim();
+  const address = form.elements.address?.value?.trim();
   const contactMethod = form.elements.contact_method?.value;
   const referralSource = form.elements.referral_source?.value;
   const bookingDate = form.elements.booking_date?.value?.trim();
@@ -92,6 +93,7 @@ form?.addEventListener("submit", async (event) => {
     !name ||
     !email ||
     !phone ||
+    !address ||
     !contactMethod ||
     !referralSource ||
     !bookingDate
@@ -108,7 +110,7 @@ form?.addEventListener("submit", async (event) => {
       name,
       email,
       phone,
-      suburb: form.elements.suburb?.value?.trim() || "",
+      address,
       contact_method: contactMethod,
       referral_source: referralSource,
       services: servicesInput?.value || "Not sure yet",
