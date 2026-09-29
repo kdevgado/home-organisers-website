@@ -2272,8 +2272,8 @@ button, input, select, textarea { font: inherit; }
 a { color: #0f766e; }
 .skip-link { position: fixed; top: 8px; left: 8px; padding: .7rem 1rem; background: #fff; color: #0f172a; z-index: 2147483647; transform: translateY(-150%); }
 .skip-link:focus { transform: none; }
-.btn, .nav .btn, .mobile-item.cta .btn, .floating-cta { background: #0f766e; color: #fff; }
-.btn:hover, .floating-cta:hover { background: #115e59; }
+.btn, .nav .btn, .mobile-item.cta .btn, .booking-form .btn, .floating-cta { background: var(--brand); color: #082f2b; }
+.btn:hover, .nav .btn:hover, .mobile-item.cta .btn:hover, .booking-form .btn:hover, .floating-cta:hover { background: #2dd4bf; color: #082f2b; }
 .btn:focus-visible, .floating-cta:focus-visible { outline: 3px solid #0f172a; outline-offset: 4px; }
 .nav a[aria-current="page"] { text-decoration: underline; text-underline-offset: .3em; }
 .site-footer { padding-bottom: 6rem; }

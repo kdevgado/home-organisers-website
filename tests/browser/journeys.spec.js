@@ -19,6 +19,10 @@ test('all public pages have usable layouts, metadata, links and accessible conte
     expect(broken, path).toEqual([]);
     const schema = await page.locator('script[type="application/ld+json"]').allTextContents();
     for (const json of schema) expect(JSON.parse(json)['@type']).toBe('LocalBusiness');
+    // Measure text after the service panel's entrance fade has finished.
+    await page.locator('.tab-panel.is-active').evaluateAll(panels => Promise.all(
+      panels.flatMap(panel => panel.getAnimations()).map(animation => animation.finished)
+    ));
     const scan = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
     expect.soft(scan.violations.map(v => ({ id: v.id, nodes: v.nodes.map(n => n.target) })), path).toEqual([]);
   }
@@ -142,8 +146,8 @@ test('requested homepage content, automatic feeds and Follow Us sign-up remain a
     await page.getByRole('button', { name: 'Open menu' }).click();
     await page.locator('#mobile-nav').getByRole('link', { name: 'Follow Us', exact: true }).click();
   } else await page.locator('.nav-desktop').getByRole('link', { name: 'Follow Us', exact: true }).click();
-  await page.getByLabel('Name', { exact: true }).fill('Test Visitor');
-  await page.getByLabel('Email', { exact: true }).fill('visitor@example.com');
+  await page.getByRole('textbox', { name: 'Name', exact: true }).fill('Test Visitor');
+  await page.getByRole('textbox', { name: 'Email', exact: true }).fill('visitor@example.com');
   await page.getByRole('button', { name: 'Keep me updated' }).click();
   expect(await page.locator('input[name="consent"]').evaluate(input => input.validity.valueMissing)).toBeTruthy();
   await page.getByRole('checkbox').check();
@@ -168,7 +172,7 @@ test('tablet layouts and no-JavaScript fallbacks preserve essential content', as
   const fallback = await context.newPage();
   await fallback.goto('http://127.0.0.1:4322/services/space-efficiency');
   for (const panel of await fallback.locator('.tab-panel').all()) await expect(panel).toBeVisible();
-  await expect(fallback.locator('.nav-desktop').getByRole('link', { name: 'Request a quote' })).toBeVisible();
+  await expect(fallback.locator('.nav-desktop').getByRole('link', { name: 'Contact us' })).toBeVisible();
   expect(await fallback.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBeTruthy();
   await fallback.goto('http://127.0.0.1:4322/contact');
   await expect(fallback.getByRole('button', { name: 'Book consultation' })).toBeDisabled();

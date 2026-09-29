@@ -29,3 +29,15 @@ No push or deployment is included.
    - Dependency lockfile, runtime configuration, lint/type/test commands,
      Playwright journeys, Netlify headers, CI, gitignore and CMS noindex metadata.
    - README, audit plan/report and these commit messages.
+
+## Follow-up: button and sign-up labels
+
+Commit message: `fix(ui): brighten buttons and update contact and signup labels`
+
+- Rename shared quote buttons to Contact us and the homepage banner action to
+  Book your free consultation.
+- Restore bright brand teal buttons with readable dark labels and a lighter hover.
+- Keep service-page hover colours consistent and let entrance animations finish
+  before the existing accessibility scan measures text contrast.
+- Mark Follow Us name/email with an asterisk and label the optional phone field
+  simply Phone; keep native validation unchanged and update existing test selectors.

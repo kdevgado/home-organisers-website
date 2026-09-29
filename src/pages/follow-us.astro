@@ -21,16 +21,16 @@ import Base from "../layouts/Base.astro";
         <p class="muted small">Name, email and your agreement below are required.</p>
         <div class="grid-2">
           <label>
-            Name
+            Name <span aria-hidden="true">*</span>
             <input type="text" name="name" autocomplete="name" maxlength="120" required />
           </label>
           <label>
-            Email
+            Email <span aria-hidden="true">*</span>
             <input type="email" name="email" autocomplete="email" maxlength="254" required />
           </label>
         </div>
         <label>
-          Phone (optional)
+          Phone
           <input type="tel" name="phone" autocomplete="tel" maxlength="40" />
         </label>
         <div hidden aria-hidden="true">

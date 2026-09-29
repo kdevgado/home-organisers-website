@@ -121,7 +121,6 @@
 
 /* ====== Buttons ====== */
 .btn:hover {
-  background: var(--brand-dark);
   box-shadow: 0 10px 24px rgba(var(--brand-rgb), .3);
   transform: translateY(-2px);
 }

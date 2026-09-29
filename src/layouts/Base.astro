@@ -59,13 +59,13 @@ const business = {
           {links.map(([href, label]) => href === '/services' ? (
             <div class="dropdown"><a href={href} aria-current={pathname === href ? 'page' : undefined}>{label}</a><div class="dropdown-menu">{services.map(([url, name]) => <a href={url}>{name}</a>)}</div></div>
           ) : <a href={href} aria-current={pathname === href ? 'page' : undefined}>{label}</a>)}
-          <a class="btn" href="/contact" aria-current={pathname === '/contact' ? 'page' : undefined}>Request a quote</a>
+          <a class="btn" href="/contact" aria-current={pathname === '/contact' ? 'page' : undefined}>Contact us</a>
         </nav>
         <button class="menu-toggle" aria-controls="mobile-nav" aria-expanded="false" aria-label="Open menu"><span class="menu-bars" aria-hidden="true"></span></button>
       </div>
     </header>
     <main class="site-main" id="main-content" tabindex="-1"><slot /></main>
-    {showCTA && <a class="floating-cta" href="/contact">Request a quote</a>}
+    {showCTA && <a class="floating-cta" href="/contact">Contact us</a>}
     <footer class="site-footer">
       <div class="container">
         <p><strong>Based in Shepparton, Victoria.</strong> Serving Greater Shepparton, the Goulburn Valley and Northern Victoria.</p>
@@ -80,7 +80,7 @@ const business = {
     <div class="mobile-overlay" data-close></div>
     <nav id="mobile-nav" class="nav-mobile" aria-label="Mobile navigation" aria-hidden="true" inert>
       <div class="mobile-header"><span class="mobile-title">Menu</span><button class="menu-close" aria-label="Close menu" data-close><span class="menu-cross" aria-hidden="true"></span></button></div>
-      <ul class="mobile-list">{links.map(([href, label]) => <li class="mobile-item"><a href={href} aria-current={pathname === href ? 'page' : undefined}>{label}</a></li>)}<li class="mobile-item"><a href="/#testimonials">Testimonials</a></li><li class="mobile-item cta"><a class="btn" href="/contact">Request a quote</a></li></ul>
+      <ul class="mobile-list">{links.map(([href, label]) => <li class="mobile-item"><a href={href} aria-current={pathname === href ? 'page' : undefined}>{label}</a></li>)}<li class="mobile-item"><a href="/#testimonials">Testimonials</a></li><li class="mobile-item cta"><a class="btn" href="/contact">Contact us</a></li></ul>
     </nav>
     <script src="/js/navigation.js" is:inline defer></script>
     <noscript><style>.menu-toggle{display:none}.nav-desktop{display:flex;flex-wrap:wrap}.header-inner{flex-wrap:wrap}.nav a{margin:.4rem}</style></noscript>
