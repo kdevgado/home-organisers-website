@@ -1,4 +1,15 @@
 ---
+import Photo from './Photo.astro';
+interface Props {
+  before: string;
+  after: string;
+  alt?: string;
+  title?: string;
+  description?: string;
+  labelBefore?: string;
+  labelAfter?: string;
+  start?: number;
+}
 /**
  * Props:
  *  - before (string)
@@ -31,8 +42,8 @@ const {
   )}
 
   <div class="ba" style={`--pos:${start}%`} data-start={start}>
-    <img class="ba-img ba-after" src={after} alt={alt} loading="eager" />
-    <img class="ba-img ba-before" src={before} alt="" aria-hidden="true" loading="eager" />
+    <Photo class="ba-img ba-after" src={after} alt={alt} loading="lazy" />
+    <Photo class="ba-img ba-before" src={before} alt="" aria-hidden="true" loading="lazy" />
 
     <div class="ba-handle" aria-hidden="true">
       <span></span>
@@ -43,7 +54,7 @@ const {
       min="0"
       max="100"
       value={start}
-      aria-label="Slide to compare before and after"
+      aria-label={`Compare before and after: ${title || alt}`}
     />
 
     <div class="ba-label ba-label--before">{labelBefore}</div>
@@ -84,8 +95,10 @@ const {
     border: 1px solid rgba(15, 23, 42, .08);
     box-shadow: inset 0 0 0 1px rgba(255,255,255,.45);
     background: #f7f4f1;
-    touch-action: none;
+    touch-action: pan-y;
   }
+
+  .ba:focus-within { outline: 3px solid #0f766e; outline-offset: 4px; }
 
   .ba-img {
     position: absolute;
@@ -170,7 +183,7 @@ const {
     opacity: 0;
     cursor: ew-resize;
     z-index: 4;
-    touch-action: none;
+    touch-action: pan-y;
   }
 
   .ba-label {

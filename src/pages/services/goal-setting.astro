@@ -1,17 +1,18 @@
 ---
+import Photo from '../../components/Photo.astro';
 import Base from "../../layouts/Base.astro";
 import "../../../public/styles/services.css";
 const page = {
-  title: "Goal - Setting — Shepparton Home Organising",
+  title: "Household Systems & Goal Setting | HomeOrg",
   description: "Designing organised spaces that reduce friction, improve focus, and support your daily and long-term goals."
 };
 ---
-<Base {...page} canonical="https://homeorg.com.au/services/goal-setting" href="/styles/services.css">
+<Base {...page} canonical="https://homeorg.com.au/services/goal-setting">
   <section class="container services-hero">
     <h1>Goal - Setting</h1>
     <p class="lead">Designing organised spaces that reduce friction, improve focus, and support your daily and long-term goals.</p>
 
-    <div class="tabs">
+    <div class="tabs" hidden>
       <button class="tab is-active" data-target="common">Common Areas</button>
       <button class="tab" data-target="kitchen">Shared Kitchen</button>
       <button class="tab" data-target="storage">Personal Storage</button>
@@ -19,7 +20,7 @@ const page = {
 
     <div class="tab-panels">
       <div id="common" class="tab-panel is-active">
-        <img src="/images/services/goal-setting.png" alt="Shared living space" />
+        <Photo src="/images/services/goal-setting.png" alt="Shared living space" />
         <h2>Common Areas: reduce friction</h2>
         <ul class="checklist">
           <li>Neutral décor for inclusivity.</li>
@@ -28,7 +29,7 @@ const page = {
         </ul>
       </div>
       <div id="kitchen" class="tab-panel">
-        <img src="/images/services/goal-setting.png" alt="Shared kitchen" />
+        <Photo src="/images/services/goal-setting.png" alt="Shared kitchen" />
         <h2>Shared Kitchen: clear boundaries</h2>
         <ul class="checklist">
           <li>Labelled shelves for each person.</li>
@@ -37,7 +38,7 @@ const page = {
         </ul>
       </div>
       <div id="storage" class="tab-panel">
-        <img src="/images/services/goal-setting.png" alt="Personal storage" />
+        <Photo src="/images/services/goal-setting.png" alt="Personal storage" />
         <h2>Personal Storage: privacy respected</h2>
         <ul class="checklist">
           <li>Lockable boxes or cupboards.</li>
@@ -56,16 +57,8 @@ const page = {
       </ul>
       <p><a class="btn" href="/contact">Book a homeshare setup</a></p>
     </div>
+    <p><a href="/services">All services</a> &middot; <a href="/gallery">See before &amp; after results</a> &middot; <a href="/4c-steps-approach">Our 4Cs method</a></p>
   </section>
 
-  <script is:inline>
-    const tabs = document.querySelectorAll('.tab');
-    const panels = document.querySelectorAll('.tab-panel');
-    tabs.forEach(btn => btn.addEventListener('click', () => {
-      tabs.forEach(b => b.classList.remove('is-active'));
-      panels.forEach(p => p.classList.remove('is-active'));
-      btn.classList.add('is-active');
-      document.getElementById(btn.dataset.target).classList.add('is-active');
-    }));
-  </script>
+  <script src="/js/service-tabs.js" is:inline defer></script>
 </Base>

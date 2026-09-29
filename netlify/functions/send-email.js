@@ -1,3 +1,7 @@
+import { parseEnquiry } from '../lib/enquiry.js';
+
+export const config = { path: '/.netlify/functions/send-email', rateLimit: { windowLimit: 5, windowSize: 180, aggregateBy: ['ip', 'domain'] } };
+
 import nodemailer from "nodemailer";
 import { google } from "googleapis";
 
@@ -41,7 +45,7 @@ const splitServices = (services) => {
 
 const json = (statusCode, body) => ({
   statusCode,
-  headers: { "Content-Type": "application/json" },
+  headers: { "Content-Type": "application/json", "Cache-Control": "no-store" },
   body: JSON.stringify(body),
 });
 
@@ -61,16 +65,6 @@ const requiredEnv = [
 const missingEnv = () =>
   requiredEnv.filter((name) => !process.env[name] || !process.env[name].trim());
 
-const isEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-
-const parseBody = (body) => {
-  try {
-    return { data: JSON.parse(body || "{}") };
-  } catch {
-    return { error: "Invalid JSON body" };
-  }
-};
-
 export async function handler(event) {
   if (event.httpMethod !== "POST") {
     return methodNotAllowed();
@@ -87,29 +81,11 @@ export async function handler(event) {
       return json(500, { error: "Email service is not configured" });
     }
 
-    const { data, error } = parseBody(event.body);
-    if (error) {
-      return json(400, { error });
-    }
-
-    if (!data || typeof data !== "object" || Array.isArray(data)) {
-      return json(400, { error: "Invalid form data" });
-    }
-    const isFollowUs = data.form_type === "follow-us";
-    if (isFollowUs) {
-      if (data.website) return json(200, { success: true });
-      if (
-        typeof data.name !== "string" || !data.name.trim() || data.name.length > 120 ||
-        typeof data.email !== "string" || data.email.length > 254 ||
-        !isEmail(data.email.trim()) || /[\r\n]/.test(data.email) ||
-        (data.phone !== undefined && (typeof data.phone !== "string" || data.phone.length > 40))
-      ) {
-        return json(400, { error: "Please provide a name and valid contact details" });
-      }
-      if (data.consent !== true) {
-        return json(400, { error: "Please agree to receive promotional updates" });
-      }
-    }
+    const parsed = parseEnquiry(event);
+    if (parsed.error) return json(parsed.status, { error: parsed.error });
+    if (parsed.spam) return json(200, { success: true });
+    const { data } = parsed;
+    const isFollowUs = data.form_type === 'follow-us';
 
     const {
       name,
@@ -126,16 +102,8 @@ export async function handler(event) {
     } = data;
 
     const cleanEmail = formatText(email, "");
-    if (!formatText(name, "") || !isEmail(cleanEmail)) {
-      return json(400, { error: "Name and a valid email are required" });
-    }
-
-    const isCompetitionEntry = service === "Competition Entry";
-    if (!isFollowUs && !isCompetitionEntry && !formatText(address, "")) {
-      return json(400, { error: "Address is required" });
-    }
-    const locationLabel = isCompetitionEntry ? "Suburb/Town" : "Address";
-    const location = isCompetitionEntry ? suburb : address;
+    const locationLabel = suburb ? 'Suburb/Town' : 'Address';
+    const location = suburb || address;
 
     const selectedServices = splitServices(services || service);
     const servicesText = selectedServices.length
@@ -144,8 +112,12 @@ export async function handler(event) {
 
     const accessToken = await oAuth2Client.getAccessToken();
 
+    if (!accessToken.token) throw new Error("No email access token");
+
     const transporter = nodemailer.createTransport({
       service: "gmail",
+      disableFileAccess: true, disableUrlAccess: true,
+      connectionTimeout: 10000, greetingTimeout: 10000, socketTimeout: 15000,
       auth: {
         type: "OAuth2",
         user: process.env.GMAIL_USER,
@@ -178,7 +150,7 @@ export async function handler(event) {
     }
 
     const ownerText = [
-      "New consultation request",
+      "New HomeOrg enquiry",
       "",
       `Name: ${formatText(name)}`,
       `Email: ${formatText(email)}`,
@@ -186,6 +158,7 @@ export async function handler(event) {
       `${locationLabel}: ${formatText(location)}`,
       `Preferred contact method: ${formatText(contact_method)}`,
       `How they found us: ${formatText(referral_source)}`,
+      `Enquiring as: ${formatText(data.enquiry_role)}`,
       `Services requested: ${servicesText}`,
       `Consultation preferred date: ${formatText(booking_date)}`,
       "",
@@ -198,7 +171,7 @@ export async function handler(event) {
         <div style="max-width: 720px; margin: 0 auto; background: #ffffff; border-radius: 18px; overflow: hidden; border: 1px solid #e6dccf;">
           <div style="background: linear-gradient(135deg, #6f4e37, #b7895b); color: #ffffff; padding: 28px 32px;">
             <p style="margin: 0 0 8px; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.9;">Home Organisers Australia</p>
-            <h1 style="margin: 0; font-size: 28px; line-height: 1.2;">New consultation request</h1>
+            <h1 style="margin: 0; font-size: 28px; line-height: 1.2;">New HomeOrg enquiry</h1>
           </div>
           <div style="padding: 28px 32px;">
             <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
@@ -225,6 +198,10 @@ export async function handler(event) {
               <tr>
                 <td style="padding: 0 0 14px; font-weight: 700;">Preferred contact</td>
                 <td style="padding: 0 0 14px;">${formatHtml(contact_method)}</td>
+              </tr>
+              <tr>
+                <td style="padding: 0 0 14px; font-weight: 700;">Enquiring as</td>
+                <td style="padding: 0 0 14px;">${formatHtml(data.enquiry_role)}</td>
               </tr>
               <tr>
                 <td style="padding: 0 0 14px; font-weight: 700;">Referral source</td>
@@ -262,25 +239,22 @@ export async function handler(event) {
       from: `"Website Enquiry" <${process.env.GMAIL_USER}>`,
       to: process.env.GMAIL_USER,
       replyTo: cleanEmail,
-      subject: `New consultation request from ${formatText(name, "Website visitor")}`,
+      subject: `New HomeOrg enquiry from ${formatText(name, "Website visitor")}`,
       text: ownerText,
       html: ownerHtml,
     };
 
     await transporter.sendMail(mailOptions);
 
+    let acknowledgementSent = false;
     if (email) {
       const autoReplyText = [
-        `Hi ${formatText(name, "there")},`,
+        "Hello,",
         "",
-        "Thanks for booking a consultation with Home Organisers Australia.",
+        "Thanks for your enquiry to Home Organisers Australia.",
         "We've received your request and will be in touch soon to confirm the details.",
         "",
-        "Your submission summary",
-        `Preferred date: ${formatText(booking_date)}`,
-        `Preferred contact method: ${formatText(contact_method)}`,
-        `Services requested: ${servicesText}`,
-        `Brief notes: ${formatText(message)}`,
+        "This is an enquiry, not a confirmed appointment.",
         "",
         "If you need to update anything, just reply to this email.",
         "",
@@ -296,36 +270,19 @@ export async function handler(event) {
         <div style="font-family: Georgia, 'Times New Roman', serif; background: #f7f1e9; padding: 32px 16px; color: #2f261f;">
           <div style="max-width: 720px; margin: 0 auto; background: #ffffff; border-radius: 18px; overflow: hidden; border: 1px solid #e8ddd0;">
             <div style="background: linear-gradient(135deg, #d7b28a, #8a5a34); color: #ffffff; padding: 28px 32px;">
-              <p style="margin: 0 0 8px; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.92;">Booking received</p>
-              <h1 style="margin: 0; font-size: 28px; line-height: 1.2;">Thanks for reaching out, ${formatHtml(
-                name,
-                "there"
-              )}</h1>
+              <p style="margin: 0 0 8px; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.92;">Enquiry received</p>
+              <h1 style="margin: 0; font-size: 28px; line-height: 1.2;">Thanks for reaching out</h1>
             </div>
             <div style="padding: 28px 32px;">
               <p style="margin: 0 0 16px; line-height: 1.7;">
-                Thanks for booking a consultation with <strong>Home Organisers Australia</strong>.
+                Thanks for your enquiry to <strong>Home Organisers Australia</strong>.
                 We've received your request and will be in touch soon to confirm the details.
               </p>
 
-              <div style="margin: 24px 0; padding: 22px; background: #fbf7f2; border-radius: 14px; border: 1px solid #eee3d7;">
-                <p style="margin: 0 0 12px; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #8a5a34; font-weight: 700;">Your submission summary</p>
-                <p style="margin: 0 0 10px;"><strong>Preferred date:</strong> ${formatHtml(
-                  booking_date
-                )}</p>
-                <p style="margin: 0 0 10px;"><strong>Preferred contact method:</strong> ${formatHtml(
-                  contact_method
-                )}</p>
-                <p style="margin: 0 0 10px;"><strong>Services requested:</strong> ${formatHtml(
-                  servicesText
-                )}</p>
-                <p style="margin: 0;"><strong>Brief notes:</strong><br />${formatHtml(
-                  message
-                )}</p>
-              </div>
+              <p>This is an enquiry, not a confirmed appointment.</p>
 
               <p style="margin: 0 0 18px; line-height: 1.7;">
-                If anything changes, simply reply to this email and we'll update your booking request.
+                If anything changes, simply reply to this email and we'll update your enquiry.
               </p>
 
               <p style="margin: 0; line-height: 1.8;">
@@ -341,18 +298,24 @@ export async function handler(event) {
         </div>
       `;
 
-      await transporter.sendMail({
-        from: `"Home Organisers Australia" <${process.env.GMAIL_USER}>`,
-        to: cleanEmail,
-        subject: "We received your consultation request",
-        text: autoReplyText,
-        html: autoReplyHtml,
-      });
+      try {
+        await transporter.sendMail({
+          from: `"Home Organisers Australia" <${process.env.GMAIL_USER}>`,
+          to: cleanEmail,
+          subject: "We received your enquiry",
+          text: autoReplyText,
+          html: autoReplyHtml,
+          replyTo: process.env.GMAIL_USER,
+        });
+        acknowledgementSent = true;
+      } catch {
+        console.error("send-email: owner notified; acknowledgement failed");
+      }
     }
 
-    return json(200, { success: true });
+    return json(200, { success: true, acknowledgementSent });
   } catch (err) {
-    console.error(err);
+    console.error("send-email: delivery failed");
     return json(500, { error: "Failed to send email" });
   }
 }

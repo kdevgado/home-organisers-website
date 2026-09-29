@@ -1,4 +1,5 @@
 ---
+import Photo from '../components/Photo.astro';
 import Base from "../layouts/Base.astro";
 
 const title = "Win a Free Home Organising Makeover | Home Organisers Australia";
@@ -6,13 +7,14 @@ const description =
   "Enter for your chance to win up to 15 hours of free professional home organising, plus voucher prizes. Open to homeowners within 1 hour of Shepparton, Victoria.";
 ---
 
-<Base {title} {description} canonical="https://homeorg.com.au/competition">
+<Base {title} {description} canonical="https://homeorg.com.au/competition" noindex>
   <section class="competition-page">
     <div class="container">
       <!-- HERO -->
       <header class="competition-hero">
         <p class="eyebrow">Special 2026 Giveaway</p>
-        <h1>Win a Free Home Organising Makeover</h1>
+        <h1>2026 Home Organising Makeover - entries closed</h1>
+        <p class="card"><strong>Entries closed on 15 March 2026.</strong> The details below are kept for reference. For current services, <a href="/contact">enquire with HomeOrg</a>.</p>
         <p class="lead">
           Two lucky winners will receive up to
           <strong
@@ -24,12 +26,7 @@ const description =
 
         <div class="hero-layout">
           <div class="hero-copy">
-            <a
-              href="https://forms.gle/VwFScZJoDKyCxJDR8"
-              class="btn btn-primary"
-            >
-              Enter the Competition
-            </a>
+            <p><strong>Entries are closed.</strong></p>
 
             <p class="deadline">
               Entries close:
@@ -40,7 +37,7 @@ const description =
           </div>
 
           <figure class="hero-image">
-            <img
+            <Photo
               src="/images/competition/competition-promo.jpg"
               alt="Free home organising services competition"
             />
@@ -81,6 +78,7 @@ const description =
           </li>
           <li>Who are <strong>18 years old or older</strong></li>
 
+        </ul>
           <!-- Interactive eligibility map -->
           <div class="eligibility-map">
             <h3 class="map-title">Check your area (interactive map)</h3>
@@ -93,6 +91,7 @@ const description =
             <div
               id="eligibilityMap"
               class="map-canvas"
+              role="region"
               aria-label="Map showing eligible towns within approximately 1 hour of Shepparton"
             >
             </div>
@@ -113,7 +112,6 @@ const description =
               </ul>
             </details>
           </div>
-        </ul>
 
         <!-- HOW TO ENTER -->
         <section class="competition-section">
@@ -135,14 +133,7 @@ const description =
             </li>
           </ol>
 
-          <a
-              href="https://forms.gle/VwFScZJoDKyCxJDR8"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="btn btn-secondary"
-            >
-            Submit An Entry Form
-          </a>
+          <p><strong>Entries are closed.</strong></p>
         </section>
 
         <!-- JUDGING & DATES -->
@@ -175,7 +166,7 @@ const description =
             <h2>Enter the Competition</h2>
 
             <p class="entry-intro">
-              We've moved entries to a quick and secure Google Form. It only
+              Entries were collected using a Google Form. It took
               takes <strong>3-5 minutes</strong> to complete.
             </p>
 
@@ -185,17 +176,10 @@ const description =
               <li>Click submit and you're in the running!</li>
             </ul>
 
-            <a
-              href="https://forms.gle/VwFScZJoDKyCxJDR8"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="btn entry-btn"
-            >
-              Enter via Google Forms
-            </a>
+            <p><strong>Entries are closed.</strong></p>
 
             <p class="entry-note">
-              You'll be redirected to a Google Form in a new tab.
+              The entry form is no longer linked because this competition has closed.
             </p>
           </div>
         </section>
@@ -268,7 +252,7 @@ const description =
       crossorigin=""
     />
 
-    <script
+    <script is:inline
       src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
       crossorigin=""
@@ -300,6 +284,7 @@ const description =
           { name: "Tocumwal", coords: [-35.809, 145.569] },
         ];
 
+        const L = window.L;
         const map = L.map("eligibilityMap", {
           scrollWheelZoom: false,
         }).setView(shepparton, 9);
@@ -346,6 +331,6 @@ const description =
       });
     </script>
 
-    <script src="/js/competition-form.js" type="module" defer></script>
+
   </section>
 </Base>

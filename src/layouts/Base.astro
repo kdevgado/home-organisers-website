@@ -1,433 +1,88 @@
----
+﻿---
+import Photo from '../components/Photo.astro';
+interface Props { title?: string; description?: string; canonical?: string; noindex?: boolean; }
 const {
-  title = "Professional Home Organising - Shepparton & Goulburn Valley",
-  description = "Warm, non-judgemental decluttering and home organising for Shepparton and the Goulburn Valley. Simple systems, local care, and lasting calm.",
-  canonical,
+  title = 'Professional Home Organising - Shepparton & Goulburn Valley',
+  description = 'Warm, non-judgemental decluttering and home organising for Shepparton and the Goulburn Valley. Simple systems, local care, and lasting calm.',
+  canonical, noindex = false,
 } = Astro.props;
-const showCTA = Astro.url.pathname !== "/contact";
-// const showCompetitionBanner = Astro.url.pathname !== "/competition";
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+const canonicalURL = canonical || new URL(pathname, Astro.site).href;
+const showCTA = pathname !== '/contact' && pathname !== '/404';
+const services = [
+  ['/services/space-efficiency', 'Space Efficiency'], ['/services/specialised', 'Specialised Needs Support'],
+  ['/services/technical-approach', 'Technical Approach'], ['/services/fitstyle', 'Fit for purpose & style'], ['/services/goal-setting', 'Goal Setting'],
+];
+const links = [['/', 'Home'], ['/services', 'Services'], ['/about', 'About'], ['/4c-steps-approach', '4Cs Method'], ['/gallery', 'Before & After'], ['/follow-us', 'Follow Us']];
+const business = {
+  '@context': 'https://schema.org', '@type': 'LocalBusiness', '@id': 'https://homeorg.com.au/#business',
+  name: 'Home Organisers Australia', alternateName: 'HomeOrg', url: 'https://homeorg.com.au/',
+  telephone: '+61415640352', email: 'roweedelgado@homeorg.com.au',
+  image: 'https://homeorg.com.au/images/your-home-organisers3.jpg', logo: 'https://homeorg.com.au/images/logo_transparent.png',
+  areaServed: ['Shepparton', 'Greater Shepparton', 'Goulburn Valley', 'Northern Victoria'],
+  sameAs: ['https://www.facebook.com/HomeOrgAustralia', 'https://www.instagram.com/homeorg.com.au/'],
+};
 ---
-
 <!doctype html>
 <html lang="en-AU">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-
-    <!-- Brand typography -->
+    {noindex && <meta name="robots" content="noindex, follow" />}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- Favicons -->
-    <link
-      rel="icon"
-      href={`${import.meta.env.BASE_URL}images/logo.jpg`}
-      type="image/jpeg"
-      sizes="32x32"
-    />
-    <link
-      rel="apple-touch-icon"
-      href={`${import.meta.env.BASE_URL}images/logo_transparent.png`}
-    />
-    <meta name="theme-color" content="#ffffff" />
-
-    <!-- Global CSS -->
-    <link
-      rel="stylesheet"
-      href={`${import.meta.env.BASE_URL}styles/global.css`}
-    />
-
-    {canonical && <link rel="canonical" href={canonical} />}
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <link rel="icon" href="/images/logo.jpg" type="image/jpeg" />
+    <link rel="apple-touch-icon" href="/images/logo_transparent.png" />
+    <meta name="theme-color" content="#0f766e" />
+    <link rel="stylesheet" href="/styles/global.css" />
+    <link rel="canonical" href={canonicalURL} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_AU" />
+    <meta property="og:site_name" content="Home Organisers Australia" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content="https://homeorg.com.au/images/your-home-organisers3.jpg" />
+    <meta property="og:image:alt" content="John and Rowee Delgado, Home Organisers Australia" />
+    <meta name="twitter:card" content="summary_large_image" />
+    {!noindex && <script type="application/ld+json" set:html={JSON.stringify(business).replace(/</g, '\\u003c')} />}
     <title>{title}</title>
   </head>
   <body>
-    <!-- Header -->
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="site-header">
       <div class="container header-inner">
-        <a href="/" class="logo">
-          <img
-            src={`${import.meta.env.BASE_URL}images/logo_transparent.png`}
-            alt="Shepparton Home Organising logo"
-            class="logo-img"
-          />
-        </a>
-
-        <!-- Desktop nav -->
-        <nav class="nav nav-desktop">
-          <a href="/" class="home-btn">Home</a>
-          <div class="dropdown">
-            <a href="/services" class="nav-parent">HomeOrg Services</a>
-            <div class="dropdown-menu">
-              <a href="/services/space-efficiency">Space Efficiency</a>
-              <a href="/services/specialised">Specialised Needs Support</a>
-              <a href="/services/technical-approach">Technical Approach</a>
-              <a href="/services/fitstyle">Fit for purpose &amp; style</a>
-              <a href="/services/goal-setting">Goal Setting</a>
-            </div>
-          </div>
-          <a href="/about">About</a>
-          <a href="/4c-steps-approach">4C Steps Approach</a>
-          <a href="/gallery">Gallery</a>
-          <a href="/follow-us">Follow Us</a>
-
-          <a class="btn" href="/contact">Contact us</a>
+        <a href="/" class="logo" aria-label="Home Organisers Australia home"><Photo src="/images/logo_transparent.png" alt="Home Organisers Australia" class="logo-img" width={240} loading="eager" /></a>
+        <nav class="nav nav-desktop" aria-label="Main navigation">
+          {links.map(([href, label]) => href === '/services' ? (
+            <div class="dropdown"><a href={href} aria-current={pathname === href ? 'page' : undefined}>{label}</a><div class="dropdown-menu">{services.map(([url, name]) => <a href={url}>{name}</a>)}</div></div>
+          ) : <a href={href} aria-current={pathname === href ? 'page' : undefined}>{label}</a>)}
+          <a class="btn" href="/contact" aria-current={pathname === '/contact' ? 'page' : undefined}>Request a quote</a>
         </nav>
-
-        <!-- Hamburger (mobile only) -->
-        <button
-          class="menu-toggle"
-          aria-controls="mobile-nav"
-          aria-expanded="false"
-          aria-label="Open menu"
-        >
-          <span class="menu-bars" aria-hidden="true"></span>
-        </button>
+        <button class="menu-toggle" aria-controls="mobile-nav" aria-expanded="false" aria-label="Open menu"><span class="menu-bars" aria-hidden="true"></span></button>
       </div>
     </header>
-
-    <!-- Main -->
-    <main class="site-main">
-      <slot />
-    </main>
-
-    <!-- Sticky Competition Banner -->
-    <!-- {
-      showCompetitionBanner && (
-        <div class="floating-competition-banner" data-competition-banner>
-          <a href="/competition" class="banner-link">
-            <span class="label">New:</span>
-            <span class="text">
-              Win a free home organising makeover - enter now
-            </span>
-          </a>
-          <button
-            type="button"
-            class="banner-close"
-            aria-label="Hide competition announcement"
-            data-banner-close
-          >
-            x
-          </button>
-        </div>
-      )
-    } -->
-
-    <!-- Sticky Contact page button (hidden on contact page) -->
-    {
-      showCTA && (
-        <a class="floating-cta" href="/contact">
-          Book a free 30-min chat
-        </a>
-      )
-    }
-
-    <!-- Sticky CTA (hidden on contact page) -->
-    {
-      showCTA && (
-        <a class="floating-cta" href="/contact">
-          Book a free 30-min chat
-        </a>
-      )
-    }
-
-    <!-- Footer -->
+    <main class="site-main" id="main-content" tabindex="-1"><slot /></main>
+    {showCTA && <a class="floating-cta" href="/contact">Request a quote</a>}
     <footer class="site-footer">
       <div class="container">
-        <p>
-          <strong>Based in Shepparton Victoria</strong> Proudly serving the Goulburn
-          Valley and Northern Victoria Region.
-        </p>
-        <p>
-          Member of the Institute of Professional Organisers (IOPO) Australia &
-          New Zealand
-        </p>
-        <p class="small">
-          © {new Date().getFullYear()} Home Organisers Australia
-        </p>
-      </div>
-
-      <!-- Footer nav -->
-      <nav class="footer-nav">
-        <a href="/">Home</a>
-        <a href="/services">Services</a>
-        <a href="/about">About</a>
-        <a href="/4c-steps-approach">4C Steps Approach</a>
-        <a href="/gallery">Gallery</a>
-        <a href="/follow-us">Follow Us</a>
-        <a href="/contact">Contact</a>
-      </nav>
-
-      <div class="footer-facebook">
-        <h3>Follow us on Facebook</h3>
-        <iframe
-          src="https://www.facebook.com/plugins/page.php?href=https://www.facebook.com/HomeOrgAustralia&tabs=timeline&width=500&height=600&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true"
-          width="100%"
-          height="600"
-          style="border:none;overflow:hidden;max-width:100%;"
-          scrolling="no"
-          frameborder="0"
-          allowfullscreen="true"
-          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-        ></iframe>
-        </iframe>
+        <p><strong>Based in Shepparton, Victoria.</strong> Serving Greater Shepparton, the Goulburn Valley and Northern Victoria.</p>
+        <p>Member of the Institute of Professional Organisers (IOPO) Australia &amp; New Zealand</p>
+        <p><a href="tel:+61415640352">0415 640 352</a> · <a href="mailto:roweedelgado@homeorg.com.au">roweedelgado@homeorg.com.au</a></p>
+        <nav class="footer-nav" aria-label="Footer navigation">{links.map(([href, label]) => <a href={href}>{label}</a>)}<a href="/#testimonials">Testimonials</a><a href="/contact">Contact</a></nav>
+        <p><a href="https://www.facebook.com/HomeOrgAustralia">Facebook</a> · <a href="https://www.instagram.com/homeorg.com.au/">Instagram</a></p>
+        <div class="social-feed"><iframe title="Home Organisers Australia Facebook updates" src="https://www.facebook.com/plugins/page.php?href=https://www.facebook.com/HomeOrgAustralia&amp;tabs=timeline&amp;width=500&amp;height=600&amp;small_header=false&amp;adapt_container_width=true&amp;hide_cover=false&amp;show_facepile=true" width="500" height="600" loading="lazy"></iframe></div>
+        <p class="small">© {new Date().getFullYear()} Home Organisers Australia</p>
       </div>
     </footer>
     <div class="mobile-overlay" data-close></div>
-
-    <nav id="mobile-nav" class="nav-mobile" aria-hidden="true">
-      <div class="mobile-header">
-        <span class="mobile-title">Menu</span>
-        <button class="menu-close" aria-label="Close menu" data-close>
-          <span class="menu-cross" aria-hidden="true"></span>
-        </button>
-      </div>
-
-      <ul class="mobile-list" role="list">
-        <li class="mobile-item"><a href="/">Home</a></li>
-        <li class="mobile-item has-sub">
-          <button
-            class="sub-toggle"
-            aria-expanded="false"
-            aria-controls="sub-services"
-          >
-            Services
-          </button>
-          <ul id="sub-services" class="sub-list" role="list" hidden>
-            <li class="sub-view-all">
-              <a href="/services">View All Services</a>
-            </li>
-            <li><a href="/services/space-efficiency">Space Efficiency</a></li>
-            <li>
-              <a href="/services/specialised">Specialised Needs Support</a>
-            </li>
-            <li>
-              <a href="/services/technical-approach">Technical Approach</a>
-            </li>
-            <li>
-              <a href="/services/fitstyle">Fit for purpose & style</a>
-            </li>
-            <li>
-              <a href="/services/goal-setting">Goal - Setting</a>
-            </li>
-          </ul>
-        </li>
-        <li class="mobile-item">
-          <a href="/4c-steps-approach">4C Steps Approach</a>
-        </li>
-        <li class="mobile-item"><a href="/about">About</a></li>
-        <li class="mobile-item"><a href="/gallery">Gallery</a></li>
-        <li class="mobile-item"><a href="/follow-us">Follow Us</a></li>
-        <!-- <li class="mobile-item"><a href="/competition">Competition</a></li> -->
-        <li class="mobile-item cta">
-          <a class="btn" href="/contact">Contact us</a>
-        </li>
-
-        <!-- Social Media icons button beside Home -->
-        <div class="social-actions">
-          <a
-            href="https://www.facebook.com/HomeOrgAustralia"
-            class="social-btn social-btn--facebook"
-            aria-label="Visit us on Facebook"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <svg
-              class="social-btn__icon"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path
-                d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.9h2.54V9.41c0-2.5 1.5-3.89 3.8-3.89 1.1 0 2.25.2 2.25.2v2.47h-1.27c-1.25 0-1.64.78-1.64 1.58v1.9h2.79l-.45 2.9h-2.34V22c4.78-.79 8.44-4.94 8.44-9.94Z"
-              ></path>
-            </svg>
-          </a>
-
-          <a
-            href="https://www.instagram.com/homeorg.com.au/"
-            class="social-btn social-btn--instagram"
-            aria-label="Visit us on Instagram"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <svg
-              class="social-btn__icon"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path
-                d="M7 2C4.24 2 2 4.24 2 7v10c0 2.76 2.24 5 5 5h10c2.76 0 5-2.24 5-5V7c0-2.76-2.24-5-5-5H7Zm10 2c1.66 0 3 1.34 3 3v10c0 1.66-1.34 3-3 3H7c-1.66 0-3-1.34-3-3V7c0-1.66 1.34-3 3-3h10Zm-5 3.5A5.5 5.5 0 1 0 17.5 13 5.5 5.5 0 0 0 12 7.5Zm0 2A3.5 3.5 0 1 1 8.5 13 3.5 3.5 0 0 1 12 9.5Zm4.75-2.75a1.25 1.25 0 1 0 1.25 1.25 1.25 1.25 0 0 0-1.25-1.25Z"
-              ></path>
-            </svg>
-          </a>
-        </div>
-      </ul>
+    <nav id="mobile-nav" class="nav-mobile" aria-label="Mobile navigation" aria-hidden="true" inert>
+      <div class="mobile-header"><span class="mobile-title">Menu</span><button class="menu-close" aria-label="Close menu" data-close><span class="menu-cross" aria-hidden="true"></span></button></div>
+      <ul class="mobile-list">{links.map(([href, label]) => <li class="mobile-item"><a href={href} aria-current={pathname === href ? 'page' : undefined}>{label}</a></li>)}<li class="mobile-item"><a href="/#testimonials">Testimonials</a></li><li class="mobile-item cta"><a class="btn" href="/contact">Request a quote</a></li></ul>
     </nav>
-
-    <!-- Header effect on scroll -->
-    <script is:inline>
-      const header = document.querySelector(".site-header");
-      const onScroll = () =>
-        header.classList.toggle("scrolled", window.scrollY > 10);
-      onScroll();
-      addEventListener("scroll", onScroll, { passive: true });
-    </script>
-
-    <!-- Mobile menu interactions -->
-    <script is:inline>
-      (function () {
-        const root = document.documentElement;
-        const body = document.body;
-        const drawer = document.getElementById("mobile-nav");
-        const openBtn = document.querySelector(".menu-toggle");
-        const overlay = document.querySelector(".mobile-overlay");
-        const closeBtns = document.querySelectorAll("[data-close]");
-        const subToggles = drawer.querySelectorAll(".sub-toggle");
-        let lastFocused;
-
-        function openMenu() {
-          lastFocused = document.activeElement;
-          drawer.classList.add("open");
-          overlay.classList.add("show");
-          drawer.setAttribute("aria-hidden", "false");
-          openBtn.setAttribute("aria-expanded", "true");
-          body.style.overflow = "hidden";
-          drawer.querySelector(".mobile-header .menu-close").focus();
-        }
-
-        function closeMenu() {
-          drawer.classList.remove("open");
-          overlay.classList.remove("show");
-          drawer.setAttribute("aria-hidden", "true");
-          openBtn.setAttribute("aria-expanded", "false");
-          body.style.overflow = "";
-          if (lastFocused) lastFocused.focus();
-        }
-
-        openBtn?.addEventListener("click", openMenu);
-        closeBtns.forEach((btn) => btn.addEventListener("click", closeMenu));
-        overlay?.addEventListener("click", closeMenu);
-        window.addEventListener(
-          "keydown",
-          (e) => {
-            if (e.key === "Escape" && drawer.classList.contains("open"))
-              closeMenu();
-          },
-          { passive: true },
-        );
-        drawer.addEventListener("click", (e) => {
-          const a = e.target.closest("a");
-          if (a) closeMenu();
-        });
-
-        // Accordion
-        subToggles.forEach((btn) => {
-          btn.addEventListener("click", () => {
-            const expanded = btn.getAttribute("aria-expanded") === "true";
-            const target = document.getElementById(
-              btn.getAttribute("aria-controls"),
-            );
-            btn.setAttribute("aria-expanded", String(!expanded));
-            if (expanded) {
-              target.hidden = true;
-              target.style.maxHeight = "";
-            } else {
-              target.hidden = false;
-              target.style.maxHeight = target.scrollHeight + "px";
-            }
-          });
-        });
-
-        // Reduce-motion preference
-        const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-        if (mq.matches) root.classList.add("reduce-motion");
-      })();
-    </script>
-
-    <script is:inline>
-      (function () {
-        let sdkLoaded = false;
-
-        function loadFacebookSDK() {
-          if (sdkLoaded) return;
-          sdkLoaded = true;
-
-          // Facebook root element
-          const fbRoot = document.createElement("div");
-          fbRoot.id = "fb-root";
-          document.body.prepend(fbRoot);
-
-          // Load the SDK script
-          const js = document.createElement("script");
-          js.async = true;
-          js.defer = true;
-          js.crossOrigin = "anonymous";
-          js.src =
-            "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v21.0";
-          document.body.appendChild(js);
-        }
-
-        // 1) Lazy-load on viewport proximity
-        const anchor = document.getElementById("fb-plugin-anchor");
-        if ("IntersectionObserver" in window && anchor) {
-          const io = new IntersectionObserver(
-            (entries) => {
-              if (entries.some((e) => e.isIntersecting)) {
-                loadFacebookSDK();
-                io.disconnect();
-              }
-            },
-            { rootMargin: "200px" },
-          );
-          io.observe(anchor);
-        }
-
-        // 2) Also load if user clicks a Facebook link anywhere
-        document.addEventListener(
-          "click",
-          (e) => {
-            const a = e.target.closest("a");
-            if (!a) return;
-            if (/facebook\.com\/HomeOrgAustralia/i.test(a.href)) {
-              loadFacebookSDK();
-            }
-          },
-          { passive: true },
-        );
-      })();
-    </script>
-
-    <script is:inline>
-      (function () {
-        // const banner = document.querySelector("[data-competition-banner]");
-        // if (!banner) return;
-
-        // Hide if user previously closed it
-        try {
-          if (localStorage.getItem("hideCompetitionBanner") === "1") {
-            banner.style.display = "none";
-            return;
-          }
-        } catch (e) {
-          // ignore storage errors
-        }
-
-        // const closeBtn = banner.querySelector("[data-banner-close]");
-        // if (!closeBtn) return;
-
-        closeBtn.addEventListener("click", () => {
-          banner.style.display = "none";
-          try {
-            localStorage.setItem("hideCompetitionBanner", "1");
-          } catch (e) {
-            // ignore
-          }
-        });
-      })();
-    </script>
+    <script src="/js/navigation.js" is:inline defer></script>
+    <noscript><style>.menu-toggle{display:none}.nav-desktop{display:flex;flex-wrap:wrap}.header-inner{flex-wrap:wrap}.nav a{margin:.4rem}</style></noscript>
   </body>
 </html>

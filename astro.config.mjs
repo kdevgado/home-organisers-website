@@ -7,5 +7,7 @@ import sitemap from "@astrojs/sitemap";
 export default defineConfig({
   site: "https://homeorg.com.au",
   output: "static",
-  integrations: [sitemap()]
+  compressHTML: true,
+  trailingSlash: 'never',
+  integrations: [sitemap({ filter: (page) => !/\/(competition|404)\/?$/.test(new URL(page).pathname) })]
 });

@@ -1,63 +1,36 @@
 ---
+import Photo from '../components/Photo.astro';
 import Base from "../layouts/Base.astro";
-import { Package, Home, ClipboardList } from "lucide-astro"; // example icons
 const page = {
-  title: "Home Organisers Australia",
-  description: "Home Organisers Au | Shepparton & Goulburn Valley",
+  title: "Home Organising & Decluttering in Shepparton | HomeOrg",
+  description: "Reclaim your space with Home Organisers Australia. Warm, practical decluttering, downsizing and organising in Shepparton, the Goulburn Valley and Northern Victoria.",
 };
 
-const igPosts = [
-  "https://www.instagram.com/p/DVPZdytkt00/", // Feb 26, 2026 :contentReference[oaicite:1]{index=1}
-  "https://www.instagram.com/p/DVNyDGlD7Yq/", // Feb 24, 2026 :contentReference[oaicite:2]{index=2}
-  "https://www.instagram.com/p/DVPRiXWgR6V/", // Feb 23, 2026 :contentReference[oaicite:3]{index=3}
-  "https://www.instagram.com/p/DU1gnHZEzM0/", // Feb 16, 2026 :contentReference[oaicite:4]{index=4}
-  "https://www.instagram.com/reel/DUpmyHvDZpE/", // Feb 11, 2026 :contentReference[oaicite:5]{index=5}
-  "https://www.instagram.com/p/DUhSDaDjynw/", // Feb 9, 2026 :contentReference[oaicite:6]{index=6}
-];
-
-function toIgEmbedSrc(url: string) {
-  // supports /p/{code}/ and /reel/{code}/
-  const u = String(url).trim().replace(/\/+$/, "");
-  const m = u.match(/instagram\.com\/(p|reel)\/([^/?#]+)/i);
-  if (!m) return null;
-  const kind = m[1].toLowerCase();
-  const code = m[2];
-  return `https://www.instagram.com/${kind}/${code}/embed/captioned/`;
-}
 ---
 
 <Base {...page}>
   <!-- New Carousel Section -->
   <section class="carousel">
-    <div class="carousel-inner">
-      <div
-        class="slide active"
-        style="background-image:url('images/slides/8.png')"
-      >
-      </div>
-      <div class="slide" style="background-image:url('images/slides/2.png')">
-      </div>
-      <div class="slide" style="background-image:url('images/slides/3.png')">
-      </div>
-      <div class="slide" style="background-image:url('images/slides/4.png')">
-      </div>
-      <div class="slide" style="background-image:url('images/slides/5.png')">
-      </div>
-      <div class="slide" style="background-image:url('images/slides/6.png')">
-      </div>
+    <div class="carousel-inner" aria-hidden="true">
+      <div class="slide active"><Photo src="/images/slides/8.png" alt="" width={1600} sizes="100vw" loading="eager" fetchpriority="high" /></div>
+      <div class="slide"><Photo src="/images/slides/2.png" alt="" width={1600} sizes="100vw" loading="lazy"  /></div>
+      <div class="slide"><Photo src="/images/slides/3.png" alt="" width={1600} sizes="100vw" loading="lazy"  /></div>
+      <div class="slide"><Photo src="/images/slides/4.png" alt="" width={1600} sizes="100vw" loading="lazy"  /></div>
+      <div class="slide"><Photo src="/images/slides/5.png" alt="" width={1600} sizes="100vw" loading="lazy"  /></div>
+      <div class="slide"><Photo src="/images/slides/6.png" alt="" width={1600} sizes="100vw" loading="lazy"  /></div>
     </div>
     <div class="carousel-caption">
-      <h2>Shepparton and Northern Victoria Region</h2>
-      <h1>Professional organising and decluttering for mental wellness.</h1>
-      <p><a class="btn" href="/contact">Book your free consultation</a></p>
+      <p>Shepparton · Goulburn Valley · Northern Victoria</p>
+      <h1>Professional organising and decluttering for mental wellness</h1>
+      <p>Warm, non-judgemental help with decluttering, downsizing and making your home easier to manage.</p>
+      <p><a class="btn" href="/contact">Request a quote</a></p>
     </div>
   </section>
 
   <section class="hero container">
     <div class="hero-inner">
       <div>
-        <h1>Welcome to an organised, calm and transformative lifestyle</h1>
-        <p class="lead"></p>
+        <h2>Welcome to an organised, calm and transformative lifestyle</h2>
         <div class="cta-row">
           <a class="btn" href="/contact">Book a free 30-minute phone chat</a>
           <a class="btn-alt" href="/services">See services</a>
@@ -72,8 +45,8 @@ function toIgEmbedSrc(url: string) {
           <li>Homeshare and Co-living</li>
           <li>Moving Houses & Setting Up</li>
           <li>Staging to Sell/Lease</li>
-          <p><a class="btn" href="/services">Explore all services</a></p>
         </ul>
+        <p><a class="btn" href="/services">Explore all services</a></p>
       </div>
     </div>
   </section>
@@ -86,11 +59,11 @@ function toIgEmbedSrc(url: string) {
         >&#10095;</button
       >
 
-      <div class="service-track">
+      <div class="service-track" tabindex="0" role="region" aria-label="Home organising services">
         <div class="service-grid">
           <article class="service-card">
             <div class="media">
-              <img
+              <Photo
                 loading="lazy"
                 width="720"
                 height="480"
@@ -122,7 +95,7 @@ function toIgEmbedSrc(url: string) {
 
           <article class="service-card">
             <div class="media">
-              <img
+              <Photo
                 loading="lazy"
                 width="720"
                 height="480"
@@ -155,7 +128,7 @@ function toIgEmbedSrc(url: string) {
 
           <article class="service-card">
             <div class="media">
-              <img
+              <Photo
                 loading="lazy"
                 width="720"
                 height="480"
@@ -188,7 +161,7 @@ function toIgEmbedSrc(url: string) {
 
           <article class="service-card">
             <div class="media">
-              <img
+              <Photo
                 loading="lazy"
                 width="720"
                 height="480"
@@ -222,7 +195,7 @@ function toIgEmbedSrc(url: string) {
 
           <article class="service-card">
             <div class="media">
-              <img
+              <Photo
                 loading="lazy"
                 width="720"
                 height="480"
@@ -271,7 +244,7 @@ function toIgEmbedSrc(url: string) {
           class="tooltip-wrap"
           aria-label="Read more about John & Rowee"
         >
-          <img
+          <Photo
             src="/images/your-home-organisers3.jpg"
             alt="John and Rowee Delgado - Shepparton Home Organisers"
             class="organisers-photo"
@@ -294,34 +267,6 @@ function toIgEmbedSrc(url: string) {
       </div>
     </div>
   </section>
-
-  <!-- Competition Promo Section -->
-  <!-- <section class="competition-highlight">
-    <div class="container comp-wrap">
-      <div class="comp-text">
-        <p class="comp-eyebrow">✨ Special 2026 Giveaway</p>
-        <h2>Win a Free Home Organising Makeover</h2>
-        <p class="comp-lead">
-          Two lucky winners will receive up to 
-          <strong>15 hours of FREE professional organising</strong> 
-          (valued at $1,500).  
-          Show us your space and tell us your story — it could be you!
-        </p>
-
-        <a href="/competition" class="btn comp-btn">LEARN MORE</a>
-
-        <p class="comp-deadline">
-          Entries close <strong>15 March 2026</strong>
-        </p>
-      </div>
-
-      <div class="comp-image">
-        <img src="/images/competition/competition-promo.jpg"
-            alt="Home makeover competition"
-        />
-      </div>
-    </div>
-  </section> -->
 
   <section class="container features">
     <h2>Why locals choose this service</h2>
@@ -354,12 +299,12 @@ function toIgEmbedSrc(url: string) {
     </div>
   </section>
 
-  <section class="container testimonials">
+  <section class="container testimonials" id="testimonials">
     <h2>What our clients say</h2>
     <div class="testimonial-grid">
       <article class="testimonial-card">
         <div class="profile">
-          <img src="/images/testimonials/ajpa-wali.png" alt="Ajpa" />
+          <Photo src="/images/testimonials/ajpa-wali.png" alt="Ajpa" />
           <div>
             <p class="author">Ajpa, Shepparton</p>
             <div class="stars">★★★★★</div>
@@ -377,7 +322,7 @@ function toIgEmbedSrc(url: string) {
 
       <article class="testimonial-card">
         <div class="profile">
-          <img src="/images/testimonials/woman-1.png" alt="Kristy" />
+          <Photo src="/images/testimonials/woman-1.png" alt="Kristy" />
           <div>
             <p class="author">Kristy, Melbourne</p>
             <div class="stars">★★★★★</div>
@@ -393,7 +338,7 @@ function toIgEmbedSrc(url: string) {
 
       <article class="testimonial-card">
         <div class="profile">
-          <img src="/images/testimonials/woman-1.png" alt="Nadine" />
+          <Photo src="/images/testimonials/woman-1.png" alt="Nadine" />
           <div>
             <p class="author">Nadine, Shepparton</p>
             <div class="stars">★★★★★</div>
@@ -415,7 +360,7 @@ function toIgEmbedSrc(url: string) {
       <h2>How it works</h2>
       <ol class="step-list">
         <li>
-          <strong>Free phone chat (15 min):</strong> Your goals, your space, your
+          <strong>Free phone chat:</strong> Your goals, your space, your
           timeline.
         </li>
         <li>
@@ -466,28 +411,31 @@ function toIgEmbedSrc(url: string) {
   </section>
 
   <section class="container features">
-    <!-- LightWidget WIDGET -->
-    <script src="https://cdn.lightwidget.com/widgets/lightwidget.js"
-    ></script><iframe
-      src="//lightwidget.com/widgets/deb755e274215f56a632786168f8b91d.html"
-      scrolling="no"
-      allowtransparency="true"
-      class="lightwidget-widget"
-      style="width:100%;border:0;overflow:hidden;"></iframe>
+    <h2>More ideas from HomeOrg</h2>
+    <p><a href="/follow-us">Follow our organising tips and updates</a></p>
+    <div class="social-feed"><iframe title="HomeOrg Instagram updates" src="https://lightwidget.com/widgets/deb755e274215f56a632786168f8b91d.html" width="1000" height="500" loading="lazy"></iframe></div>
   </section>
 
   <script is:inline>
-    // Simple auto-rotating hero carousel
+    // Pause automatically for reduced motion, hidden tabs or keyboard focus.
+    const slides = document.querySelectorAll('.carousel .slide');
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
     let idx = 0;
-    const slides = document.querySelectorAll(".carousel .slide");
-
-    if (slides.length > 1) {
-      setInterval(() => {
-        slides[idx].classList.remove("active");
+    let timer;
+    function syncSlideshow() {
+      clearInterval(timer);
+      if (motion.matches || document.hidden || document.querySelector('.carousel').matches(':focus-within')) return;
+      timer = setInterval(() => {
+        slides[idx].classList.remove('active');
         idx = (idx + 1) % slides.length;
-        slides[idx].classList.add("active");
+        slides[idx].classList.add('active');
       }, 5000);
     }
+    motion.addEventListener('change', syncSlideshow);
+    document.addEventListener('visibilitychange', syncSlideshow);
+    document.querySelector('.carousel').addEventListener('focusin', syncSlideshow);
+    document.querySelector('.carousel').addEventListener('focusout', () => setTimeout(syncSlideshow, 0));
+    syncSlideshow();
 
     // Service carousel
     const serviceTrack = document.querySelector(".service-track");
@@ -510,7 +458,7 @@ function toIgEmbedSrc(url: string) {
 
       serviceTrack.scrollBy({
         left: direction * getCardWidth(),
-        behavior: "smooth",
+        behavior: motion.matches ? "instant" : "smooth",
       });
     }
 

@@ -1,0 +1,16 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+interface Props {
+  src: string; alt: string; class?: string; width?: number | string; height?: number | string;
+  loading?: 'eager' | 'lazy'; sizes?: string; fetchpriority?: 'high' | 'low' | 'auto';
+  'aria-hidden'?: 'true' | 'false';
+}
+const { src, alt, width, height: _height, loading = 'lazy', sizes = '(max-width: 700px) 92vw, 700px', ...attrs } = Astro.props;
+const images = import.meta.glob<{ default: ImageMetadata }>('../../public/images/**/*.{jpg,png}', { eager: true });
+const metadata = images[`../../public${src}`]?.default;
+if (!metadata) throw new Error(`Missing local image: ${src}`);
+const maxWidth = Math.min(Number(width) || 1400, metadata.width);
+const widths = [...new Set([480, 800, maxWidth].filter(w => w < maxWidth).concat(maxWidth))].sort((a, b) => a - b);
+---
+<Image src={metadata} {alt} width={maxWidth} {widths} {sizes} format="webp" quality={82} {loading} decoding="async" {...attrs} />

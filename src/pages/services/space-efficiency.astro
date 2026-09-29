@@ -1,17 +1,18 @@
 ---
+import Photo from '../../components/Photo.astro';
 import Base from "../../layouts/Base.astro";
 import "../../../public/styles/services.css";
 const page = {
-  title: "Space Efficiency",
+  title: "Decluttering & Space Efficiency in Shepparton | HomeOrg",
   description: "Declutter and configure every inch to free up space using zoning and flow patterns."
 };
 ---
-<Base {...page} canonical="https://homeorg.com.au/services/space-efficiency" href="/styles/services.css">
+<Base {...page} canonical="https://homeorg.com.au/services/space-efficiency">
   <section class="container services-hero">
     <h1>Space Efficiency</h1>
     <p class="lead">Declutter and configure every inch to free up space using zoning and flow patterns.</p>
 
-    <div class="tabs">
+    <div class="tabs" hidden>
       <button class="tab is-active" data-target="living">Living Room</button>
       <button class="tab" data-target="bedroom">Bedroom</button>
       <button class="tab" data-target="kids">Kids' Spaces</button>
@@ -20,7 +21,7 @@ const page = {
 
     <div class="tab-panels">
       <div id="living" class="tab-panel is-active">
-        <img src="/images/services/spaceefficiency.png" alt="Tidy living room" />
+        <Photo src="/images/services/spaceefficiency.png" alt="Tidy living room" />
         <h2>Living Room: breathe again</h2>
         <ul class="checklist">
           <li>Streamline surfaces — only essentials + décor you love.</li>
@@ -29,7 +30,7 @@ const page = {
         </ul>
       </div>
       <div id="bedroom" class="tab-panel">
-        <img src="/images/services/spaceefficiency.png" alt="Calm bedroom" />
+        <Photo src="/images/services/spaceefficiency.png" alt="Calm bedroom" />
         <h2>Bedroom: calm at day's end</h2>
         <ul class="checklist">
           <li>Clear nightstands — just lamp, book, water.</li>
@@ -38,7 +39,7 @@ const page = {
         </ul>
       </div>
       <div id="kids" class="tab-panel">
-        <img src="/images/services/spaceefficiency.png" alt="Organised kids' room" />
+        <Photo src="/images/services/spaceefficiency.png" alt="Organised kids' room" />
         <h2>Kids' Spaces: less overwhelm</h2>
         <ul class="checklist">
           <li>Toy rotation bins keep play fresh and tidy.</li>
@@ -47,7 +48,7 @@ const page = {
         </ul>
       </div>
       <div id="paper" class="tab-panel">
-        <img src="/images/services/spaceefficiency.png" alt="Organised paperwork" />
+        <Photo src="/images/services/spaceefficiency.png" alt="Organised paperwork" />
         <h2>Paperwork: banish piles</h2>
         <ul class="checklist">
           <li>Inbox tray + weekly processing routine.</li>
@@ -67,16 +68,8 @@ const page = {
       </ul>
       <p><a class="btn" href="/contact">Book your decluttering session</a></p>
     </div>
+    <p><a href="/services">All services</a> &middot; <a href="/gallery">See before &amp; after results</a> &middot; <a href="/4c-steps-approach">Our 4Cs method</a></p>
   </section>
 
-  <script is:inline>
-    const tabs = document.querySelectorAll('.tab');
-    const panels = document.querySelectorAll('.tab-panel');
-    tabs.forEach(btn => btn.addEventListener('click', () => {
-      tabs.forEach(b => b.classList.remove('is-active'));
-      panels.forEach(p => p.classList.remove('is-active'));
-      btn.classList.add('is-active');
-      document.getElementById(btn.dataset.target).classList.add('is-active');
-    }));
-  </script>
+  <script src="/js/service-tabs.js" is:inline defer></script>
 </Base>

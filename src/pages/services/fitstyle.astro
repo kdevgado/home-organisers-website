@@ -1,17 +1,18 @@
 ---
+import Photo from '../../components/Photo.astro';
 import Base from "../../layouts/Base.astro";
 import "../../../public/styles/services.css";
 const page = {
-  title: "Fit for purpose & style — Shepparton Home Organising",
+  title: "Home Styling & Staging in Shepparton | HomeOrg",
   description: "Organising systems that balance functionality and aesthetics, matched to your space, taste, and budget."
 };
 ---
-<Base {...page} canonical="https://homeorg.com.au/services/fitstyle" href="/styles/services.css">
+<Base {...page} canonical="https://homeorg.com.au/services/fitstyle">
   <section class="container services-hero">
     <h1>Fit for purpose & style</h1>
     <p class="lead">Organising systems that balance functionality and aesthetics, matched to your space, taste, and budget.</p>
 
-    <div class="tabs">
+    <div class="tabs" hidden>
       <button class="tab is-active" data-target="entry">Entryway</button>
       <button class="tab" data-target="living">Living Areas</button>
       <button class="tab" data-target="bedroom">Bedrooms</button>
@@ -19,7 +20,7 @@ const page = {
 
     <div class="tab-panels">
       <div id="entry" class="tab-panel is-active">
-        <img src="/images/services/fitstyle.png" alt="Welcoming entryway" />
+        <Photo src="/images/services/fitstyle.png" alt="Welcoming entryway" />
         <h2>Entryway: first impressions count</h2>
         <ul class="checklist">
           <li>Decluttered, fresh, inviting.</li>
@@ -28,7 +29,7 @@ const page = {
         </ul>
       </div>
       <div id="living" class="tab-panel">
-        <img src="/images/services/fitstyle.png" alt="Staged living room" />
+        <Photo src="/images/services/fitstyle.png" alt="Staged living room" />
         <h2>Living Areas: light & spacious</h2>
         <ul class="checklist">
           <li>Furniture arranged for flow.</li>
@@ -37,7 +38,7 @@ const page = {
         </ul>
       </div>
       <div id="bedroom" class="tab-panel">
-        <img src="/images/services/fitstyle.png" alt="Staged bedroom" />
+        <Photo src="/images/services/fitstyle.png" alt="Staged bedroom" />
         <h2>Bedrooms: calm retreats</h2>
         <ul class="checklist">
           <li>Crisp bedding with cushions.</li>
@@ -56,16 +57,8 @@ const page = {
       </ul>
       <p><a class="btn" href="/contact">Book staging service</a></p>
     </div>
+    <p><a href="/services">All services</a> &middot; <a href="/gallery">See before &amp; after results</a> &middot; <a href="/4c-steps-approach">Our 4Cs method</a></p>
   </section>
 
-  <script is:inline>
-    const tabs = document.querySelectorAll('.tab');
-    const panels = document.querySelectorAll('.tab-panel');
-    tabs.forEach(btn => btn.addEventListener('click', () => {
-      tabs.forEach(b => b.classList.remove('is-active'));
-      panels.forEach(p => p.classList.remove('is-active'));
-      btn.classList.add('is-active');
-      document.getElementById(btn.dataset.target).classList.add('is-active');
-    }));
-  </script>
+  <script src="/js/service-tabs.js" is:inline defer></script>
 </Base>

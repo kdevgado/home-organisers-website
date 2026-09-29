@@ -1,8 +1,8 @@
 const form = document.getElementById("follow-us-form");
-const status = document.getElementById("follow-us-status");
+const statusElement = document.getElementById("follow-us-status");
 const button = form?.querySelector('button[type="submit"]');
 
-if (form && status && button) {
+if (form && statusElement && button) {
   button.disabled = false;
   let submitting = false;
 
@@ -12,12 +12,12 @@ if (form && status && button) {
 
     const name = form.elements.name.value.trim();
     const email = form.elements.email.value.trim();
-    status.textContent = "";
-    status.dataset.error = "false";
+    statusElement.textContent = "";
+    statusElement.dataset.error = "false";
     if (!form.reportValidity()) return;
     if (!name || !email) {
-      status.dataset.error = "true";
-      status.textContent = "Please enter your name and email.";
+      statusElement.dataset.error = "true";
+      statusElement.textContent = "Please enter your name and email.";
       return;
     }
 
@@ -30,6 +30,7 @@ if (form && status && button) {
       const response = await fetch("/.netlify/functions/send-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        signal: AbortSignal.timeout(25000),
         body: JSON.stringify({
           form_type: "follow-us",
           name,
@@ -39,15 +40,18 @@ if (form && status && button) {
           website: form.elements.website.value,
         }),
       });
+      if (response.status === 429) throw new Error("rate-limit");
       if (!response.ok) throw new Error("Sign-up failed");
       const result = await response.json();
       if (!result.success) throw new Error("Sign-up was not confirmed");
 
       form.reset();
-      status.textContent = "Thank you! Your details have been sent. We'll keep you updated about freebies, organising tips and promotions.";
-    } catch {
-      status.dataset.error = "true";
-      status.textContent = "We couldn't send your details. Please try again, or email roweedelgado@homeorg.com.au.";
+      statusElement.textContent = "Thank you! Your details have been sent. We'll keep you updated about freebies, organising tips and promotions.";
+    } catch (error) {
+      statusElement.dataset.error = "true";
+      statusElement.textContent = error.message === "rate-limit"
+        ? "Too many requests. Please wait a few minutes, then try again, or email roweedelgado@homeorg.com.au."
+        : "We couldn't confirm your details were sent. Your details are still here. Please try again, or email roweedelgado@homeorg.com.au.";
     } finally {
       submitting = false;
       button.disabled = false;

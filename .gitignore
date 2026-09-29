@@ -16,6 +16,11 @@ pnpm-debug.log*
 # environment variables
 .env
 .env.production
+.env.*
+!.env.example
+test-results/
+playwright-report/
+.audit/
 
 # macOS-specific files
 .DS_Store

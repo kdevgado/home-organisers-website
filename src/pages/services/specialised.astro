@@ -1,17 +1,18 @@
 ---
+import Photo from '../../components/Photo.astro';
 import Base from "../../layouts/Base.astro";
 import "../../../public/styles/services.css";
 const page = {
-  title: "Specialised Needs Support — Shepparton Home Organising",
+  title: "Specialised Needs Support - Shepparton Home Organising",
   description: "Gentle, practical setups that support accessibility, independence, and specialised household needs."
 };
 ---
-<Base {...page} canonical="https://homeorg.com.au/services/specialised" href="/styles/services.css">
+<Base {...page} canonical="https://homeorg.com.au/services/specialised">
   <section class="container services-hero">
     <h1>Specialised Needs Support</h1>
     <p class="lead">Gentle, practical setups that support accessibility, independence, and specialised household needs.</p>
 
-    <div class="tabs">
+    <div class="tabs" hidden>
       <button class="tab is-active" data-target="prep">Pre-Move Prep</button>
       <button class="tab" data-target="packing">Packing</button>
       <button class="tab" data-target="setup">New Home Setup</button>
@@ -19,7 +20,7 @@ const page = {
 
     <div class="tab-panels">
       <div id="prep" class="tab-panel is-active">
-        <img src="/images/services/specialised.png" alt="Pre-move preparation" />
+        <Photo src="/images/services/specialised.png" alt="Pre-move preparation" />
         <h2>Pre-Move: declutter first</h2>
         <ul class="checklist">
           <li>Sort and donate before packing.</li>
@@ -28,7 +29,7 @@ const page = {
         </ul>
       </div>
       <div id="packing" class="tab-panel">
-        <img src="/images/services/specialised.png" alt="Packing boxes" />
+        <Photo src="/images/services/specialised.png" alt="Packing boxes" />
         <h2>Packing: smart & efficient</h2>
         <ul class="checklist">
           <li>Protect fragile items properly.</li>
@@ -37,7 +38,7 @@ const page = {
         </ul>
       </div>
       <div id="setup" class="tab-panel">
-        <img src="/images/services/specialised.png" alt="New home setup" />
+        <Photo src="/images/services/specialised.png" alt="New home setup" />
         <h2>Setup: settle in fast</h2>
         <ul class="checklist">
           <li>Unpack essentials first.</li>
@@ -56,16 +57,8 @@ const page = {
       </ul>
       <p><a class="btn" href="/contact">Book moving support</a></p>
     </div>
+    <p><a href="/services">All services</a> &middot; <a href="/gallery">See before &amp; after results</a> &middot; <a href="/4c-steps-approach">Our 4Cs method</a></p>
   </section>
 
-  <script is:inline>
-    const tabs = document.querySelectorAll('.tab');
-    const panels = document.querySelectorAll('.tab-panel');
-    tabs.forEach(btn => btn.addEventListener('click', () => {
-      tabs.forEach(b => b.classList.remove('is-active'));
-      panels.forEach(p => p.classList.remove('is-active'));
-      btn.classList.add('is-active');
-      document.getElementById(btn.dataset.target).classList.add('is-active');
-    }));
-  </script>
+  <script src="/js/service-tabs.js" is:inline defer></script>
 </Base>

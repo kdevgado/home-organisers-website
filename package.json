@@ -6,20 +6,39 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test": "node --test tests/*.test.mjs",
+    "check": "astro check",
+    "lint": "eslint .",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
-    "astro": "^5.15.5",
-    "cookie": "^1.0.2",
-    "formidable": "^3.5.4",
+    "astro": "6.4.8",
     "googleapis": "^160.0.0",
-    "lucide-astro": "^0.540.0",
     "luxon": "^3.7.2",
-    "netlify": "^23.5.1",
-    "nodemailer": "^8.0.4",
-    "open": "^10.2.0"
+    "nodemailer": "10.0.12"
   },
   "devDependencies": {
-    "@astrojs/sitemap": "^3.6.0"
+    "@astrojs/check": "^0.9.10",
+    "@astrojs/sitemap": "^3.7.4",
+    "@axe-core/playwright": "^4.13.0",
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.63.0",
+    "@typescript-eslint/parser": "^8.70.1",
+    "eslint": "^10.11.0",
+    "eslint-plugin-astro": "1.7.0",
+    "globals": "^17.12.0",
+    "rollup": "npm:@rollup/wasm-node@4.63.5",
+    "typescript": "^5.9.3"
+  },
+  "overrides": {
+    "rollup": "$rollup",
+    "astro": {
+      "sharp": "0.35.4",
+      "esbuild": "0.28.1"
+    }
+  },
+  "engines": {
+    "node": "^22.13.0 || >=24.0.0"
   }
 }

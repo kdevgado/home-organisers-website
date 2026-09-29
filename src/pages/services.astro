@@ -1,4 +1,5 @@
 ---
+import Photo from '../components/Photo.astro';
 import Base from "../layouts/Base.astro";
 const page = {
   title: "Services — Shepparton Home Organising",
@@ -17,13 +18,13 @@ const page = {
 
   <section class="container">
     <div class="service-carousel">
-      <div class="service-track">
+      <div class="service-track" tabindex="0" role="region" aria-label="Home organising services">
         <div class="service-grid">
           <!-- Space Efficiency -->
           <article class="service-card">
             <div class="media">
               <a href="/services/space-efficiency">
-                <img
+                <Photo
                   loading="lazy"
                   width="720"
                   height="480"
@@ -64,7 +65,7 @@ const page = {
           <article class="service-card">
             <div class="media">
               <a href="/services/specialised">
-                <img
+                <Photo
                   loading="lazy"
                   width="720"
                   height="480"
@@ -107,7 +108,7 @@ const page = {
           <article class="service-card">
             <div class="media">
               <a href="/services/technical-approach">
-                <img
+                <Photo
                   loading="lazy"
                   width="720"
                   height="480"
@@ -149,7 +150,7 @@ const page = {
           <article class="service-card">
             <div class="media">
               <a href="/services/fitstyle">
-                <img
+                <Photo
                   loading="lazy"
                   width="720"
                   height="480"
@@ -192,7 +193,7 @@ const page = {
           <article class="service-card">
             <div class="media">
               <a href="/services/goal-setting">
-                <img
+                <Photo
                   loading="lazy"
                   width="720"
                   height="480"
@@ -238,7 +239,7 @@ const page = {
     <h2>How it works</h2>
     <ol class="step-list">
       <li>
-        <strong>Free phone chat (15 min):</strong> Your goals, your space, your timeline.
+        <strong>Free phone chat:</strong> Your goals, your space, your timeline.
       </li>
       <li>
         <strong>In-home or virtual assessment:</strong> Simple plan + estimate.

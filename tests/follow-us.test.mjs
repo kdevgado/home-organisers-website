@@ -2,34 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { test } from "node:test";
 import vm from "node:vm";
-
-// Mock external email services so these checks never send real messages.
-function server({ failMail = false } = {}) {
-  const sent = [];
-  const context = vm.createContext({
-    console: { error() {} },
-    process: { env: Object.fromEntries(
-      ["GMAIL_USER", "GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET", "GOOGLE_REFRESH_TOKEN"]
-        .map((key) => [key, "test"]),
-    ) },
-    google: { auth: { OAuth2: class {
-      setCredentials() {}
-      async getAccessToken() { return { token: "test" }; }
-    } } },
-    nodemailer: { createTransport: () => ({ async sendMail(mail) {
-      if (failMail) throw new Error("Email unavailable");
-      sent.push(mail);
-    } }) },
-  });
-  const source = readFileSync(new URL("../netlify/functions/send-email.js", import.meta.url), "utf8")
-    .replace(/^import .*;\r?\n/gm, "")
-    .replace("export async function handler", "async function handler");
-  vm.runInContext(source, context);
-  return {
-    sent,
-    request: (data, method = "POST") => context.handler({ httpMethod: method, body: JSON.stringify(data) }),
-  };
-}
+import { server } from "./helpers/mail-server.mjs";
 
 const signup = { form_type: "follow-us", name: "Guest", email: "guest@example.com", consent: true };
 
@@ -65,15 +38,16 @@ test("email failures return an error instead of success", async () => {
   assert.equal((await request(signup)).statusCode, 500);
 });
 
-test("consultations still require addresses and competition entries still accept suburbs", async () => {
+test("consultations accept legacy addresses or suburbs and the expired competition rejects entries", async () => {
   const { request, sent } = server();
   const contact = { name: "Guest", email: "guest@example.com" };
   assert.equal((await request(contact)).statusCode, 400);
   assert.equal((await request({ ...contact, address: "12 Test Street" })).statusCode, 200);
   assert.match(sent[0].text, /Address: 12 Test Street/);
   assert.equal(sent.length, 2);
-  assert.equal((await request({ ...contact, service: "Competition Entry", suburb: "Shepparton" })).statusCode, 200);
+  assert.equal((await request({ ...contact, suburb: "Shepparton" })).statusCode, 200);
   assert.match(sent[2].text, /Suburb\/Town: Shepparton/);
+  assert.equal((await request({ ...contact, service: "Competition Entry", suburb: "Shepparton" })).statusCode, 410);
 });
 
 function client(fetch) {
@@ -95,6 +69,7 @@ function client(fetch) {
   const context = vm.createContext({
     document: { getElementById: (id) => id === "follow-us-form" ? form : status },
     fetch,
+    AbortSignal,
   });
   vm.runInContext(readFileSync(new URL("../public/js/follow-us.js", import.meta.url), "utf8"), context);
   return { elements, button, status, resets: () => resets, submit: () => submit({ preventDefault() {} }) };

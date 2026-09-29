@@ -2,43 +2,41 @@
 import Base from "../layouts/Base.astro";
 ---
 
-<Base title="Book a Consultation - Shepparton Home Organising">
+<Base title="Book a Consultation - Shepparton Home Organising" description="Request a 30-minute consultation with HomeOrg. Tell us about your organising needs in Shepparton, the Goulburn Valley or Northern Victoria.">
   <section class="contact page">
     <div class="container narrow">
       <h1>Book a 30-minute Consultation</h1>
       <p>
-        Pick a date and an available time below. You'll receive an instant
-        calendar invite.
+        Tell us about your space and choose a preferred date. We'll get in touch
+        to arrange your 30-minute consultation.
       </p>
 
       <form
         id="booking-form"
         class="booking-form"
-        novalidate
         name="contact"
         method="POST"
-        data-netlify="true"
-        netlify-honeypot="bot-field"
+        action="/.netlify/functions/send-email"
       >
         <div class="grid-2">
           <label>
             Name
-            <input type="text" name="name" required />
+            <input type="text" name="name" autocomplete="name" maxlength="120" required />
           </label>
           <label>
             Email
-            <input type="email" name="email" required />
+            <input type="email" name="email" autocomplete="email" maxlength="254" required />
           </label>
         </div>
 
         <div class="grid-2">
           <label>
             Phone
-            <input type="tel" name="phone" required />
+            <input type="tel" name="phone" autocomplete="tel" maxlength="40" required />
           </label>
           <label>
             Address
-            <input type="text" name="address" autocomplete="street-address" required />
+            <input type="text" name="address" autocomplete="street-address" maxlength="300" required />
           </label>
         </div>
 
@@ -124,6 +122,7 @@ import Base from "../layouts/Base.astro";
           <textarea
             name="message"
             rows="5"
+            maxlength="4000"
             placeholder="Describe in a few words the space requiring organisation"
           ></textarea>
         </label>
@@ -132,34 +131,37 @@ import Base from "../layouts/Base.astro";
           <label
             >Consultation preferred date
             <input
-              type="text"
+              type="date"
               id="booking-date"
               name="booking_date"
               required
               placeholder="Choose a date"
               autocomplete="off"
-              inputmode="none"
             />
           </label>
         </div>
 
-        <button class="btn" id="book-btn" type="submit"
+        <div hidden aria-hidden="true"><label>Leave blank<input name="website" tabindex="-1" autocomplete="off" /></label></div>
+        <button class="btn" id="book-btn" type="submit" disabled
           >Book consultation</button
         >
 
         <p class="muted small">
-          You'll get an email confirmation with a calendar invite. Times shown
-          use your local timezone.
+          This sends a consultation request. We'll confirm the date and time with
+          you before an appointment is booked.
         </p>
         <p class="muted small">
           This is a judgement-free service. Your privacy is always respected.
         </p>
+        <p id="enquiry-status" role="status" aria-live="polite" aria-atomic="true" tabindex="-1"></p>
+        <p class="muted small">You can also <a href="tel:+61415640352">call 0415 640 352</a> or <a href="mailto:roweedelgado@homeorg.com.au">email Rowee</a>.</p>
+        <noscript>Please enable JavaScript to use this form, or contact us directly using the details above.</noscript>
       </form>
     </div>
   </section>
 
   <!-- Toast notifications (re-use your existing styles/behavior) -->
-  <div id="toast" role="status" aria-live="polite"></div>
+  <div id="toast" aria-hidden="true"></div>
 
   <!-- Calendar (Flatpickr) -->
   <link
@@ -171,8 +173,8 @@ import Base from "../layouts/Base.astro";
     href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css"
     media="(prefers-color-scheme: dark)"
   />
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr" is:inline defer></script>
 
   <!-- Booking behavior -->
-  <script src="/js/contact.js" type="module" defer></script>
+  <script src="/js/contact.js" is:inline type="module"></script>
 </Base>

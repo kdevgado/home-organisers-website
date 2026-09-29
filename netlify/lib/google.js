@@ -1,4 +1,4 @@
-// netlify/functions/google.js
+// Shared OAuth calendar helper; this is not a public function entry point.
 import { google } from "googleapis";
 
 const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REFRESH_TOKEN } =
