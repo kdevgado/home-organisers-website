@@ -41,12 +41,24 @@ import Base from "../layouts/Base.astro";
           <span>I agree to receive freebies, organising tips and promotional updates from Home Organisers Australia.</span>
         </label>
         <p class="muted small">
-          You can ask to stop receiving updates at any time by emailing
+          You can <a href="#unsubscribe">unsubscribe below</a> or email
           <a href="mailto:roweedelgado@homeorg.com.au">roweedelgado@homeorg.com.au</a>.
         </p>
         <button class="btn" type="submit" disabled>Keep me updated</button>
         <p id="follow-us-status" role="status" aria-live="polite" aria-atomic="true"></p>
         <noscript>Please enable JavaScript to sign up, or email <a href="mailto:roweedelgado@homeorg.com.au">roweedelgado@homeorg.com.au</a>.</noscript>
+      </form>
+
+      <form id="unsubscribe-form" class="booking-form" method="POST" action="/.netlify/functions/unsubscribe">
+        <h2 id="unsubscribe">Unsubscribe</h2>
+        <p>Stop receiving freebies, organising tips and promotional updates. We’ll email you a link to confirm and remove your signup details.</p>
+        <label id="unsubscribe-email">Email address
+          <input type="email" name="email" autocomplete="email" maxlength="254" required />
+        </label>
+        <div hidden aria-hidden="true"><label>Leave blank <input name="website" tabindex="-1" autocomplete="off" /></label></div>
+        <button class="btn" type="submit" disabled>Unsubscribe</button>
+        <p id="unsubscribe-status" role="status" aria-live="polite" aria-atomic="true"></p>
+        <noscript>Please email <a href="mailto:roweedelgado@homeorg.com.au">roweedelgado@homeorg.com.au</a> to unsubscribe.</noscript>
       </form>
 
       <div class="follow-socials">
@@ -60,6 +72,7 @@ import Base from "../layouts/Base.astro";
     </div>
   </section>
   <script src="/js/follow-us.js" type="module"></script>
+  <script src="/js/unsubscribe.js" type="module"></script>
 </Base>
 
 <style>
@@ -67,6 +80,7 @@ import Base from "../layouts/Base.astro";
   .signup-consent input { appearance: auto; width: 1.15rem; height: 1.15rem; flex: 0 0 auto; margin-top: .25rem; accent-color: var(--brand); }
   #follow-us-status { margin-bottom: 0; }
   #follow-us-status[data-error="true"] { color: #9b2424; }
+  #unsubscribe-status[data-error="true"] { color: #9b2424; }
   .follow-socials { margin-top: 2rem; }
   .social-links { display: flex; flex-wrap: wrap; gap: 1rem 2rem; }
 </style>

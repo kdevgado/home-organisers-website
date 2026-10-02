@@ -12,6 +12,12 @@
   NODE_VERSION = "22"
 
 [[headers]]
+  for = "/follow-us/*"
+  [headers.values]
+    Referrer-Policy = "no-referrer"
+    Cache-Control = "no-store"
+
+[[headers]]
   for = "/*"
   [headers.values]
     X-Content-Type-Options = "nosniff"
